@@ -416,8 +416,20 @@ class VerifyController extends HomeController
 			$this->error('短信验证码发送失败，请重新点击发送');
 		}
 	}
-	
-	
+
+    /**
+     *
+     * Author liyongtian
+     */
+    public function myzrCode()
+    {
+        ob_clean();
+        $config['useNoise'] = false;
+        $config['length'] = 4;
+        $config['codeSet'] = '0123456789';
+        $verify = new \Think\Verify($config);
+        $verify->entry('custom_coin');
+    }
 }
 
 ?>

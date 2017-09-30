@@ -57,7 +57,7 @@
 
 								
 								<eq name="ecshecom_opencoin" value="1">
-								
+
 									<tr class="controls">
 										<td class="item-label">币种类型:</td>
 										<td><select name="type" class="form-control input-10x">
@@ -69,6 +69,16 @@
 											<eq name="data.type" value="qbb">selected</eq>
 											>钱包币
 											</option>
+
+                                            <notempty name="custom_coin_type">
+                                                <foreach name="custom_coin_type" item="vo" key="k">
+                                                    <option value="{$k}"
+                                                    <eq name="data.type" value="$k">selected</eq>
+                                                    >{$vo}
+                                                    </option>
+                                                </foreach>
+                                            </notempty>
+
 										</select></td>
 										<td class="item-note"></td>
 									</tr>

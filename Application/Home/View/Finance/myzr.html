@@ -121,16 +121,42 @@
 									<p id="qrcode-t" style="font-size:13px;text-align: center;">{$coin_list[$xnb]['title']}钱包地址</p>
 								</div>
 								<div class="qb_tishi">
-									这是您的钱包地址，请将您的 <b class="coin-name">{$coin_list[$xnb]['title']}</b>转入此地址： 
-									<notempty name="coin_list[$xnb]['zr_zs']">
-										<span id="zengsong" style="color: red; font-size: 14px;">转入即赠{$coin_list[$xnb]['zr_zs']}%</span>
-									</notempty>
+									这是您的钱包地址，请将您的 <b class="coin-name">{$coin_list[$xnb]['title']}</b>转入此地址：
+                                    <!--检查自定义币种-->
+                                    <eq name="is_custom" value="0">
+                                        <notempty name="coin_list[$xnb]['zr_zs']">
+                                            <span id="zengsong" style="color: red; font-size: 14px;">转入即赠{$coin_list[$xnb]['zr_zs']}%</span>
+                                        </notempty>
+                                    </eq>
 								</div>
 								<div class="qb_dizhi ts mb20">
-									<p id="wallets">
-										{$qianbao}
-									</p>
+									<p id="wallets">{$qianbao}</p>
 								</div>
+                                <!--检查自定义币种-->
+                                <if condition="($is_custom eq 1) AND ($qianbao neq '')">
+                                    <div class="pwtrade pw mt50">
+                                        <dl>
+                                            <dt>验证码：</dt>
+                                            <dd style="position: relative;">
+                                                <input id="verify_code" type="text" class="texts" name="verify" placeholder="请填写验证码" autocomplete="off">
+                                                <a class="reloadverify" title="换一张" href="javascript:void(0)">换一张？</a>
+                                            </dd>
+                                        </dl>
+                                        <dl>
+                                            <dt></dt>
+                                            <dd style="position: relative;">
+                                                <img class="verifyimg reloadverify" alt="点击切换" src="{:U('Verify/myzrCode')}" style="height: 50px;">
+                                            </dd>
+                                        </dl>
+                                        <dl>
+                                            <dt></dt>
+                                            <dd>
+                                                <input id="zr_custom_coin_btn" type="button" class="btns2" value="立即转入">
+                                                <!--<input type="button" class="btns2" value="{$zr_jz}" disabled>-->
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                </if>
 							</div>
 						</div>
 					<else/>
@@ -144,8 +170,7 @@
 										</span>
 									</dd>
 								</dl>
-								
-								
+
 								<dl>
 									<dt>地址标志：</dt>
 									<dd style="position: relative;">
@@ -153,9 +178,7 @@
 										(*标志从哪个地址转入)						
 									</dd>
 								</dl>
-								
-								
-								
+
 								<dl>
 									<dt>转入数量：</dt>
 									<dd style="position: relative;">
@@ -195,18 +218,9 @@
 									</dd>
 								</dl>
 						</div>
-
-					
 					</eq>
-					
-					
-					
+
 				</div>
-				
-				
-				
-				
-				
 				
 				
 				<div class="step2 f_body">
@@ -229,19 +243,28 @@
                             <tr>
                                 <td>{$vo.addtime|addtime}</td>
                                 <td>{$vo.coinname}</td>
-                                <td>{$vo['num']|NumToStr}</td>
-                                <td>{$vo['fee']|NumToStr}</td>
-                                <td>{$vo['mum']|NumToStr}</td>
+                                <if condition="($vo['is_custom_coin'] eq 1) AND ($vo['status'] eq 0)">
+                                    <td>待审核</td>
+                                    <td>待审核</td>
+                                    <td>待审核</td>
+                                <else />
+                                    <td>{$vo['num']|NumToStr}</td>
+                                    <td>{$vo['fee']|NumToStr}</td>
+                                    <td>{$vo['mum']|NumToStr}</td>
+                                </if>
                                 <td>
                                     <eq name="vo.status" value="1">
                                         <font color="#23a800">转入成功 </font>
+                                    <else/>
+										<eq name="is_custom" value="1">
+                                            <font color="red">等待处理</font>
                                         <else/>
-                                        <font color="red">等待处理,还需要{$vo.status|abs}个确认</font>
+                                            <font color="red">等待处理,还需要{$vo.status|abs}个确认</font>
+                                        </eq>
                                     </eq>
                                 </td>
                             </tr>
                         </volist>
-						
 						
 						</tbody>
 					</table>
@@ -276,16 +299,12 @@
                                 </td>
                             </tr>
                         </volist>
-						
-						
+
 						</tbody>
 					</table>
-					
-					
-					
+
 					</eq>
-					
-					
+
 					<div class="pages"></div>
 				</div>
 			</div>
@@ -302,13 +321,10 @@
 	});
 	</script>
 <script>
-
 	$("#coin-select").change(function () {
 		var coin        = $("#coin-select option:selected").val();
 		window.location = '/Finance/myzr/coin/' + coin + '.html';
 	});
-	
-	
 	
 	function send_new() {
 		$(".step6").hide();
@@ -345,9 +361,7 @@
 			}
 		}, "json");
 	}
-	
-	
-	
+
 	
 	function coinin_up() {
 		var num          = $("#cny_num").val();
@@ -441,20 +455,43 @@
 			}, "json");
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+	<eq name="is_custom" value="1">
+    // 刷新验证码
+    $('.reloadverify').click(function() {
+        var verify_img = $('.verifyimg').attr('src');
+        if (verify_img.indexOf('?') > 0) {
+            $('.verifyimg').attr("src", verify_img + '&random=' + Math.random());
+        } else {
+            $('.verifyimg').attr("src", verify_img.replace(/\?.*$/, '') + '?' + Math.random());
+        }
+    });
+
+	// 自定义币种转入
+	$('#zr_custom_coin_btn').click(function() {
+	    var verify_code = $('#verify_code').val();
+        verify_code = verify_code.replace(/^\s+|\s+$/g, '');
+	    if (verify_code == '') {
+            ayer.msg('请输入验证码', {icon: 2});
+            return false;
+        }
+
+        $.post("{:U('Finance/upmycustomcoinzr')}", {
+            'coin': $('#coin-select').val(),
+            'code_verify': verify_code
+        }, function (json) {
+            if (parseInt(json.status)) {
+                layer.msg(json.info, {icon: 1});
+                window.location.reload();
+            } else {
+                layer.msg(json.info, {icon: 2});
+                $('.reloadverify').click();
+                $('#verify_code').val('');
+            }
+        });
+    });
+    </eq>
 </script>
-
-
 
 <script>
 	var hints = "0";

@@ -64,7 +64,7 @@
 					<th width="">状态</th>
 				</tr>
 				</thead>
-				<tbody>
+				<tbody id="list">
 				<notempty name="list">
 					<volist name="list" id="vo">
 						<tr>
@@ -73,7 +73,13 @@
 							<td>{$vo['usernamea']}</td>
 							<td>{$vo.coinname}</td>
 							<td>{$vo.addtime|addtime}</td>
-							<td>{$vo.username}</td>
+							<td>
+								<eq name="vo['is_custom_coin']" value="1">
+									{$vo['txid']}
+								<else/>
+									{$vo['username']}
+								</eq>
+							</td>
 							<td>{$vo['num']*1}</td>
 							<td>{$vo['mum']*1}</td>
 							<td>{$vo['fee']*1}</td>
@@ -81,7 +87,12 @@
 								<eq name="vo.status" value="1"> 转入成功
 									<else/>
 								    等待处理
-									 <a href="{:U('Finance/myzrQueren?id='.$vo['id'])}" class="ajax-get btn btn-primary btn-xs">确认到账 </a>
+									<eq name="vo['is_custom_coin']" value="1">
+										<a href="javascript:;" class="btn btn-info btn-xs confirm_custom_coin_myzr">自定义确认到账 </a>
+									<else/>
+										<a href="{:U('Finance/myzrQueren?id='.$vo['id'])}" class="ajax-get btn btn-primary btn-xs">确认到账 </a>
+									</eq>
+
 								</eq>
 							</td>
 						</tr>
@@ -102,5 +113,49 @@
 	<script type="text/javascript" charset="utf-8">
 		//导航高亮
 		highlight_subnav("{:U('Finance/myzr')}");
+		
+		$('#list a.confirm_custom_coin_myzr').click(function() {
+		    var T = $(this);
+		    var html = "<form action=>" +
+					   "<div style='width:320px;'>" +
+				       "<div style='width:300px;margin-left: 3%;' class='form-group has-feedback'>" +
+					   "<p>请输入到账金额</p>" +
+				       "<input id='coin_number' type='text' class='form-control coin_number'/>" +
+					   "</div>" +
+					   "</div>" +
+					   "</form>";
+
+            layer.open({
+                type: 0,
+                closeBtn: 1,
+                shift: 0,
+                shadeClose: true,
+                content: html,
+				yes: function() {
+					var coin_number = $('#coin_number').val();
+                    if (!/(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/.test(coin_number)) {
+                        layer.msg('请输入正确金额', {icon: 2});
+                        return false;
+					}
+
+					var user_name = T.parent('td').siblings('td').eq(2).text();
+					if (!confirm('确认为用户【' + user_name + '】充值 ' + coin_number + ' 个金币吗？')) {
+					    return false;
+					}
+					
+					$.post("{:U('Finance/customcoinmyzrQueren')}", {
+						'myzr_id': parseInt(T.parent('td').siblings('td').eq(0).children('input:checkbox').val()),
+						'coin_number': coin_number
+					}, function (json) {
+						if (parseInt(json.status) == 1) {
+                            layer.msg(json.info, {icon: 1});
+                            window.location.reload();
+						} else {
+                            layer.msg(json.info, {icon: 2});
+						}
+                    }, 'json');
+				}
+            });
+		});
 	</script>
 </block>

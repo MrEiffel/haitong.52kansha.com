@@ -1,92 +1,85 @@
 <include file="Public:header" />
-	
-    
 
-	
 <div class="autobox ">
 	<div class="now">
-		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="movesay">首页</a> &gt; <a href="/finan/index.html" class="movesay">财务中心 </a> &gt; 转出虚拟币	</div>
+		<i class="fa fa-home fa-lg move mr5"></i>
+        <a href="/" class="movesay">首页</a> &gt; <a href="/finan/index.html" class="movesay">财务中心 </a> &gt; 转出虚拟币
+    </div>
 	<div class="main-content">
 		<style>
-	.nav-tab-list .nav-tab-hover{
-		width:100%;
-		top:60px;
-		height:50px;
-		line-height:50px;
-		background:#EAEDF4;
-		position:absolute;
-		box-sizing:content-box;
-		z-index:1;
-		transition:all 0.5s;
-		-webkit-transition:all 0.5s;
-		display:none;
-	}
-</style>
-<script type="text/javascript">
-	$(function () {
-		(function () {
-			var tab   = $('.nav-tab-list dd');
-			var hover = $('.nav-tab-hover');
-			var pos   = 0;
-			tab.each(function (index) {
-				var $this = $(this);
-				if ($this.hasClass('active')) {
-					pos = index;
-				}
-				$this.hover(function () {
-					_moveTo(index);
-				}, function () {
-					_moveTo(pos);
-				});
-			});
-			_moveTo(pos);
-			$('.nav-tab-hover').show();
-			function _moveTo(index) {
-				hover.css("top", 60 + 50 * index);
-				tab.removeClass('active');
-				tab.eq(index).addClass('active');
-			}
-		})();
-	});
-	$(window).on('scroll resize', function () {
-		if (document.body.scrollTop < 100) {
-			$('#left-nav-bar').css("top", 0);
-		} else if (document.body.scrollTop > ($('.tag-list-content').height() - $('#left-nav-bar').height() + 100)) {
-			$('#left-nav-bar').css("top", ($('.tag-list-content').height() - $('#left-nav-bar').height()));
-		} else {
-			$('#left-nav-bar').css("top", document.body.scrollTop - 100);
-		}
-	});
-</script>
+        .nav-tab-list .nav-tab-hover{
+            width:100%;
+            top:60px;
+            height:50px;
+            line-height:50px;
+            background:#EAEDF4;
+            position:absolute;
+            box-sizing:content-box;
+            z-index:1;
+            transition:all 0.5s;
+            -webkit-transition:all 0.5s;
+            display:none;
+        }
+        </style>
+        <script type="text/javascript">
+            $(function () {
+                (function () {
+                    var tab   = $('.nav-tab-list dd');
+                    var hover = $('.nav-tab-hover');
+                    var pos   = 0;
+                    tab.each(function (index) {
+                        var $this = $(this);
+                        if ($this.hasClass('active')) {
+                            pos = index;
+                        }
+                        $this.hover(function () {
+                            _moveTo(index);
+                        }, function () {
+                            _moveTo(pos);
+                        });
+                    });
+                    _moveTo(pos);
+                    $('.nav-tab-hover').show();
+                    function _moveTo(index) {
+                        hover.css("top", 60 + 50 * index);
+                        tab.removeClass('active');
+                        tab.eq(index).addClass('active');
+                    }
+                })();
+            });
+            $(window).on('scroll resize', function () {
+                if (document.body.scrollTop < 100) {
+                    $('#left-nav-bar').css("top", 0);
+                } else if (document.body.scrollTop > ($('.tag-list-content').height() - $('#left-nav-bar').height() + 100)) {
+                    $('#left-nav-bar').css("top", ($('.tag-list-content').height() - $('#left-nav-bar').height()));
+                } else {
+                    $('#left-nav-bar').css("top", document.body.scrollTop - 100);
+                }
+            });
+        </script>
 
-
-<include file="Finance:left" />
-
-
-
+        <include file="Finance:left" />
 		<div class="tag-list-content assets_content bg_w">
 			<div class="safe_center clear">
 				<h1>
-					<span>
-						转出数字资产					</span>
+					<span>转出数字资产</span>
 					 <span>
                         <a href="/finance/myzc" class="step fz_12 ml50 pd6 active">转出数字资产</a>
                         <a href="/finance/coinoutlog" class="step fz_12 ml20 pd6 ">转出记录</a>
                         <a href="/finance/qianbao" class="step fz_12 ml20 pd6 ">转出地址管理</a>
                     </span>
 					<span>
-												<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">查看介绍</span></a>
-											</span>
+                        <a class="right" onclick="$('#hints').slideToggle();">
+                            <i class="fa fa-hand-o-right move fz_14 mr5"></i>
+                            <span class="fz_12 move">查看介绍</span>
+                        </a>
+                    </span>
 				</h1>
 			</div>
 			<div id="hints" class="mytips" style="display:none;">
 				<p>
-				
-				<notempty name="prompt_text">
-					{$prompt_text}
-				</notempty>
-				
-				</p>			
+				    <notempty name="prompt_text">{$prompt_text}</notempty>
+                </p>
 			</div>
 			<div class="mytable-body " style="    padding-top: 0px;">
 				<div class="pwtrade  pw  mt50">
@@ -131,15 +124,15 @@
 						<dt>转出数量：</dt>
 						<dd style="position: relative;">
 							<input type="text" class="texts" id="cnyout_num" maxlength="12" value="">
-													转出手续费{$coin_list[$xnb]['zc_fee']}%
-													</dd>
+                            转出手续费{$coin_list[$xnb]['zc_fee']}%
+                        </dd>
 					</dl>
 					<dl class="step5">
 						<dt>短信验证码：</dt>
 						<dd class="yuyin">
 							<div class="clear">
-																<input type="button" value="发送短信验证码" class="btns" onclick="send_moble_coinout('sms')" style="width: 100px;font-size: 12px;"/>
-																								{$moble}(接收验证码)
+								<input type="button" value="发送短信验证码" class="btns" onclick="send_moble_coinout('sms')" style="width: 100px;font-size: 12px;"/>
+								{$moble}(接收验证码)
 							</div>
 						</dd>
 					</dl>
@@ -158,11 +151,11 @@
 					<dl>
 						<dt></dt>
 						<dd>
-							<empty name="zc_jz">
-								<input type="button" class="btns2" value="立即转出" onclick="coinout_up()">
-							<else/>
-								<input type="button" class="btns2" value="{$zc_jz}" disabled>
-							</empty>
+                            <empty name="zc_jz">
+                                <input type="button" class="btns2" value="立即转出" onclick="coinout_up()">
+                            <else/>
+                                <input type="button" class="btns2" value="{$zc_jz}" disabled>
+                            </empty>
 						</dd>
 					</dl>
 				</div>
@@ -294,35 +287,36 @@
 				});
 			});
 		}else{
-			$.post("{:U('Finance/upmyzc')}", {
-				coin:coin,
-				num: num,
-				paypassword: paypassword,
-				moble_verify: moble_verify,
-				addr: bank,
-			}, function (data) {
-				if (data.status == 1) {
-					layer.msg(data.info, {
-						icon: 1
-					});
-					window.location = "/finance/coinoutlog.html";
-				} else {
-					layer.msg(data.info, {
-						icon: 2
-					});
-					if (data.url) {
-						window.location = data.url;
-					}
-				}
-			}, "json");
+            // TODO 自定义币种转出操作
+            <eq name="is_custom" value="1">
+                var post_url = "{:U('Finance/upmycustomcoinzc')}";
+            <else/>
+                var post_url = "{:U('Finance/upmyzc')}";
+            </eq>
+            $.post(post_url, {
+                coin:coin,
+                num: num,
+                paypassword: paypassword,
+                moble_verify: moble_verify,
+                addr: bank,
+            }, function (data) {
+                if (data.status == 1) {
+                    layer.msg(data.info, {
+                        icon: 1
+                    });
+                    //window.location = "/finance/coinoutlog.html";
+                } else {
+                    layer.msg(data.info, {
+                        icon: 2
+                    });
+                    if (data.url) {
+                        //window.location = data.url;
+                    }
+                }
+            }, "json");
 		}
 	}
 </script>
-
-
-
-
-
 
 <script>
 	var hints = "0";
@@ -331,30 +325,6 @@
 	}
 	$('#finance_box').addClass('active');
 	$('.finan_coinout').addClass('active');
-</script>	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+</script>
 	
 <include file="Public:footer" />

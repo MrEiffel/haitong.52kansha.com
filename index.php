@@ -1,6 +1,5 @@
 ﻿<?php
 
-
  // 定义系统编码
     header("Content-Type: text/html;charset=utf-8");
     // 定义应用路径

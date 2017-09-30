@@ -125,7 +125,8 @@ class ConfigController extends AdminController
 
 			$this->assign("ecshecom_opencoin",$ecshecom_getCoreConfig['ecshecom_opencoin']);
 
-			
+			// TODO 是否自定义币
+            $this->assign('custom_coin_type', C('CUSTOM_COIN_TYPE'));
 			
 			$this->display();
 		}

@@ -1,0 +1,88 @@
+<include file="Public:header"/>
+<script type="text/javascript" src="__PUBLIC__/layer/laydate/laydate.js"></script>
+<div id="main-content">
+	<div id="top-alert" class="fixed alert alert-error" style="display: none;">
+		<button class="close fixed" style="margin-top: 4px;">&times;</button>
+		<div class="alert-content">警告内容</div>
+	</div>
+	<div id="main" class="main">
+		<div class="main-title-h">
+			<span class="h1-title"><a href="{:U('User/qianbaoAddress')}">自定义币种</a> >></span>
+			 <span class="h1-title">绑定钱包地址</span>
+		</div>
+		<div class="tab-wrap">
+			<div class="tab-content">
+				<form id="form" action="{:U('User/bindQianbaoAddress')}" method="post" class="form-horizontal">
+					<input type="hidden" name="user_id" value="{$data['id']}">
+					<div id="tab" class="tab-pane in tab">
+						<div class="form-item cf">
+							<table>
+								<tr class="controls">
+									<td class="item-label">用户名 :</td>
+									<td>
+										<input type="text" class="form-control input-10x" disabled value="{$data['username']}">
+									</td>
+									<td class="item-note"></td>
+								</tr>
+								<tr class="controls">
+									<td class="item-label">真名姓名 :</td>
+									<td>
+										<input type="text" class="form-control input-10x" disabled value="{$data['truename']}">
+									</td>
+									<td class="item-note"></td>
+								</tr>
+								
+                                <tr class="controls">
+                                    <td class="item-label">币种 :</td>
+                                    <td><notempty name="unbind_coin">
+										<select name="coin_name" class="form-control input-10x">
+                                            <option value="">- 请选择 -</option>
+											<foreach name="unbind_coin" item="vo" key="k">
+												<option value="{$k}">{$vo}</option>
+											</foreach>
+										</select>
+									</notempty></td>
+                                    <td class="item-note"></td>
+                                </tr>
+
+                                <tr class="controls">
+                                    <td class="item-label">钱包地址 :</td>
+                                    <td>
+                                        <input type="text" class="form-control input-10x" name="address" placeholder="请输入钱包地址">
+                                    </td>
+                                    <td class="item-note"></td>
+                                </tr>
+
+								<tr class="controls">
+									<td class="item-label"></td>
+									<td>
+										<div class="form-item cf">
+											<button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+											<a class="btn btn-return" href="{$Think.server.HTTP_REFERER}">返 回</a>
+											<notempty name="data.id"><input type="hidden" name="id" value="{$data.id}"/>
+											</notempty>
+										</div>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	//提交表单
+	$('#submit').click(function () {
+		$('#form').submit();
+		window.location.reload();
+	});
+</script>
+<include file="Public:footer"/>
+<block name="script">
+	<script type="text/javascript" charset="utf-8">
+		//导航高亮
+		highlight_subnav("{:U('User/index')}");
+	</script>
+</block>

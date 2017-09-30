@@ -1,0 +1,74 @@
+<include file="Public:header"/>
+<script type="text/javascript" src="__PUBLIC__/layer/laydate/laydate.js"></script>
+<div id="main-content">
+	<div id="top-alert" class="fixed alert alert-error" style="display: none;">
+		<button class="close fixed" style="margin-top: 4px;">&times;</button>
+		<div class="alert-content">警告内容</div>
+	</div>
+	<div id="main" class="main">
+		<div class="main-title-h">
+			<span class="h1-title"><a href="{:U('User/qianbaoAddress')}">用户钱包</a> >></span>
+			<span class="h1-title"><empty name="data">添加钱包
+				 <else/>
+			                                           编辑钱包
+			 </empty></span>
+		</div>
+		<div class="tab-wrap">
+			<div class="tab-content">
+				<form id="form" action="{:U('User/qianbaoAddressEdit')}" method="post" class="form-horizontal">
+					<div id="tab" class="tab-pane in tab">
+						<div class="form-item cf">
+							<table>
+								<tr class="controls">
+									<td class="item-label">币种 :</td>
+									<td><notempty name="coin_config">
+										<select name="coin_name" class="form-control input-10x">
+											<volist name="coin_config" id="vo">
+												<option value="{$vo['name']}"
+												<eq name="vo['name']" value="$data.coin_name">selected</eq>
+												>{$custom_coin_type[$vo['type']]}--{$vo['title']}</option>
+											</volist>
+										</select>
+									</notempty></td>
+									<td class="item-note"></td>
+								</tr>
+								<tr class="controls">
+									<td class="item-label">钱包地址 :</td>
+									<td>
+										<input type="text" class="form-control input-10x" name="address" value="{$data.address}">
+									</td>
+									<td class="item-note"></td>
+								</tr>
+								<tr class="controls">
+									<td class="item-label"></td>
+									<td>
+										<div class="form-item cf">
+											<button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+											<a class="btn btn-return" href="{$Think.server.HTTP_REFERER}">返 回</a>
+											<notempty name="data.id"><input type="hidden" name="id" value="{$data.id}"/>
+											</notempty>
+										</div>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    //提交表单
+    $('#submit').click(function () {
+        $('#form').submit();
+    });
+</script>
+
+<include file="Public:footer"/>
+<block name="script">
+	<script type="text/javascript" charset="utf-8">
+        //导航高亮
+        highlight_subnav("{:U('User/qianbaoAddress')}");
+	</script>
+</block>

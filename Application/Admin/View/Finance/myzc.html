@@ -109,8 +109,12 @@
                                     <else/>
                                     <empty name="vo['num']">
                                         不用操作
+                                    <else />
+                                        <eq name="vo['is_custom']" value="yes">
+                                            <a href="{:U('Finance/mycustomcoinzcQueren?id='.$vo['id'])}" class="ajax-get btn btn-primary btn-xs">确认到账 </a>
                                         <else />
-                                        <a href="{:U('Finance/myzcQueren?id='.$vo['id'])}" class="ajax-get btn btn-primary btn-xs">确认转出 </a>
+                                            <a href="{:U('Finance/myzcQueren?id='.$vo['id'])}" class="ajax-get btn btn-primary btn-xs">确认转出 </a>
+                                        </eq>
                                     </empty>
                                 </eq>
                             </td>

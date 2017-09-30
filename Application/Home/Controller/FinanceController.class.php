@@ -721,70 +721,67 @@ class FinanceController extends HomeController
 
 		$this->assign("ecshecom_opencoin",$ecshecom_getCoreConfig['ecshecom_opencoin']);
 		
-		if($ecshecom_getCoreConfig['ecshecom_opencoin'] == 1)
-		{		
-		
-				if (!$Coin['zr_jz']) {
-					$qianbao = '当前币种禁止转入！';
-				}
-				else {
-					$qbdz = $coin . 'b';
+		if($ecshecom_getCoreConfig['ecshecom_opencoin'] == 1) {
+            if (!$Coin['zr_jz']) {
+                $qianbao = '当前币种禁止转入！';
+            }
+            else {
+                $qbdz = $coin . 'b';
 
-					if (!$user_coin[$qbdz]) {
-						if ($Coin['type'] == 'rgb') {
-							$qianbao = md5(username() . $coin);
-							$rs = M('UserCoin')->where(array('userid' => userid()))->save(array($qbdz => $qianbao));
+                if (!$user_coin[$qbdz]) {
+                    if ($Coin['type'] == 'rgb') {
+                        $qianbao = md5(username() . $coin);
+                        $rs = M('UserCoin')->where(array('userid' => userid()))->save(array($qbdz => $qianbao));
 
-							if (!$rs) {
-								$this->error('生成钱包地址出错！');
-							}
-						}
+                        if (!$rs) {
+                            $this->error('生成钱包地址出错！');
+                        }
+                    }
 
-						if ($Coin['type'] == 'qbb') {
-							$dj_username = $Coin['dj_yh'];
-							$dj_password = $Coin['dj_mm'];
-							$dj_address = $Coin['dj_zj'];
-							$dj_port = $Coin['dj_dk'];
-							$CoinClient = CoinClient($dj_username, $dj_password, $dj_address, $dj_port, 5, array(), 1);
-							$json = $CoinClient->getinfo();
+                    if ($Coin['type'] == 'qbb') {
+                        $dj_username = $Coin['dj_yh'];
+                        $dj_password = $Coin['dj_mm'];
+                        $dj_address = $Coin['dj_zj'];
+                        $dj_port = $Coin['dj_dk'];
+                        $CoinClient = CoinClient($dj_username, $dj_password, $dj_address, $dj_port, 5, array(), 1);
+                        $json = $CoinClient->getinfo();
 
-							if (!isset($json['version']) || !$json['version']) {
-								$this->error('钱包链接失败！');
-							}
+                        if (!isset($json['version']) || !$json['version']) {
+                            $this->error('钱包链接失败！');
+                        }
 
-							$qianbao_addr = $CoinClient->getaddressesbyaccount(username());
+                        $qianbao_addr = $CoinClient->getaddressesbyaccount(username());
 
-							if (!is_array($qianbao_addr)) {
-								$qianbao_ad = $CoinClient->getnewaddress(username());
+                        if (!is_array($qianbao_addr)) {
+                            $qianbao_ad = $CoinClient->getnewaddress(username());
 
-								if (!$qianbao_ad) {
-									$this->error('生成钱包地址出错1！');
-								}
-								else {
-									$qianbao = $qianbao_ad;
-								}
-							}
-							else {
-								$qianbao = $qianbao_addr[0];
-							}
+                            if (!$qianbao_ad) {
+                                $this->error('生成钱包地址出错1！');
+                            }
+                            else {
+                                $qianbao = $qianbao_ad;
+                            }
+                        }
+                        else {
+                            $qianbao = $qianbao_addr[0];
+                        }
 
-							if (!$qianbao) {
-								$this->error('生成钱包地址出错2！');
-							}
+                        if (!$qianbao) {
+                            $this->error('生成钱包地址出错2！');
+                        }
 
-							$rs = M('UserCoin')->where(array('userid' => userid()))->save(array($qbdz => $qianbao));
+                        $rs = M('UserCoin')->where(array('userid' => userid()))->save(array($qbdz => $qianbao));
 
-							if (!$rs) {
-								$this->error('钱包地址添加出错3！');
-							}
-						}
-					}
-					else {
-						$qianbao = $user_coin[$coin . 'b'];
-					}
-				}
+                        if (!$rs) {
+                            $this->error('钱包地址添加出错3！');
+                        }
+                    }
+                }
+                else {
+                    $qianbao = $user_coin[$coin . 'b'];
+                }
+            }
 		}else{
-			
 				if (!$Coin['zr_jz']) {
 					$qianbao = '当前币种禁止转入！';
 				}
@@ -802,18 +799,18 @@ class FinanceController extends HomeController
 					}
 
 					$this->assign('moble', $moble);
-					
-					
-					
+
 				}
 			
 		}
 		
-		
-		
-		
-		
-		
+		//TODO 自定义钱包币
+        $is_custom = 0;
+		$custom_coin_type = C('CUSTOM_COIN_TYPE');
+		if (in_array($Coin['type'], array_keys($custom_coin_type))) {
+            $is_custom = 1;
+        }
+        $this->assign('is_custom', $is_custom);
 
 		$this->assign('qianbao', $qianbao);
 		$where['userid'] = userid();
@@ -995,8 +992,7 @@ class FinanceController extends HomeController
 		
 		
 	}
-	
-	
+
 
 	public function myzc($coin = NULL)
 	{
@@ -1046,6 +1042,14 @@ class FinanceController extends HomeController
 
 			$this->assign('moble', $moble);
 		}
+
+        //TODO 自定义钱包币
+        $is_custom = 0;
+        $custom_coin_type = C('CUSTOM_COIN_TYPE');
+        if (in_array($coin_list[$coin]['type'], array_keys($custom_coin_type))) {
+            $is_custom = 1;
+        }
+        $this->assign('is_custom', $is_custom);
 
 		$where['userid'] = userid();
 		$where['coinname'] = $coin;
@@ -1125,6 +1129,7 @@ class FinanceController extends HomeController
 		}
 
 		$qbdz = $coin . 'b';
+		// TODO zc_user 官方手续费地址
 		$fee_user = M('UserCoin')->where(array($qbdz => $Coin['zc_user']))->find();
 
 		if ($fee_user) {
@@ -1325,9 +1330,177 @@ class FinanceController extends HomeController
 			}
 		}
 	}
-	
-	
-	
+
+    /**自定义币种转出操作
+     *
+     * @param $coin
+     * @param $num
+     * @param $addr
+     * @param $paypassword
+     * @param $moble_verify
+     */
+    public function upmycustomcoinzc($coin, $num, $addr, $paypassword, $moble_verify)
+    {
+        if (!userid()) {
+            $this->error('您没有登录请先登录！');
+        }
+
+        if (!check($moble_verify, 'd')) {
+            $this->error('短信验证码格式错误！');
+        }
+
+        if ($moble_verify != session('myzc_verify')) {
+            $this->error('短信验证码错误！');
+        }
+
+        $num = abs($num);
+
+        if (!check($num, 'currency')) {
+            $this->error('数量格式错误！');
+        }
+
+        if (!check($addr, 'dw')) {
+            $this->error('钱包地址格式错误！');
+        }
+
+        if (!check($paypassword, 'password')) {
+            $this->error('交易密码格式错误！');
+        }
+
+        if (!check($coin, 'n')) {
+            $this->error('币种格式错误！');
+        }
+
+        if (!C('coin')[$coin]) {
+            $this->error('币种错误！');
+        }
+
+        $Coin = D('Coin')->where(array('name' => $coin))->find();
+        if (!$Coin) {
+            $this->error('币种错误！');
+        }
+
+        $myzc_min = ($Coin['zc_min'] ? abs($Coin['zc_min']) : 0.0001);
+        $myzc_max = ($Coin['zc_max'] ? abs($Coin['zc_max']) : 10000000);
+
+        if ($num < $myzc_min) {
+            $this->error('转出数量超过系统最小限制！');
+        }
+
+        if ($myzc_max < $num) {
+            $this->error('转出数量超过系统最大限制！');
+        }
+
+        $user_id = intval(userid());
+        $user = D('User')->find($user_id);
+        if (md5($paypassword) != $user['paypassword']) {
+            $this->error('交易密码错误！');
+        }
+
+        $UserCoin = D('UserCoin');
+        $user_coin = $UserCoin
+            ->where(array('userid' => $user_id))
+            ->find();
+        if ($user_coin[$coin] < $num) {
+            $this->error('可用余额不足');
+        }
+
+        $qbdz = $coin . 'b';
+        // TODO zc_user 官方手续费地址
+        $fee_user = $UserCoin
+            ->where(array(
+                $qbdz => $Coin['zc_user']
+            ))
+            ->find();
+
+        if ($fee_user) {
+            debug('手续费地址: ' . $Coin['zc_user'] . ' 存在,有手续费');
+            $fee = round(($num / 100) * $Coin['zc_fee'], 8);
+            $mum = round($num - $fee, 8);
+
+            if ($mum < 0) {
+                $this->error('转出手续费错误！');
+            }
+
+            if ($fee < 0) {
+                $this->error('转出手续费设置错误！');
+            }
+        }
+        else {
+            debug('手续费地址: ' . $Coin['zc_user'] . ' 不存在,无手续费');
+            $fee = 0;
+            $mum = $num;
+        }
+
+        $auto_status = ($Coin['zc_zd'] && ($num < $Coin['zc_zd']) ? 1 : 0);
+
+        $model = M();
+        $model->execute('set autocommit=0');
+        $model->execute('lock tables ecshecom_user_coin write, ecshecom_myzc write, ecshecom_myzr write, ecshecom_myzc_fee write');
+        $rs = array();
+        $rs[] = $r = $model
+            ->table('ecshecom_user_coin')
+            ->where(array('userid' => userid()))
+            ->setDec($coin, $num);
+        $rs[] = $aid = $model
+            ->table('ecshecom_myzc')
+            ->add(array(
+                'userid' => userid(),
+                'username' => $addr,
+                'coinname' => $coin,
+                'num' => $num,
+                'fee' => $fee,
+                'mum' => $mum,
+                'addtime' => time(),
+                'status' => $auto_status,
+            ));
+
+        if ($fee && $auto_status) {
+            $rs[] = $model
+                ->table('ecshecom_myzc_fee')
+                ->add(array(
+                    'userid' => $fee_user['userid'],
+                    'username' => $Coin['zc_user'],
+                    'coinname' => $coin,
+                    'num' => $num,
+                    'fee' => $fee,
+                    'mum' => $mum,
+                    'type' => 2,
+                    'addtime' => time(),
+                    'status' => 1
+                ));
+
+            if ($model->table('ecshecom_user_coin')->where(array($qbdz => $Coin['zc_user']))->find()) {
+                $rs[] = $r = $model
+                    ->table('ecshecom_user_coin')
+                    ->where(array($qbdz => $Coin['zc_user']))
+                    ->setInc($coin, $fee);
+                debug(array('res' => $r, 'lastsql' => $model->table('ecshecom_user_coin')->getLastSql()), '新增费用');
+            }
+            else {
+                $rs[] = $r = $model
+                    ->table('ecshecom_user_coin')
+                    ->add(array($qbdz => $Coin['zc_user'], $coin => $fee));
+            }
+        }
+
+        if (check_arr($rs)) {
+            if ($auto_status) {
+                $model->execute('commit');
+                $model->execute('unlock tables');
+                session('myzc_verify', null);
+                $this->success('转出成功!');
+            } else {
+                $model->execute('commit');
+                $model->execute('unlock tables');
+                session('myzc_verify', null);
+                $this->success('转出申请成功,请等待审核！');
+            }
+        } else {
+            $model->execute('rollback');
+            $this->error('转出失败!');
+        }
+	}
 	
 	
 	
@@ -1351,7 +1524,6 @@ class FinanceController extends HomeController
 			$this->error('数量格式错误！');
 		}
 
-		
 
 		if (!check($paypassword, 'password')) {
 			$this->error('交易密码格式错误！');
@@ -1381,7 +1553,6 @@ class FinanceController extends HomeController
 		$ecshecom_zrcoinaddress = $Coin['ecshecom_coinaddress'];
 
 		if ($Coin['type'] == 'rgb') {
-
 			M('myzr')->add(array('userid' => userid(), 'username'=>$ecshecom_dzbz,'txid'=>$ecshecom_zrcoinaddress,'coinname' => $coin, 'num' => $num, 'mum' =>0, 'addtime' => time(), 'status' =>0));
 
 			$this->success('转入申请成功,等待客服处理！');
@@ -1389,23 +1560,77 @@ class FinanceController extends HomeController
 		}else{
 			$this->error("钱包币不允许该操作!");
 		}
+	}
 
+    /**
+     * 自定义币种转入申请
+     * @param $coin
+     * @param $code_verify
+     */
+    public function upmycustomcoinzr($coin, $code_verify)
+    {
+        $user_id = intval(userid());
+        if (empty($user_id)) {
+            $this->error('您没有登录请先登录！');
+        }
+
+        if (!check_verify($code_verify, 'custom_coin')) {
+            $this->error('验证码输入错误！');
+        }
+
+        $coin = trim($coin);
+        if (!check($coin, 'n')) {
+            $this->error('币种格式错误！');
+        }
+
+        if (!C('coin')[$coin]) {
+            $this->error('币种错误！');
+        }
+
+        $Myzr = D('Myzr');
+        /*$myzr_count = $Myzr
+            ->where(array(
+                'userid' => $user_id,
+                'coinname' => $coin,
+                'is_custom_coin' => 1,
+                'status' => 0,
+            ))
+            ->count();
+        if ($myzr_count > 0) {
+            $this->success('转入申请成功,等待客服处理！');
+        }*/
+
+        $user_coin = D('UserQianbaoAddress')
+            ->field('id,user_id,coin_name,address')
+            ->where(array(
+                'user_id' => $user_id,
+                'coin_name' => $coin,
+                'status' => 1,
+            ))
+            ->find();
+        if (empty($user_coin)) {
+            $this->error('币种错误！');
+        }
+
+        $result = $Myzr->add(array(
+            'userid' => userid(),
+            'username' => 'custom_coin',
+            'txid' => $user_coin['address'],
+            'coinname' => $coin,
+            'num' => 0,//转入数量 TODO 可设置为前台输入
+            'mum' => 0,//到账数量
+            'addtime' => time(),
+            'status' => 0,
+            'is_custom_coin' => 1,
+        ));
+        if ($result) {
+            $this->success('转入申请成功,等待客服处理！');
+        } else {
+            $this->error("钱包币不允许该操作!");
+        }
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 
 	public function mywt($market = NULL, $type = NULL, $status = NULL)
 	{

@@ -140,10 +140,6 @@ class FinanceController extends AdminController
 	}
 
 	
-	
-	
-	
-	
 	public function myzrQueren()
 	{
 		$id = intval($_GET['id']);
@@ -178,16 +174,59 @@ class FinanceController extends AdminController
 			$this->error('操作失败！');
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+    public function customcoinmyzrQueren()
+    {
+        $post_data = $_POST;
+        if (empty($post_data) || empty($post_data['myzr_id'])) {
+            $this->error('参数有误！');
+        }
+
+        if (empty($post_data['coin_number']) || !is_numeric($post_data['coin_number'])) {
+            $this->error('请输入正确的金额！');
+        }
+
+        $id = intval($post_data['myzr_id']);
+        $coin_number = trim($post_data['coin_number']);
+
+        $myzr = D('Myzr')->find($id);
+        if (($myzr['status'] != 0)) {
+            $this->error('已经处理，禁止再次操作！');
+        }
+
+        $model = M();
+        $model->execute('set autocommit=0');
+        $model->execute('lock tables ecshecom_user_coin write,ecshecom_myzr write,ecshecom_finance write,ecshecom_invit write,ecshecom_user write');
+        $result = array();
+
+        $result[] = $model
+            ->table('ecshecom_user_coin')
+            ->where(array(
+                'userid' => $myzr['userid'],
+                //$myzr['coinname'] . 'b'=> $myzr['txid'],
+            ))
+            ->setInc($myzr['coinname'], $coin_number);
+
+        $result[] = $model
+            ->table('ecshecom_myzr')
+            ->where(array('id' => $myzr['id']))
+            ->save(array(
+                'status' => 1,
+                'num' => $coin_number,
+                'mum' => $coin_number,
+                'endtime' => time(),
+            ));
+
+        if (check_arr($result)) {
+            $model->execute('commit');
+            $model->execute('unlock tables');
+            $this->success('处理成功');
+        }
+        else {
+            $model->execute('rollback');
+            $this->error('操作失败！');
+        }
+	}
 	
 	public function myczQueren()
 	{
@@ -859,12 +898,7 @@ class FinanceController extends AdminController
 		$xls[9][2] = '状态';
 		$this->exportExcel($xlsName, $xls, $list);
 	}
-	
-	
-	
-	
-	
-	
+
 
 	public function mytxConfig()
 	{
@@ -901,8 +935,19 @@ class FinanceController extends AdminController
 		$show = $Page->show();
 		$list = M('Myzr')->where($where)->order('id desc')->limit($Page->firstRow . ',' . $Page->listRows)->select();
 
+		//TODO 优化查询
+        $user_ids = array();
+        foreach ($list as $k => $v) {
+            $user_ids[] = $v['userid'];
+        }
+        $user_names = D('User')
+            ->where(array(
+                'id' => array('in', $user_ids)
+            ))
+            ->getField('id,username');
+
 		foreach ($list as $k => $v) {
-			$list[$k]['usernamea'] = M('User')->where(array('id' => $v['userid']))->getField('username');
+			$list[$k]['usernamea'] = $user_names[$v['userid']];
 		}
 
 		$this->assign('list', $list);
@@ -932,8 +977,33 @@ class FinanceController extends AdminController
 		$show = $Page->show();
 		$list = M('Myzc')->where($where)->order('id desc')->limit($Page->firstRow . ',' . $Page->listRows)->select();
 
+		// TODO 优化查询
+        $user_ids = $coin_name = array();
+        foreach ($list as $value) {
+            $user_ids[] = $value['userid'];
+            $coin_name[] = $value['coinname'];
+        }
+
+        $user_list = D('User')
+            ->where(array(
+                'id' => array('in', array_unique($user_ids))
+            ))
+            ->getField('username');
+
+        // 标记出 转出记录中自定义币种的转出数据
+        $custom_coin_type = C('CUSTOM_COIN_TYPE');
+        $custom_coin_type_key = array_keys($custom_coin_type);
+        $coin = D('Coin')
+            ->where(array(
+                'name' => array('in', array_unique($coin_name)),
+                'type' => array('in', $custom_coin_type_key),
+            ))
+            ->getField('name,type');
+
 		foreach ($list as $k => $v) {
-			$list[$k]['usernamea'] = M('User')->where(array('id' => $v['userid']))->getField('username');
+			$v['usernamea'] = $user_list[$v['userid']];
+			$v['is_custom'] = in_array($coin[$v['coinname']], $custom_coin_type_key) ? 'yes' : 'no';
+            $list[$k] = $v;
 		}
 
 		$this->assign('list', $list);
@@ -1035,7 +1105,71 @@ class FinanceController extends AdminController
 		}
 	}
 
+    /**
+     * 自定义币种转出确认操作
+     * @param null $id
+     */
+    public function mycustomcoinzcQueren($id = NULL)
+    {
+        if (APP_DEMO) {
+            $this->error('测试站暂时不能修改！');
+        }
 
+        $myzc = M('Myzc')->where(array('id' => trim($id)))->find();
+
+        if (!$myzc) {
+            $this->error('转出错误！');
+        }
+
+        if ($myzc['status']) {
+            $this->error('已经处理过！');
+        }
+
+        $coin = $myzc['coinname'];
+
+        $Coin = M('Coin')->where(array('name' => $myzc['coinname']))->find();
+        $fee_user = M('UserCoin')->where(array($coin . 'b' => $Coin['zc_user']))->find();
+        $user_coin = M('UserCoin')->where(array('userid' => $myzc['userid']))->find();
+        $zhannei = M('UserCoin')->where(array($coin . 'b' => $myzc['username']))->find();
+        $mo = M();
+        $mo->execute('set autocommit=0');
+        $mo->execute('lock tables  ecshecom_user_coin write  , ecshecom_myzc write, ecshecom_myzr write , ecshecom_myzc_fee write');
+        $rs = array();
+
+        if ($zhannei) {
+            $rs[] = $mo->table('ecshecom_myzr')->add(array('userid' => $zhannei['userid'], 'username' => $myzc['username'], 'coinname' => $coin, 'txid' => md5($myzc['username'] . $user_coin[$coin . 'b'] . time()), 'num' => $myzc['num'], 'fee' => $myzc['fee'], 'mum' => $myzc['mum'], 'addtime' => time(), 'status' => 1));
+            $rs[] = $r = $mo->table('ecshecom_user_coin')->where(array('userid' => $zhannei['userid']))->setInc($coin, $myzc['mum']);
+        }
+
+        if (!$fee_user['userid']) {
+            $fee_user['userid'] = 0;
+        }
+
+        if (0 < $myzc['fee']) {
+            $rs[] = $mo->table('ecshecom_myzc_fee')->add(array('userid' => $fee_user['userid'], 'username' => $Coin['zc_user'], 'coinname' => $coin, 'num' => $myzc['num'], 'fee' => $myzc['fee'], 'mum' => $myzc['mum'], 'type' => 2, 'addtime' => time(), 'status' => 1));
+
+            if ($mo->table('ecshecom_user_coin')->where(array($coin . 'b' => $Coin['zc_user']))->find()) {
+                $rs[] = $mo->table('ecshecom_user_coin')->where(array($coin . 'b' => $Coin['zc_user']))->setInc($coin, $myzc['fee']);
+                debug(array('lastsql' => $mo->table('ecshecom_user_coin')->getLastSql()), '新增费用');
+            }
+            else {
+                $rs[] = $mo->table('ecshecom_user_coin')->add(array($coin . 'b' => $Coin['zc_user'], $coin => $myzc['fee']));
+            }
+        }
+
+        $rs[] = M('Myzc')->where(array('id' => trim($id)))->save(array('status' => 1));
+
+        if (check_arr($rs)) {
+            $mo->execute('commit');
+            $mo->execute('unlock tables');
+            $this->success('转账成功！');
+        }
+        else {
+            $mo->execute('rollback');
+            $mo->execute('unlock tables');
+            $this->error('转出失败!' . implode('|', $rs) . $myzc['fee']);
+        }
+	}
 }
 
 ?>
