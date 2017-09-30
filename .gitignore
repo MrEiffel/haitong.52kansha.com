@@ -1,0 +1,5 @@
+# Build folder and log file
+Runtime/
+index.php
+.idea
+node_modules

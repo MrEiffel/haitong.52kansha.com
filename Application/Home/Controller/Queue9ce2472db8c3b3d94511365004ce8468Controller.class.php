@@ -1,7 +1,7 @@
 <?php
 namespace Home\Controller;
-// 文件:Queue9ce2472db8c3b3d94511365004ce8468Controller
-class QueueController extends HomeController
+
+class Queue9ce2472db8c3b3d94511365004ce8468Controller extends HomeController
 {
 
 	public function index()

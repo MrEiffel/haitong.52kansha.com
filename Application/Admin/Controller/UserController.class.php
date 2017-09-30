@@ -1491,7 +1491,8 @@ class UserController extends AdminController
 		$this->display();
 	}
 
-    public function award($name = NULL, $field = NULL, $status = NULL)
+	
+	public function award($name = NULL, $field = NULL, $status = NULL)
 	{
 /* 		$where = array();
 
@@ -1521,12 +1522,12 @@ class UserController extends AdminController
 		if($status){
 			$where = $where." and `status`=".($status-1);
 		}
-
-
-
-
-
-
+		
+		
+		
+		
+		
+		
 		$count = M('UserAward')->where($where)->count();
 		$Page = new \Think\Page($count, 15);
 		$show = $Page->show();
@@ -1541,7 +1542,7 @@ class UserController extends AdminController
 		$this->display();
 	}
 
-    public function awardStatus($id = NULL, $type = NULL,$status=NUll, $moble = 'UserAward')
+	public function awardStatus($id = NULL, $type = NULL,$status=NUll, $moble = 'UserAward')
 	{
 		if (APP_DEMO) {
 			$this->error('测试站暂时不能修改！');
@@ -1581,338 +1582,18 @@ class UserController extends AdminController
 		default:
 			$this->error('操作失败');
 		}
-
+		
 		if (M($moble)->where($where)->save($data)) {
 			$this->success('操作成功！');
 		}
 		else {
 			$this->error('操作失败！');
 		}
+		
+		
 	}
+	
 
-    /**
-     * 钱包地址列表
-     * @param null $user_id
-     * @param null $coin_name
-     * @param null $address
-     * @param null $is_bind
-     * @param int $status
-     */
-    public function qianbaoAddress($user_id = NULL, $coin_name = NULL, $address = NULL, $is_bind = NULL, $status = null)
-    {
-        $where = array();
-        if (is_numeric($status)) {
-            $where['status'] = intval($status);
-        } else {
-            //$where['status'] = 1;
-        }
-        if (is_numeric($user_id)) {
-            $where['user_id'] = intval($user_id);
-        }
-        if (!empty($coin_name)) {
-            $where['coin_name'] = trim($coin_name);
-        }
-        if (!empty($address)) {
-            $where['address'] = trim($address);
-        }
-        if (!is_null($is_bind)) {
-            if ($is_bind == 'yes') {
-                $where['bind_time'] = array('gt', 0);
-            } elseif ($is_bind == 'no') {
-                $where['bind_time'] = array('elt', 0);
-            }
-        }
-
-        $QianBaoAddress = D('UserQianbaoAddress');
-        $count = $QianBaoAddress->where($where)->count();
-        $Page = new \Think\Page($count, 15);
-        $show = $Page->show();
-        $list = $QianBaoAddress
-            ->where($where)
-            ->order('id asc')
-            ->limit($Page->firstRow . ',' . $Page->listRows)
-            ->select();
-
-        $user_ids = array_unique(array_filter(array_column($list, 'user_id')));
-        if (!empty($user_ids)) {
-            $user_list = D('User')
-                ->where(array(
-                    'id' => array('in', $user_ids),
-                ))
-                ->getField('id,moble,truename');
-
-            foreach ($list as $key => $value) {
-                if (empty($user_list[$value['user_id']])) {
-                    continue;
-                }
-                $value['moble'] = $user_list[$value['user_id']]['moble'];
-                $value['truename'] = $user_list[$value['user_id']]['truename'];
-                $list[$key] = $value;
-            }
-        }
-
-        $custom_coin_type = C('CUSTOM_COIN_TYPE');
-        $coin_config = array();
-        if (!empty($custom_coin_type)) {
-            $coin_list = D('Coin')
-                ->where(array(
-                    'type' => array('in', array_keys($custom_coin_type)),
-                ))
-                ->getField('id,name,type,title');
-
-            if (!empty($coin_list)) {
-                foreach ($coin_list as $value) {
-                    $coin_config[$value['name']] = $value;
-                }
-            }
-        }
-
-        $this->assign('list', $list);
-        $this->assign('page', $show);
-        $this->assign('custom_coin_type', $custom_coin_type);
-        $this->assign('coin_config', $coin_config);
-        $this->assign('bind_status', array(
-            'yes' => '已绑定',
-            'no' => '未绑定',
-        ));
-
-        $this->display();
-    }
-
-    /**
-     * 添加自定义币种钱包地址
-     * @param int $id
-     */
-    public function qianbaoAddressEdit($id = 0)
-    {
-        $post_data = $_POST;
-        $QianbaoAddress = D('UserQianbaoAddress');
-        if (empty($post_data)) {
-            $this->data = null;
-            if (!empty($id)) {
-                $this->data = $QianbaoAddress
-                    ->where(array(
-                        'id' => intval($id)
-                    ))
-                    ->find();
-            }
-
-            $custom_coin_type = C('CUSTOM_COIN_TYPE');
-            $coin_config = array();
-            if (!empty($custom_coin_type)) {
-                $coin_list = D('Coin')
-                    ->where(array(
-                        'type' => array('in', array_keys($custom_coin_type)),
-                    ))
-                    ->getField('id,name,type,title');
-
-                if (!empty($coin_list)) {
-                    foreach ($coin_list as $value) {
-                        $coin_config[$value['name']] = $value;
-                    }
-                }
-            }
-
-            $this->assign('custom_coin_type', $custom_coin_type);
-            $this->assign('coin_config', $coin_config);
-            $this->display();
-        } else {
-            if (APP_DEMO) {
-                $this->error('测试站暂时不能修改！');
-            }
-
-            $exist = $QianbaoAddress
-                ->where(array(
-                    'address' => trim($post_data['address'])
-                ))
-                ->find();
-            if (!empty($exist)) {
-                $this->error('地址已存在！');
-            }
-
-            $post_data['user_id'] = 0;
-            $post_data['add_time'] = time();
-            $post_data['bind_time'] = time();
-            $post_data['status'] = 1;
-            unset($post_data['id']);
-            if ($QianbaoAddress->add($post_data)) {
-                $this->success('添加成功！');
-            } else {
-                $this->error('添加失败！');
-            }
-        }
-    }
-
-    /**
-     * 修改自定义币种钱包地址状态(开放禁用，废除和软删除)
-     * @param null $id
-     * @param null $type
-     * @param string $moble
-     */
-    public function qianbaoAddressStatus($id = NULL, $type = NULL, $moble = 'UserQianbaoAddress')
-    {
-        if (APP_DEMO) {
-            $this->error('测试站暂时不能修改！');
-        }
-
-        if (empty($id)) {
-            $this->error('参数错误！');
-        }
-
-        if (empty($type)) {
-            $this->error('参数错误1！');
-        }
-
-        if (strpos(',', $id)) {
-            $id = implode(',', $id);
-        }
-
-        $where['id'] = array('in', $id);
-
-        switch (strtolower($type)) {
-            case 'forbid':
-                $data = array('status' => 0);
-                break;
-            case 'resume':
-                $data = array('status' => 1);
-                break;
-            // 可用作解绑并废除当前数据
-            case 'repeal':
-                $data = array('status' => 2);
-                break;
-            case 'delete':
-                $data = array('status' => -1);
-                break;
-            case 'del':
-                if (M($moble)->where($where)->delete()) {
-                    $this->success('操作成功！');
-                } else {
-                    $this->error('操作失败！');
-                }
-                break;
-            default:
-                $this->error('操作失败！');
-        }
-
-        if (M($moble)->where($where)->save($data)) {
-            $this->success('操作成功！');
-        }
-        else {
-            $this->error('操作失败！');
-        }
-    }
-
-    /**
-     * 解绑自定义币种钱包地址
-     * @param $id
-     */
-    public function unbindQianbaoAddress($id)
-    {
-        $qianbaoAddress = D('UserQianbaoAddress')
-            ->where(array(
-                'id' => intval($id),
-                'user_id' => array('gt', 0),
-                'bind_time' => array('gt', 0),
-                'status' => 1,
-            ))
-            ->find();
-        if (empty($qianbaoAddress)) {
-            $this->error('操作失败！');
-        }
-
-        $model = M();
-        $model->execute('set autocommit=0');
-        $model->execute('lock tables ecshecom_user_coin write,ecshecom_myzr write,ecshecom_finance write,ecshecom_invit write,ecshecom_user write,ecshecom_user_qianbao_address write');
-
-        $result = array();
-        $result[] = $model
-            ->table('ecshecom_user_qianbao_address')
-            ->save(array(
-                'id' => intval($id),
-                'status' => 2
-            ));
-        $result[] = $model
-            ->table('ecshecom_user_coin')
-            ->where(array(
-                'userid' => $qianbaoAddress['user_id']
-            ))
-            ->save(array(
-                $qianbaoAddress['coin_name'] => ''
-            ));
-
-        if (check_arr($result)) {
-            $model->execute('commit');
-            $model->execute('unlock tables');
-            $this->success('解绑成功');
-        } else {
-            $model->execute('rollback');
-            $this->error('解绑失败！');
-        }
-    }
-
-
-    public function userQianbaoAddress() {
-
-    }
-
-    /**
-     * 绑定自定义币种钱包地址
-     * @param $user_id
-     * @param $coin_name
-     * @param $address
-     */
-    public function bindQianbaoAddress($user_id, $coin_name, $address)
-    {
-        $user_id = intval($user_id);
-        $coin_name = trim($coin_name);
-
-        // 检查用户是否已绑定该币种钱包地址
-        $qianbaoAddress = D('UserQianbaoAddress')
-            ->where(array(
-                'user_id' => $user_id,
-                'coin_name' => $coin_name,
-                'status' => 1,
-            ))
-            ->find();
-        if (!empty($qianbaoAddress)) {
-            $this->error('操作失败！');
-        }
-
-        $model = M();
-        $model->execute('set autocommit=0');
-        $model->execute('lock tables ecshecom_user_coin write,ecshecom_myzr write,ecshecom_finance write,ecshecom_invit write,ecshecom_user write,ecshecom_user_qianbao_address write');
-
-        $result = array();
-        $result[] = $model
-            ->table('ecshecom_user_qianbao_address')
-            ->where(array(
-                'coin_name' => $coin_name,
-                'user_id' => 0,
-                'address' => trim($address),
-                'status' => 1
-            ))
-            ->save(array(
-                'user_id' => $user_id,
-            ));
-        $result[] = $model
-            ->table('ecshecom_user_coin')
-            ->where(array(
-                'userid' => $qianbaoAddress['user_id'],
-                $qianbaoAddress['coin_name'] => ''
-            ))
-            ->save(array(
-                $qianbaoAddress['coin_name'] => $address
-            ));
-
-        if (check_arr($result)) {
-            $model->execute('commit');
-            $model->execute('unlock tables');
-            $this->success('绑定成功');
-        } else {
-            $model->execute('rollback');
-            $this->error('绑定失败！');
-        }
-    }
 }
 
 ?>

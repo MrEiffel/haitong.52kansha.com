@@ -24,10 +24,5 @@ return array(
 	'URL_PARAMS_SAFE'	   => true,
 	'DEFAULT_FILTER'       =>'check_ecshecom,htmlspecialchars,strip_tags',
 	'URL_PARAMS_FILTER_TYPE' =>'check_ecshecom,htmlspecialchars,strip_tags',
-
-    //TODO 自定义币种，并不需要对接钱包
-    'CUSTOM_COIN_TYPE' => array(
-        'custom' => '自定义类型',
-    ),
-);
+	);
 ?>
