@@ -1,0 +1,1 @@
+<?php if (!defined('THINK_PATH')) exit();?>Shop/edit?id=1

@@ -1,0 +1,48 @@
+----------------------------------------------------------------------------------------------------------------
+1、运行环境：Apache/2.4.23  PHP版本:5.6.24 Mysql版本:10.1.16-MariaDB，伪静态；  
+    建议使用Linux，同时Windows Server 2008；
+2、下载源码复制到网站根目录，绑定好域名；
+3、创建数据将\数据库\web1010.sql导入数据库；
+4、修改网站数据库连接文件index.php;
+5、修改为你的数据库对应信息，// 定义数据库地址 define('DB_HOST', '127.0.0.1'); 
+     // 定义数据库名  define('DB_NAME', 'web1010'); // 定义数据库账号 define('DB_USER', 'root');   
+    // 定义数据库密码 define('DB_PWD', '');   // 定义数据库端口 define('DB_PORT', '3306');
+6、使用你的域名进行测试访问，是否正常，正常证明配置环境正常；
+7、注意：在更改网站数据时请及时更新缓存，不然更新延时较长；
+8、后台管理连接/admin/login/ecshecom.html，后台账号admin 后台密码：123456
+9、钱包对接设置\Database\ecshecom.json  "ecshecom_opencoin": 0 /*是否开启钱包对接服务器模式*/  将0改变为1开启钱包对接；
+10、钱包反馈值问题处理，在钱包执行命令help；再执行listtransactions命令，根据实际反馈数据编写钱包反馈值；
+-------------------------------------------------------------------------------------------------------------------
+
+注：如果不知道怎么配置，可以联系我们QQ：502182299
+
+===================================================================================================================
+1、 the running environment: Apache/2.4.23 PHP version: 5.6.24 Mysql version: 10.1.16-MariaDB, pseudo static;
+It is recommended to use Linux, while Windows Server 2008;
+
+2、 download the source code, copy to the web root directory, bind the domain name;
+
+3、 Create data and import \ database \web1010.sql into the database;
+
+4、 modify the website database connection file index.php;
+
+5、 modify the database for you the corresponding information, / / define database address define ('DB_HOST','127.0.0.1');
+/ / definition database name define ('DB_NAME','web1010'); / / define database account define ('DB_USER','root');
+/ / definition database password ('DB_PWD', define'); / / define database port define ('DB_PORT','3306');
+
+6、 the use of your domain name for testing access, whether normal, the normal proof of the normal configuration environment;
+
+7、 note: in the change of website data, please update cache, or update longer delay;
+
+8、 background management connection /admin/login/ecshecom.html, background account admin, background password: 123456
+
+9、 wallet butt set \Database\ecshecom.json "ecshecom_opencoin": 0 / whether to open the wallet docking server mode will be changed to 1 * 0 open wallet docking;
+
+10、 the wallet feedback value problem processing, in the wallet execution command help; and then execute the listtransactions command, according to the actual feedback data write wallet feedback value;
+
+-------------------------------------------------------------------------------------------------------------------
+
+
+Note: if you don't know how to configure, you can contact us QQ:502182299
+
+===================================================================================================================

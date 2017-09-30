@@ -1,0 +1,329 @@
+/*投资列表*/
+.project{
+    position:relative;
+}
+.project .title h2{
+    font-size:24px;
+    font-weight:500;
+    margin:0;
+    line-height:40px
+}
+.project .title dl{
+    position:absolute;
+    right:0;
+    top:20px
+}
+.project .title dt{
+    font-size:14px;
+    font-weight:500;
+    color:#525252;
+    line-height:40px;
+    padding-right:16px;
+    float:left
+}
+.project .title dd{
+    position:relative;
+    width:215px;
+    height:16px;
+    padding:11px 0 11px 12px;
+    border:#D5D5D5 solid 1px;
+    border-radius:5px;
+    background:#FFF;
+    line-height:16px;
+    float:left
+}
+.project .title dd i{
+    position:absolute;
+    left:-9px;
+    top:12px;
+    display:block;
+    width:9px;
+    height:13px;
+}
+.project .title dd img{
+    float:left;
+    margin-right:13px
+}
+.project .title dd a{
+    color:#107DD8;
+    font-size:14px
+}
+.project .title dd.last{
+    width:200px;
+    height:40px;
+    padding:0 0 0 10px;
+    border:0;
+    background:0 0;
+    border-radius:0
+}
+.project .title dd.last a{
+    display:block;
+    width:200px;
+    height:40px;
+    line-height:40px;
+    font-size:14px;
+    color:#FFF;
+    text-indent:84px;
+    background:#9EA5B4 url(../img/money/jsq.png) no-repeat 42px center
+}
+.project .title dd.last a:hover{
+    background-color:#A7ADBB
+}
+.project .title dd.last a:active{
+    background-color:#8C94A6
+}
+.project .title .tab_box{
+    width:998px;
+    height:auto;
+    padding:8px 0;
+    margin:12px 0 10px;
+    background:#FFF;
+    border:#E0E0E0 solid 1px
+}
+.project .title .tab_box a{
+    margin-right:18px
+}
+.project .title .tab_box img{
+    vertical-align:-3px;
+    margin:0 6px 0 18px
+}
+.project .title .tab_box span{
+    font-size:14px;
+    color:#777;
+    margin-left:20px
+}
+.project_list{
+    height:180px;
+    padding-top:15px;
+    margin-bottom:20px;
+    margin-top:8px;
+    background:#FFF;
+    font-size:14px;
+    padding-bottom:15px;
+	border-radius: 8px;
+	border: 6px solid #e8e9ea;
+	-webkit-transition: all 0.3s;
+}
+
+
+.project_list:hover{
+	box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1) inset;
+	transform: translate(0, -4px);
+	-webkit-transform: translate(0, -4px);
+
+}
+.project_list table{
+    table-layout:fixed;
+    width:1160px;
+    margin:0 auto
+}
+.project_list td{
+    height:40px
+}
+.project_list .list_tu{
+    width:200px;
+    text-align:left;
+}
+.project_list .list_tu img{
+    width:173px;
+    height:144px;
+    float:left;
+    text-align:left;
+}
+.project .more{
+    width:160px;
+    height:44px;
+    padding:0;
+    margin:auto;
+    border-radius:6px;
+    text-align:center;
+    line-height:44px;
+    font-size:14px;
+    color:#FFF !important;
+}
+.project_list td img{
+    vertical-align:-3px;
+    /*margin: 0 6px 0 10px*/
+}
+.list_td12, .list_td22, .list_td32{
+    padding-left:32px;
+    border-left:#F2F2F2 solid 1px;
+    font-size:14px;
+}
+.list_td11{
+    color:#777;
+    font-size:14px
+}
+.list_td11 font{
+    color:#55BA50;
+    padding-right:4px
+}
+.list_td11 b{
+    font-weight:100;
+    font-size:14px;
+    padding-left:4px
+}
+.list_td11 span{
+    padding-right:26px;
+    font-size:14px;
+}
+.list_td12 font{
+    font-size:14px;
+    color:#107DD8;
+    font-weight:bold;
+}
+.list_td21{
+    font-size:18px;
+    color:#444
+}
+.list_td21 span{
+    padding-left:26px;
+    font-size:14px;
+}
+.list_td21 i{
+    display:block;
+    width:18px;
+    height:21px;
+    margin-right:2px;
+    font-size:14px;
+    font-family:Verdana, Geneva, sans-serif;
+    text-align:center;
+    line-height:18px;
+    color:#FFF;
+    font-style:normal;
+    background:url(/comfile/images/listbg.png) no-repeat right top;
+    float:left;
+}
+.list_td21 i.mark1{
+    background-position:0 0
+}
+.list_td21 i.mark2{
+    background-position:-18px 0
+}
+.list_td21 i.mark3{
+    background-position:-36px 0
+}
+.list_td22 .loading{
+    width:160px;
+    margin-right:28px
+}
+.list_td22 font{
+    float:left;
+    font-size:14px
+}
+.list_td22 input, .list_td32 .repayment, .list_td32 .perfect{
+    display:block;
+    width:194px;
+    height:30px;
+    background:#F25446;
+    border-radius:2px;
+    border:0;
+    font-size:14px;
+    color:#FFF;
+    cursor:pointer
+}
+.list_td31 span{
+    padding-right:26px;
+    font-size:14px
+}
+.list_td31 .red{
+    font-size:20px;
+    color:#F25446;
+    vertical-align:-2px
+}
+.list_td32 label{
+    position:relative;
+    z-index:1;
+    float:left
+}
+.list_td32 .t_input{
+    display:block;
+    width:114px;
+    height:18px;
+    padding:5px 8px;
+    border:#1F93F1 solid 1px;
+    border-radius:2px 0 0 2px;
+    color:#666;
+    float:left
+}
+.list_td32 label span{
+    position:absolute;
+    display:block
+}
+.list_td32 .button{
+    display:block;
+    width:100px;
+    height:30px;
+    color:#FFF;
+    font-family:"å¾®è½¯é›…é»'";
+    font-size:14px;
+    border:0;
+    background:#1F93F1;
+    border-radius:0 2px 2px 0;
+    float:left;
+    cursor:pointer
+}
+.list_td32 .button:hover{
+    background:#359DF2
+}
+.list_td32 .button:active{
+    background:#0D81DF
+}
+.list_td32 .button-green, .list_td22 .button-red, .list_td32 .button-blue{
+    width:230px;
+    height:40px;
+    color:#FFF;
+}
+.list_td32 span{
+    font-size:14px;
+    color:#777
+}
+.list_td32 span img{
+    margin-left:0
+}
+.list_td32 .repayment{
+    background:#56BB51
+}
+.list_td32 .perfect{
+    background:#1F93F1
+}
+.list_td32 .shengy{
+    width:230px;
+    font-size:14px;
+    color:#777;
+    text-align:center
+}
+.loading{
+    width:140px;
+    height:10px;
+    margin:8px 14px 0 0;
+    background:#CBD0D3;
+    float:left
+}
+.loading i{
+    display:block;
+    height:10px;
+    background:#1F93F1
+}
+.button-blue{
+    background:#44A5F3;
+    border-radius:3px;
+    height:40px;
+    line-height:40px;
+    font-size:16px;
+}
+.orange{
+    background:#FF9F3F;
+}
+.lan{
+    background:#85D3A3;
+}
+
+
+progress {
+    width: 180px;
+    height: 12px;
+    margin: 4px 22px 0 0;
+    background: #CBD0D3;
+    float: left;
+}

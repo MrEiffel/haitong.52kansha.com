@@ -1,0 +1,1093 @@
+<?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title><?php echo C('web_title');?></title>
+    <meta name="Keywords" content="<?php echo C('web_keywords');?>">
+    <meta name="Description" content="<?php echo C('web_description');?>">
+    <meta name="robots" content="index,follow"/>
+    <meta name="author" content="zuocoin.com">
+    <meta name="coprright" content="zuocoin.com">
+    <link rel="shortcut icon" href=" /favicon.ico"/>
+    <link rel="stylesheet" href="/Public/Home/css/zuocoin.css"/>
+    <link rel="stylesheet" href="/Public/Home/css/style.css"/>
+    <link rel="stylesheet" href="/Public/Home/css/font-awesome.min.css"/>
+    <script type="text/javascript" src="/Public/Home/js/script.js"></script>
+    <script type="text/javascript" src="/Public/Home/js/jquery.flot.js"></script>
+    <script type="text/javascript" src="/Public/Home/js/jquery.cookies.2.2.0.js"></script>
+    <script type="text/javascript" src="/Public/layer/layer.js"></script>
+</head>
+<body>
+<div class="header bg_w" style="position: fixed; z-index: 99;">
+    <div class="hearder_top">
+        <div class="autobox po_re zin100" id="header">
+            <div class="logo-small" style="max-height: 25px;">
+                <a href="/"><img src="/Upload/public/<?php echo ($C['web_llogo_small']); ?>" alt=""/></a>
+            </div>
+            <div class="nav fz_12">
+                <ul>
+                    <li style="text-align: right; padding-right: 20px;">
+                        <a href="/" id="index_box">首页</a>
+                    </li>
+                    <li>
+                        <a id="trade_box" class="active"><span class="active">交易中心</span>
+                            <img src="/Public/Home/images/down.png"></a>
+
+                        <div class="deal_list " style="display: none;   top: 36px;">
+                            <dl id="menu_list_json"></dl>
+                            <div class="sj"></div>
+                            <div class="nocontent"></div>
+                        </div>
+                    </li>
+                    <?php if(is_array($daohang)): $i = 0; $__LIST__ = $daohang;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><li>
+                            <a id="<?php echo ($vo['name']); ?>_box" href="/<?php echo ($vo['url']); ?>"><?php echo ($vo['title']); ?></a>
+                        </li><?php endforeach; endif; else: echo "" ;endif; ?>
+                </ul>
+            </div>
+            <div class="right orange" id="login">
+                <?php if(($_SESSION['userId']) > "0"): ?><dl class="mywallet">
+                        <dt id="user-finance">
+                        <div class="mywallet_name clear">
+                            <a href="/finance/"><?php echo (session('userName')); ?></a><i></i>
+                        </div>
+                        <div class="mywallet_list" style="display: none;">
+                            <div class="clear">
+                                <ul class="balance_list">
+                                    <h4>可用余额</h4>
+                                    <li>
+                                        <a href="javascript:void(0)"><em style="margin-top: 5px;" class="deal_list_pic_cny"></em><strong>人民币：</strong><span><?php echo ($userCoin_top['cny']); ?></span></a>
+                                    </li>
+                                </ul>
+                                <ul class="freeze_list">
+                                    <h4>委托冻结</h4>
+                                    <li>
+                                        <a href="javascript:void(0)"><em style="margin-top: 5px;" class="deal_list_pic_cny"></em><strong>人民币：</strong><span><?php echo ($userCoin_top['cnyd']); ?></span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="mywallet_btn_box">
+                                <a href="/finance/mycz.html">充值</a><a href="/finance/mytx.html">提现</a><a href="/finance/myzr.html">转入</a><a href="/finance/myzc.html">转出</a><a href="/finance/mywt.html">委托管理</a><a href="/finance/mycj.html">成交查询</a>
+                            </div>
+                        </div>
+                        </dt>
+                        <dd>
+                            ID：<span><?php echo (session('userId')); ?></span>
+                        </dd>
+                        <dd>
+                            <a href="<?php echo U('Login/loginout');?>">退出</a>
+                        </dd>
+                    </dl>
+                    <?php else: ?> <!-- 登陆前 -->
+                    <div class="orange">
+                        <span class="zhuce"><a class="orange" href="<?php echo U('Login/register');?>">注册</a></span> |
+                        <a href="<?php echo U('/index#login');?>" class="orange" onclick="#">登录</a>
+                    </div><?php endif; ?>
+            </div>
+        </div>
+    </div>
+    <div class="autobox">
+        <div class="all_coin_price">
+            <div class="all_coin_show">
+                <a href=""><img src="/Upload/coin/<?php echo ($C['market'][$market]['xnbimg']); ?>" style="float: left; width: 40px; height: 40px; margin-right: 5px;"><span><?php echo ($C['market'][$market]['title']); ?></span><em></em></a>
+            </div>
+            <div class="all_coin_list" style="display: none;">
+                <div class="all_coin_box">
+                    <ul id="all_coin"></ul>
+                </div>
+            </div>
+        </div>
+        <dl class="all_coin_info">
+            <dt id="market_new_price"></dt>
+            <dd>
+                <p class="orange" id="market_max_price"></p>
+                最高价
+            </dd>
+            <dd>
+                <p class="green" id="market_min_price"></p>
+                最低价
+            </dd>
+            <dd>
+                <p id="market_buy_price"></p>
+                买一价
+            </dd>
+            <dd>
+                <p id="market_sell_price"></p>
+                卖一价
+            </dd>
+            <dd class="w150">
+                <p id="market_volume"></p>
+                成交量
+            </dd>
+            <dd class="w150">
+                <p id="market_change"></p>
+                日涨跌
+            </dd>
+        </dl>
+    </div>
+</div>
+<div class="list-tab-box">
+    <ul class="list-tab">
+		<!-- <?php echo ($C['market'][$market]['title']); ?>  -->
+        <li id="list-tab_index" style="width: 180px; margin: 0px;">
+            <a href="<?php echo U('Trade/index','market='.$market);?>"><?php echo C('coin')[$xnb]['title'];?>交易</a>
+        </li>
+        <li id="list-tab_chart" style="width: 180px;">
+            <a href="<?php echo U('Trade/chart','market='.$market);?>"><?php echo C('coin')[$xnb]['title'];?>行情</a>
+        </li>
+        <li id="list-tab_info">
+            <a href="<?php echo U('Trade/info','market='.$market);?>"><i class="arrow-tab"></i>了解<?php echo C('coin')[$xnb]['title'];?></a>
+        </li>
+        <li id="list-tab_comment" style="display:none;">
+            <a href="<?php echo U('Trade/comment','market='.$market);?>"><i class="arrow-tab"></i>评价<?php echo C('coin')[$xnb]['title'];?></a>
+        </li>
+    </ul>
+</div>
+<!--头部结束-->
+
+<script>
+    $.getJSON("/Ajax/getJsonMenu?t=" + Math.random(), function (data) {
+        if (data) {
+            var list = '';
+            for (var i in data) {
+                list += '<dd><a href="/Trade/index/market/' + data[i]['name'] + '"><img src="/Upload/coin/' + data[i]['img'] + '" style="width: 18px; margin-right: 5px;">' + data[i]['title'] + '</a></dd>';
+            }
+            $("#menu_list_json").html(list);
+        }
+    });
+    $('#trade_box').hover(function () {
+        $('.deal_list').show()
+    }, function () {
+        $('.deal_list').hide()
+    });
+    $('.deal_list').hover(function () {
+        $('.deal_list').show()
+    }, function () {
+        $('.deal_list').hide()
+    });
+    $('#user-finance').hover(function () {
+        $('.mywallet_list').show();
+    }, function () {
+        $('.mywallet_list').hide()
+    });
+</script>
+
+
+
+<script>
+    function getJsonTop() {
+        $.getJSON("/Ajax/getJsonTop?market=<?php echo ($market); ?>&t=" + Math.random(), function (data) {
+            if (data) {
+                if (data['info']['new_price']) {
+                    $('#market_new_price').removeClass('buy');
+                    $('#market_new_price').removeClass('sell');
+                    if ($("#market_new_price").html() > data['info']['new_price']) {
+                        $('#market_new_price').addClass('sell');
+                    }
+                    if ($("#market_new_price").html() < data['info']['new_price']) {
+                        $('#market_new_price').addClass('buy');
+                    }
+                    $("#market_new_price").html(data['info']['new_price']);
+                }
+                if (data['info']['buy_price']) {
+                    $('#market_buy_price').removeClass('buy');
+                    $('#market_buy_price').removeClass('sell');
+                    if ($("#market_buy_price").html() > data['info']['buy_price']) {
+                        $('#market_buy_price').addClass('sell');
+                    }
+                    if ($("#market_buy_price").html() < data['info']['buy_price']) {
+                        $('#market_buy_price').addClass('buy');
+                    }
+                    $("#market_buy_price").html(data['info']['buy_price']);
+                    $("#sell_best_price").html('￥' + data['info']['buy_price']);
+                }
+                if (data['info']['sell_price']) {
+                    $('#market_sell_price').removeClass('buy');
+                    $('#market_sell_price').removeClass('sell');
+                    if ($("#market_sell_price").html() > data['info']['sell_price']) {
+                        $('#market_sell_price').addClass('sell');
+                    }
+                    if ($("#market_sell_price").html() < data['info']['sell_price']) {
+                        $('#market_sell_price').addClass('buy');
+                    }
+                    $("#market_sell_price").html(data['info']['sell_price']);
+                    $("#buy_best_price").html('￥' + data['info']['sell_price']);
+                }
+                if (data['info']['max_price']) {
+                    $("#market_max_price").html(data['info']['max_price']);
+					$("#zhangting").html("￥"+data['info']['max_price']);
+                }
+                if (data['info']['min_price']) {
+                    $("#market_min_price").html(data['info']['min_price']);
+					$("#dieting").html("￥"+data['info']['min_price']);
+                }
+                if (data['info']['volume']) {
+                    if (data['info']['volume'] > 10000) {
+                        data['info']['volume'] = (data['info']['volume'] / 10000).toFixed(2) + "万"
+                    }
+                    if (data['info']['volume'] > 100000000) {
+                        data['info']['volume'] = (data['info']['volume'] / 100000000).toFixed(2) + "亿"
+                    }
+                    $("#market_volume").html(data['info']['volume']);
+                }
+                if (data['info']['change']) {
+                    $('#market_change').removeClass('buy');
+                    $('#market_change').removeClass('sell');
+                    if (data['info']['change'] > 0) {
+                        $('#market_change').addClass('buy');
+                    } else {
+                        $('#market_change').addClass('sell');
+                    }
+                    $("#market_change").html(data['info']['change'] + "%");
+                }
+
+
+                if (data['list']) {
+                    var list = '';
+                    for (var i in data['list']) {
+                        list += '<li><a href="/Trade/index/market/' + data['list'][i]['name'] + '"> <img src="/Upload/coin/' + data['list'][i]['img'] + '" style="width: 40px; float: left; margin-right: 5px;"> <span class="all_coin_name"><p>' + data['list'][i]['title'] + '</p> <span id="all_coin_' + data['list'][i]['name'] + '">' + data['list'][i]['new_price'] + '</span></span></a></li>';
+                    }
+                    $("#all_coin").html(list);
+                }
+
+
+            }
+        });
+        setTimeout('getJsonTop()', 5000);
+    }
+    $(function () {
+        getJsonTop();
+        $('.all_coin_price').hover(function () {
+            $('.all_coin_list').show()
+        }, function () {
+            $('.all_coin_list').hide()
+        });
+    });
+</script>
+<?php if(!empty($prompt_text)): ?><div class="mytips">
+        <h6 style="color: #ff8000;">温馨提示</h6>
+        <?php echo ($prompt_text); ?>
+    </div><?php endif; ?>
+<div class="wrapbody" style="padding: 0px; margin-top: 20px;">
+ <div class="main">
+  <div class="span span8  content">
+   <div id="content">
+    <div id="klineImage" class="newKlineImage ">
+     <div class="marketImageNew" id="marketImageNew" style="">
+      <iframe style="border-style: none;" border="0" width="100%" height="600" id="market_chart" src="/Trade/specialty?market=<?php echo ($market); ?>"></iframe>
+     </div>
+    </div>
+   </div>
+   <div id="content-trade" class="content">
+    <div class="box mt20" id="Titletrd">
+     <div class="clear over-auto  account_table">
+      <div class="left   over-auto" style="width: 32%; margin-right: 5px; border-right: 1px solid #D5D5D5; border-left: 1px solid #D5D5D5;">
+       <div class="over-auto account_table">
+        <table class="Transaction no-border-left">
+         <thead>
+          <tr>
+           <th width="50">买入</th>
+           <th width="80">价格</th>
+           <th width="120">数量</th>
+           <th width=""><span style="padding-right: 18px;">比例</span></th>
+          </tr>
+         </thead>
+        </table>
+        <div style="_height: 852px; max-height: 852px; overflow-x: hidden; overflow-y: auto;">
+         <table class="Transaction no-border-left">
+          <tbody id="marketbuylist">
+          </tbody>
+         </table>
+        </div>
+       </div>
+      </div>
+      <div class="left  over-auto" style="width: 32%; border-right: 1px solid #D5D5D5; border-left: 1px solid #D5D5D5;">
+       <div class="over-auto">
+        <table class="Transaction no-border-right">
+         <thead>
+          <tr>
+           <th width="50">卖出</th>
+           <th width="80">价格</th>
+           <th width="120">数量</th>
+           <th width=""><span style="padding-right: 18px;">比例</span></th>
+          </tr>
+         </thead>
+        </table>
+        <div style="_height: 852px; max-height: 852px; overflow-x: hidden; overflow-y: auto;">
+         <table class="Transaction no-border-right">
+          <tbody id="marketselllist">
+          </tbody>
+         </table>
+        </div>
+       </div>
+      </div>
+      <div class="right" style="width: 34.7%; border-right: 1px solid #D5D5D5; border-left: 1px solid #D5D5D5;">
+       <div class="clear">
+        <div class=" over-hidden">
+         <div class="over-auto">
+          <table class="Transaction no-border-left  no-border-left-right">
+           <thead>
+            <tr>
+             <th width="70">时间</th>
+             <th width="70">价格</th>
+             <th width="100">数量</th>
+             <th><span style="padding-right: 18px;">金额</span></th>
+            </tr>
+           </thead>
+          </table>
+          <div style="_height: 852px; max-height: 852px;; overflow-x: hidden; overflow-y: auto;">
+           <table class="Transaction no-border-left  no-border-left-right">
+            <tbody id="marketorderlist">
+            </tbody>
+           </table>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+ </div>
+</div>
+<br>
+<br>
+<script type="text/javascript">
+	var market="<?php echo ($market); ?>";
+
+
+	function getJsonData(){
+		$.getJSON("/Chart/getJsonData?market="+market+"&t="+Math.random(),function(data){
+			if(data){
+				if(data[0]){
+					$("#marketbuylist").html(data[0]);
+				}
+				if(data[1]){
+					$("#marketselllist").html(data[1]);
+				}
+				if(data[2]){
+					$("#marketorderlist").html(data[2]);
+				}
+			}
+		});
+	}
+	getJsonData();
+
+	// 倒计时
+	var wait=second=5;
+	var go=setInterval(function(){
+		wait--;
+		if(wait<0){
+			getJsonData();
+			wait=second;
+		}
+	},1000);
+</script>
+<script>
+	//菜单高亮
+	$('#list-tab_chart').addClass('on');
+</script>
+<style>
+	.footer{
+		clear:both;
+	}
+
+	.footer .main{
+		height:240px;
+	}
+
+	#footer a{
+		color:#FFF;
+		margin:0px 0px;
+	}
+
+	.footer .bottom{
+		height:80px;
+		background:#2C2C2C;
+	}
+
+	.footer .main .list{
+		float:left;
+		margin-top:40px;
+		width: 185px;
+		padding: 0px 5px;
+	}
+
+	.footer .main .list label{
+		margin-top:10px;
+		display:block;
+		font-weight:bold;
+		color:#FFF;
+		font-size:16px;
+		text-align: left;
+		padding-left: 45px;
+	}
+
+	.footer .main .list ul{
+		margin:10px 0px 0px;
+		padding:0px;
+	}
+
+	.footer .main .list li{
+		display:block;
+		height:30px;
+		line-height:30px;
+		color:#CCC;
+		text-align:center;
+		list-style:none;
+		text-align: left;
+		padding-left: 45px;
+	}
+
+	.footer .main .list li a{
+		display:block;
+		width:100%;
+		height:100%;
+		color:#CCC;
+		font-size:14px;
+	}
+
+	.footer .about_me{
+		float:left;
+		margin-top:40px;
+		width:280px;
+		height:150px;
+		border-right:1px #606060 solid;
+		padding-right:50px;
+	}
+
+	.footer .wx{
+		margin-top:50px;
+		height:55px;
+	}
+
+	.footer .wx a{
+		position:relative;
+		margin:0 14px;
+		cursor:pointer;
+	}
+
+	.footer .wx a img{
+
+		left:-69px;
+
+		transition:300ms;
+		-webkit-transition:300ms;
+		-ms-transition:300ms;
+		-o-transition:300ms;
+		-moz-transition:300ms;
+	}
+
+	.footer .wx a:hover img{
+		display:block;
+		top:-180px;
+	}
+
+	.footer .footer_wx_icon{
+		float:left;
+
+		border-radius:55px;
+		-webkit-border-radius:55px;
+		-ms-border-radius:55px;
+		-o-border-radius:55px;
+		-moz-border-radius:55px;
+
+		transition:300ms;
+		-webkit-transition:300ms;
+		-ms-transition:300ms;
+		-o-transition:300ms;
+		-moz-transition:300ms;
+	}
+
+	.footer .footer_wx_icon:hover{
+
+	}
+
+	.footer .footer_sn_icon{
+		float:left;
+		width:55px;
+		height:55px;
+
+		background-color:#34353A;
+
+		border-radius:55px;
+		-webkit-border-radius:55px;
+		-ms-border-radius:55px;
+		-o-border-radius:55px;
+		-moz-border-radius:55px;
+
+		transition:300ms;
+		-webkit-transition:300ms;
+		-ms-transition:300ms;
+		-o-transition:300ms;
+		-moz-transition:300ms;
+	}
+
+	.footer .footer_sn_icon:hover{
+
+		background-color:#F00;
+	}
+
+	.footer .footer_qq_icon{
+		float:left;
+		width:55px;
+		height:55px;
+
+		background-color:#34353A;
+
+		border-radius:55px;
+		-webkit-border-radius:55px;
+		-ms-border-radius:55px;
+		-o-border-radius:55px;
+		-moz-border-radius:55px;
+
+		transition:300ms;
+		-webkit-transition:300ms;
+		-ms-transition:300ms;
+		-o-transition:300ms;
+		-moz-transition:300ms;
+	}
+
+	.footer .footer_qq_icon:hover{
+
+		background-color:#F00;
+	}
+
+	.footer .about_me h4{
+		margin:10px 0px 0px 44px;
+		color:#FFF;
+		font-size:14px;
+		font-weight:normal;
+	}
+
+	.footer .about_me .about_me_text{
+		margin-top:20px;
+		margin-left:44px;
+		font-size:14px;
+		color:#CCC;
+	}
+
+	.footer .contact_us{
+		float:left;
+		margin-top:50px;
+		padding-left:57px;
+		border-left:1px #606060 solid;
+		height:150px;
+		color:#CCC;
+		font-size:14px;
+	}
+
+	.footer .contact_us_text1{
+		margin-top:6px;
+		font-size:28px;
+		color:#FFF;
+	}
+
+	.footer .contact_us_text2{
+		margin-top:5px;
+		font-size:12px;
+	}
+
+	.footer .contact_us_text3 span{
+		float:left;
+		line-height:31px;
+	}
+
+	.footer .contact_us_text3{
+		margin-top:18px;
+		display:block;
+		color:#CCC;
+	}
+
+	.footer .contact_us_text3 i{
+		display:block;
+		float:left;
+		margin-left:10px;
+		width:32px;
+		height:30px;
+		cursor:pointer;
+		border:1px #CCC solid;
+
+		border-radius:16px;
+		-webkit-border-radius:16px;
+		-ms-border-radius:16px;
+		-o-border-radius:16px;
+		-moz-border-radius:16px;
+
+		transition:300ms;
+		-webkit-transition:300ms;
+		-ms-transition:300ms;
+		-o-transition:300ms;
+		-moz-transition:300ms;
+
+	}
+
+	.footer .contact_us_text3 i:hover{
+		border:1px #DB0015 solid;
+		background-color:#DB0015;
+	}
+
+	.footer .bottom .text{
+		float:left;
+		margin-top:34px;
+		color:#999;
+		font-size:14px;
+	}
+
+	.footer .bottom .g{
+		float:right;
+		margin-right:10px;
+	}
+
+	.footer .bottom .g a{
+		float:left;
+		margin-left:20px;
+		margin-top:24px;
+		width:100px;
+		height:36px;
+	}
+</style>
+
+
+
+
+<footer id="footer" class="footer" style="padding: 0px 0px 20px 0px;">
+	<section class="main">
+		<div class="about_me">
+			<div class="wx">
+				<a href="javascript:" class="footer_wx_icon"><img src="/Upload/public/<?php echo ($C['footer_logo']); ?>"></a>
+			</div>
+		</div>
+		<div class="layout_center">
+			<?php if(is_array($footerArticleType)): $i = 0; $__LIST__ = $footerArticleType;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><div class="list"><label><?php echo ($vo['title']); ?></label>
+					<ul>
+						<?php if(is_array($footerArticle[$vo['name']])): $i = 0; $__LIST__ = $footerArticle[$vo['name']];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vvo): $mod = ($i % 2 );++$i;?><li><a href="<?php echo U('Article/type',array('id'=>$vvo['id']));?>" style="overflow: hidden;"><?php echo ($vvo['title']); ?></a></li><?php endforeach; endif; else: echo "" ;endif; ?>
+						<li><a href="<?php echo U('Article/type',array('id'=>$vo['id']));?>" style="overflow: hidden;    text-align: left;">更多</a></li>
+					</ul>
+				</div><?php endforeach; endif; else: echo "" ;endif; ?>
+
+
+
+
+
+			<div class="contact_us">
+				<div class="contact_us_text0" style="text-align: left;">全国免费咨询电话 :</div>
+				<div class="contact_us_text1" style="text-align: left;margin-top: 10px;margin-bottom: 12px;"><?php echo C('contact_moble');?></div>
+				<div class="contact_us_text2" style="text-align: left;margin-bottom: 5px;">工作时间：周一至周日 8:00-23:00</div>
+				<?php $_result=C('contact_qqun');if(is_array($_result)): $i = 0; $__LIST__ = $_result;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$v): $mod = ($i % 2 );++$i;?><a href="#" class="contact_us_text3"><span>会员群号 :<?php echo ($i); ?>群：<?php echo ($v); ?></span></a><?php endforeach; endif; else: echo "" ;endif; ?>
+			</div>
+		</div>
+	</section>
+</footer>
+<div class="footer_bottom">
+
+	<div style="margin-bottom: 5px;width:1200px;margin:0 auto;">
+		<span class="text-danger">风险提示：比特币等数字资产交易具有极高的风险（预挖、暴涨暴跌、庄家操控、团队解散、技术缺陷等），据国家五部委《关于防范比特币风险的通知》，<?php echo ($C['web_name']); ?>网仅为数字资产的爱好者提供一个自由的网上交换平台，对币的投资价值不承担任何审查、担保、赔偿的责任，您需要完全对自己的投资损失承担责任，如果您不能接受，请不要进行交易！谢谢！</span>
+	</div>
+
+
+	<div class="autobox" style="height: 40px;margin-top: 5px;">
+		<span style="display: inline-block;color:#A6A9AB;">CopyRight© 2013-2017 <?php echo ($C['web_name']); ?>交易平台 All Rights Reserved &nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://www.miitbeian.gov.cn/publish/query/indexFirst.action" target="_blank"><?php echo ($C['web_icp']); ?></a><span style="display: inline-block; color:#A6A9AB"></span></span>
+		<span style="float: right;">
+			<a href="http://www.gov.cn/" target="_blank" class="margin10" style="margin-left:5px;"> <img src="/Upload/footer/footer_1.png">
+			</a>
+			<a href="http://www.szfw.org/" target="_blank" class="margin10" style="margin-left:5px;"> <img src="/Upload/footer/footer_2.png">
+			</a>
+			<a href="http://www.miibeian.gov.cn/" target="_blank" class="margin10" style="margin-left:5px;"><img src="/Upload/footer/footer_3.png">
+			</a>
+			<a href="http://www.cyberpolice.cn/" target="_blank" class="margin10" style="margin-left:5px;"><img src="/Upload/footer/footer_4.png">
+			</a>
+		</span>
+	</div>
+	<!-- 原安全验证位置 -->
+</div>
+<style>
+
+.sidetool{box-sizing:border-box;position: fixed;right:20px;top:40%;z-index: 333;}
+.sidetool li span{position:absolute;right:40px;top:0;text-align:center;overflow:hidden;visibility:hidden;width:0px;height:40px;background:#ff6709;line-height:40px;color:#fff;transition: width .25s ease-in-out .1s;}
+.sidetool li:hover span{box-sizing:border-box;width: 120px;visibility: visible;}
+.sidetool li span.sqrcode i{display:block;visibility:hidden;opacity: 0;transition:all .3s ease-in 0;position: absolute;bottom:-5px;font-style:normal;font-size:12px;width: 100%;text-align: center;}
+.sidetool li:hover span.sqrcode i{opacity:1;visibility: visible;}
+.sidetool li:hover span.sqrcode{width: 120px;height: 140px;padding:12px 0;}
+.sidetool ul>li{box-shadow: 0 0 5px rgba(0,0,0,.12);margin:1px 0;position:relative;padding-top:10%;width: 40px;height: 40px;background-color: #fff;box-sizing:border-box;}
+.sidetool ul>li:hover{background-color: #ff6709;}
+.sidetool ul>li>a{box-sizing:border-box;display: inline-block;width: 100%;height: 100%;}
+.sidetool .sidetool-item{margin:5px auto;width: 52%;transition:all .3s ease-in 0s;
+    height: 60%;display: block;background:url('/Public/Home/kefu/sidebar.png') no-repeat;background-position: 0 0;}
+.sidetool .sidetool-item.qq{background-position: 0 0;}
+.sidetool .sidetool-item.mobile{
+    background-position: 0 -169px;}
+.sidetool ul>li:hover .sidetool-item.mobile{
+    background-position: 0 -194px;}
+.sidetool ul>li:hover .sidetool-item.qq{background-position: 0 -24px;}
+.sidetool .sidetool-item.wechat{background-position: 0 -127px;}
+.sidetool ul>li:hover .sidetool-item.wechat{background-position: 0 -147px;}
+.sidetool .sidetool-item.tel{background-position: 0 -87px;}
+.sidetool ul>li:hover .sidetool-item.tel{background-position: 0 -107px;}
+.sidetool .sidetool-item.qrc{background-position: 0 -48px;}
+.sidetool ul>li:hover .sidetool-item.qrc{background-position: 0 -68px;}
+
+.jubi-lts-an:hover{
+	background:#eb5200;
+}
+.jubi-lts-an:hover p{
+	color: #fff;
+}
+.jubi-lts-an:hover i.jubi-lts-ant{
+	background-position: 0px -16px;
+}
+
+.jubi-lts-an {
+    width: 40px;
+    height: 83px;
+    background: #fff;
+    box-shadow: 0 0 5px rgba(0,0,0,.12);
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    cursor: pointer;
+    border-radius: 2px;
+    z-index: 10;
+    -webkit-transition: -webkit-transform 0.6s cubic-bezier(0.2, 1, 0.3, 1);
+    transition: transform 0.6s cubic-bezier(0.2, 1, 0.3, 1);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    padding-top: 7px;
+    box-sizing: border-box;
+}
+
+ .jubi-lts-an i.jubi-lts-ant {
+    width: 19px;
+    height: 17px;
+    display: block;
+    background-image: url('/Public/Home/kefu/jubi-lts-logo.png');
+    background-position: 0px 0px;
+    background-size: 19px;
+    margin: 0px auto 4px;
+    transition: all .3s ease-in 0s;
+}
+
+.jubi-lts-an P {
+    font-size: 14px;
+    color: #eb5200;
+    width: 19px;
+    text-align: center;
+    margin: 0px auto;
+    line-height: 15px;
+}
+ 
+ </style>
+
+  <div id="kf1" class="sidetool hidden-xs">
+   <ul>
+    <li><a href="http://wpa.qq.com/msgrd?v=3&uin=<?php echo C('contact_qq')[0];?>&site=qq&menu=yes" target="_blank"><i class="sidetool-item qq"></i></a><span style="cursor:pointer;" onclick="javascript:window.open('http://wpa.qq.com/msgrd?v=3&uin=<?php echo C('contact_qq')[0];?>&site=qq&menu=yes');">QQ在线客服</span></li>
+    <li><a href="#" onclick="javascript:return false;"><i class="sidetool-item wechat"></i></a><span class="sqrcode"><img src="/upload/public/<?php echo C('contact_weixin_img');?>" alt="" /><i>微信群号</i></span></li>
+    <li><a href="#" onclick="javascript:return false;"><i class="sidetool-item mobile"></i></a><span class="sqrcode"><img width="100" style="background-color: #fff;" src="/upload/public/<?php echo C('contact_app_img');?>" alt="" /><i>访问手机版</i></span></li>
+    <li><a href=""><i class="sidetool-item tel"></i></a><span><?php echo C('contact_moble');?></span></li>
+   </ul>
+  </div>
+  
+
+<div id="all_mask" class="all_mask" style="height: 0px; display: none;"></div>
+<div class="all_mask_loginbox" style="top: 313px; display: none;">
+	<div class="login_title pl20">登录</div>
+	<form id="form-login" class="mask_wrap login-fb">
+		<div class="login_text zin90">
+			<div class="mask_wrap_title">账号：</div>
+			<input id="login_username" name="username" type="text" placeholder="请输入手机号/会员名">
+		</div>
+		<div class="login_text zin80">
+			<div class="mask_wrap_title">密码：</div>
+			<input id="login_password" name="password" type="password" placeholder="请输入登录密码">
+		</div>
+		<?php if(($C['login_verify']) == "1"): ?><div class="login_text zin70" id="ga-box-i">
+				<img id="codeImg reloadverifyindex" src="<?php echo U('Verify/code');?>" width="120" height="38" onclick="this.src=this.src+'?t='+Math.random()" style="margin-top: 1px; cursor: pointer;" title="换一张">
+				<input type="text" class="code" id="login_verify" name="code" placeholder="请输入验证码" style="width: 106px; float: left;">
+			</div><?php endif; ?>
+		<div class="login_button">
+			<input type="button" value="登录" onclick="upLogin();">
+		</div>
+		<div class="login-footer wwxwwx" style="border-bottom-left-radius: 3px; border-bottom-right-radius: 3px;">
+			<!--<a target="_blank" href="/"><img src="/Public/Home/images/qq2.png" style="vertical-align: text-bottom; padding-right: 5px;">zzQQ登录</a>-->
+
+			<span style="color: #CCC; float: right; margin-right: 25px;">
+			<a style="font-size: 12px;" href="<?php echo U('Login/register');?>">免费注册</a>｜<a href="<?php echo U('Login/findpwd');?>" style="font-size: 12px;">忘记密码</a></span>
+		</div>
+	</form>
+	<div class="mask_wrap_close" onclick="wrapClose()"></div>
+</div>
+<script type="text/javascript" src="/Public/Home/js/jquery.cookies.2.2.0.js"></script>
+<script>
+	$('input').focus(function () {
+		var t = $(this);
+		if (t.attr('type') == 'text' || t.attr('type') == 'password')
+			t.css({'box-shadow': '0px 0px 3px #1583fb', 'border': '1px solid #1583fb'});
+		if (t.val() == t.attr('placeholder'))
+			t.val('');
+	});
+	$('input').blur(function () {
+		var t = $(this);
+		if (t.attr('type') == 'text' || t.attr('type') == 'password')
+			t.css({'box-shadow': 'none', 'border': '1px solid #e1e1e1'});
+		if (t.attr('type') != 'password' && !t.val())
+			t.val(t.attr('placeholder'));
+	});
+
+
+	function NumToStr(num) {
+		if (!num) return num;
+		num = Math.round(num * 100000000) / 100000000;
+		num = num.toFixed(8);
+		var min = 0.0001;
+		var times = 0;
+		var arr;
+		if (num <= min) {
+			times = 0;
+			while (num <= min) {
+				num *= 10;
+				times++;
+				if (times > 100) break;
+			}
+			num = num + '';
+			arr = num.split(".");
+			for (var i = 0; i < times; i++) {
+				arr['1'] = '0' + arr['1'];
+			}
+			return arr[0] + '.' + arr['1'] + '';
+		}
+		return num.toFixed(8) + ' ';
+	}
+
+
+	function loginpop() {
+		$('.all_mask').css({'height': $(document).height()});
+		$('.all_mask').show();
+		$('.all_mask_loginbox').show();
+		$(".reloadverify").click();
+	}
+
+	var is_login = <?php echo (session('userId')); ?>
+	;
+
+	if (window.location.hash == '#login') {
+		if (!is_login) {
+			loginpop();
+		}
+	}
+
+	if (is_login) {
+		$.getJSON("/Ajax/allfinance?t=" + Math.random(), function (data) {
+
+			$('#user_finance').html(data);
+		});
+	}
+
+
+	function wrapClose() {
+		$('.all_mask').hide();
+		$('.all_mask_loginbox').hide();
+	}
+
+	var cookieValue = $.cookies.get('cookie_username');
+	if (cookieValue != '' && cookieValue != null) {
+		$("#login_username").val(cookieValue);
+	}
+
+	function upLogin() {
+		var username = $("#login_username").val();
+		var password = $("#login_password").val();
+		var verify = $("#login_verify").val();
+		if (username == "" || username == null) {
+			layer.tips('请输入用户名', '#login_username', {tips: 3});
+			return false;
+		}
+		if (password == "" || password == null) {
+			layer.tips('请输入登录密码', '#login_password', {tips: 3});
+			return false;
+		}
+
+		$.post("<?php echo U('Login/submit');?>", {
+			username: username,
+			password: password,
+			verify: verify,
+		}, function (data) {
+			if (data.status == 1) {
+				$.cookies.set('cookie_username', username);
+				//document.cookie="cookie_username="+username;
+				layer.msg(data.info, {icon: 1});
+				window.location = '/Finance';
+			} else {
+				//刷新验证码
+				$(".reloadverifyindex").click();
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+	}
+
+
+    var allverfiy = function() {
+        if ($('#login_username').val() == '' || $('#login_username').val().length == 0) {
+            layer.tips('请输入用户名', '#login_username', {tips: 3});
+            return;
+        }
+        if ($('#login_password').val() == '' || $('#login_password').val().length == 0) {
+            layer.tips('请输入登录密码', '#login_password', {tips: 3});
+            return;
+        }
+        if ($('#login_verify').val() == '' || $('#login_verify').val().length == 0) {
+            layer.tips('图形验证码不能为空!', '#login_verify', {tips: 3});
+            return;
+        }
+        return true;
+    }
+    var allloginClick = function() {
+        var e = event || window.event || arguments.callee.caller.arguments[0];
+        if (e && e.keyCode == 13) { // enter 键
+            if (!allverfiy()) {
+                return;
+            }
+            upLogin();
+        }
+    }
+    $('#login_username').bind('keydown', allloginClick);
+    $('#login_password').bind('keydown', allloginClick);
+    $('#login_verify').bind('keydown', allloginClick);
+</script>
+
+
+<style>
+.th-lts-con-t {
+    width: 100%;
+    background: #fff;
+}
+
+.th-lts-con-t h1 {
+    height: 30px;
+    line-height: 30px;
+    width: 100%;
+    background: #f8f8f8;
+    font-size: 12px;
+    color: #333;
+    padding-left: 10px;
+    box-sizing: border-box;
+    font-weight: normal;
+    letter-spacing: 1px;
+}
+
+#marqueebox1 {
+    height: 450px;
+    max-height: 450px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+#marqueebox1 li{
+    font-size:14px;
+    text-align:left;
+    padding:1px;
+    padding-left:5px;
+}
+
+#marqueebox1 li:hover{
+    background:#ebf4fe;
+}
+
+</style>
+
+  <div class="right" style="position:fixed;right:0px;bottom:0px;z-index:999;display:none;" id="trade_moshi_liaotian_1">
+	<div class="coinBox buyonesellone">
+		<div class="coinBoxBody buybtcbody2">
+			<div class="th-lts-con-t"> <h1>土豪币聊天室 <span onclick="javacript:$('#trade_moshi_liaotian_1').hide();$('#kf1').show();$('#chat1').show();" style="float:right;cursor:pointer;">关闭</span></h1>
+			
+			</div>
+			
+			
+			<div id="marqueebox1" style="height:450px;max-height: 450px;" class="">
+				<ul id="chat_content">
+				</ul>
+			</div>
+			<div id="marqueebox2">
+				<ul class="clearfix">
+					<li id="face" class="left"><a href="javascript:void(0);" class="face faceBtn" id="face1">
+						<img src="/Public/Home/images/face.gif" width="20">
+					</a></li>
+					<li id="msg" class="left">
+					<input type="text" name="msg" class="text" id="chat_text"></li>
+					<li id="send" class="right"><input class="tijiao" type="button" value="发送"
+													   onclick="upChat()"></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" src="/Public/Home/js/jquery.qqFace.js"></script>
+
+<script type="text/javascript">
+    //@他
+    function atChat(_this) {
+        $("#chat_text").val('@' + $(_this).html() + ' :');
+    }
+    // 回车提交聊天
+    $("#chat_text").keyup(function (e) {
+        if (e.keyCode === 13) {
+            upChat();
+            return false;
+        }
+    });
+    // 提交聊天
+    function upChat() {
+        var content = $("#chat_text").val();
+        if (content == "" || content == null) {
+            layer.tips('请输入内容', '#chat_text', {tips: 3});
+            return false;
+        }
+        $.post("/Ajax/upChat", {content: content}, function (data) {
+            if (data.status == 1) {
+                $("#chat_text").val('');
+                getChat();
+            } else {
+                layer.tips(data.info, '#chat_text', {tips: 3});
+                return false;
+            }
+        }, 'json');
+    }
+    //表情盒子的ID//给那个控件赋值//表情存放的路径
+    $('#face1').qqFace({id: 'facebox1', assign: 'chat_text', path: '/Upload/face/'});
+
+
+    function getChat() {
+        //if (trade_moshi == 2) {
+            $.getJSON("/Ajax/getChat?t=" + Math.random(), function (data) {
+                if (data) {
+
+
+                    var list = '';
+                    for (i = 0; i < data.length; i++) {
+                        list += '<li><a href="javascript:void(0);" onclick="atChat(this)">' + data[i][1] + '</a>：' + data[i][2] + '</li>';
+					}
+                    list = list.replace(/\[\/#([0-9]*)\]/g, '<img src="/Upload/face/$1.gif"  width="18">');
+
+                    if ($("#chat_content").html() != list) {
+                        $("#chat_content").html(list);
+                        $("#marqueebox1").scrollTop(40000);
+                    }
+
+
+                }
+            });
+            setTimeout('getChat()', 5000);
+        //}
+    }
+
+	
+	getChat();
+
+</script>	
+
+</body></html>

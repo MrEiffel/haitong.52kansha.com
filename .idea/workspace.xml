@@ -1,0 +1,798 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="e456fa2a-29f2-4107-a34f-51fcc27860f8" name="Default" comment="" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_TABLE_DETAILS" value="true" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <expand />
+    <select />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="UserController.class.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Application/Admin/Controller/UserController.class.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="509">
+              <caret line="1858" column="18" lean-forward="true" selection-start-line="1858" selection-start-column="18" selection-end-line="1858" selection-end-column="18" />
+              <folding>
+                <marker date="1505357083699" expanded="true" signature="6269:6365" ph="ALTER TABLE `ecshecom_admin`... " />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FinanceController.class.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Application/Admin/Controller/FinanceController.class.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3021">
+              <caret line="159" column="0" lean-forward="false" selection-start-line="159" selection-start-column="0" selection-end-line="159" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="qianbaoAddress.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Application/Admin/View/User/qianbaoAddress.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2508">
+              <caret line="132" column="32" lean-forward="false" selection-start-line="132" selection-start-column="32" selection-end-line="132" selection-end-column="32" />
+              <folding>
+                <element signature="n#style#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#button#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="qianbaoAddressEdit.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Application/Admin/View/User/qianbaoAddressEdit.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="418">
+              <caret line="22" column="68" lean-forward="false" selection-start-line="22" selection-start-column="68" selection-end-line="22" selection-end-column="68" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>n myzr(</find>
+      <find>display(</find>
+      <find>地址</find>
+      <find>$qianbao</find>
+      <find>mycz(</find>
+      <find>codeaa</find>
+      <find>xnb_mr</find>
+      <find>coined</find>
+      <find>qita)</find>
+      <find>user_coin</find>
+      <find>upmyzr</find>
+      <find>转入地址</find>
+      <find>确认到账</find>
+      <find>ecshecom_coinaddress</find>
+      <find>upmyzr(</find>
+      <find>coinedit</find>
+      <find>qianbaob8c3b3d94512472db8</find>
+      <find>ecshecom_user_coin</find>
+      <find>myzr(</find>
+      <find>coin_list</find>
+      <find>myzrQueren</find>
+      <find>ecshecom_opencoin</find>
+      <find>auth(</find>
+      <find>foreach</find>
+      <find>addt</find>
+      <find>current</find>
+      <find>qianbaoEd</find>
+      <find>alert-success</find>
+      <find>$custom_coin_type</find>
+      <find>commit</find>
+    </findStrings>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/44ded212-4879-444c-8be8-e0e94a885cac/console.sql" />
+        <option value="$PROJECT_DIR$/Application/Home/Controller/Queue9ce2472db8c3b3d94511365004ce8468Controller.class.php" />
+        <option value="$PROJECT_DIR$/Application/Home/Controller/UserController.class.php" />
+        <option value="$PROJECT_DIR$/Application/Home/Controller/LoginController.class.php" />
+        <option value="$PROJECT_DIR$/Application/Home/Controller/QueueController.class.php" />
+        <option value="$PROJECT_DIR$/ThinkPHP/ecshecom.php" />
+        <option value="$PROJECT_DIR$/index.php" />
+        <option value="$PROJECT_DIR$/Application/Home/View/Finance/myzr.html" />
+        <option value="$PROJECT_DIR$/Application/Common/Common/function.php" />
+        <option value="$PROJECT_DIR$/Application/Home/Controller/FinanceController.class.php" />
+        <option value="$PROJECT_DIR$/Application/Admin/Controller/FinanceController.class.php" />
+        <option value="$PROJECT_DIR$/Application/Common/Conf/config.php" />
+        <option value="$PROJECT_DIR$/Database/ecshecom.json" />
+        <option value="$PROJECT_DIR$/Application/Admin/View/Config/coinEdit.html" />
+        <option value="$PROJECT_DIR$/Application/Admin/Controller/ConfigController.class.php" />
+        <option value="$PROJECT_DIR$/Application/Admin/View/Public/header.html" />
+        <option value="$PROJECT_DIR$/Application/Admin/Controller/AdminController.class.php" />
+        <option value="$PROJECT_DIR$/Application/Admin/Controller/UserQianbaoAddressController.class.php" />
+        <option value="$PROJECT_DIR$/Application/Admin/View/User/qianbao.html" />
+        <option value="$PROJECT_DIR$/Application/Admin/View/User/qianbaoAddressEdit.html" />
+        <option value="$PROJECT_DIR$/Application/Admin/View/User/qianbaoAddress.html" />
+        <option value="$PROJECT_DIR$/Application/Admin/Controller/UserController.class.php" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsFlowSettings">
+    <service-enabled>false</service-enabled>
+    <exe-path />
+    <annotation-enable>false</annotation-enable>
+    <other-services-enabled>false</other-services-enabled>
+    <auto-save>true</auto-save>
+  </component>
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="PhpServers">
+    <servers />
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-4" />
+    <option name="y" value="-3" />
+    <option name="width" value="1926" />
+    <option name="height" value="1056" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="web502182299" type="b2602c69:ProjectViewProjectNode" />
+              <item name="web502182299" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="web502182299" type="b2602c69:ProjectViewProjectNode" />
+              <item name="web502182299" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Application" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="web502182299" type="b2602c69:ProjectViewProjectNode" />
+              <item name="web502182299" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Application" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Admin" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="web502182299" type="b2602c69:ProjectViewProjectNode" />
+              <item name="web502182299" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Application" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Admin" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Controller" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="web502182299" type="b2602c69:ProjectViewProjectNode" />
+              <item name="web502182299" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Application" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Admin" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="View" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="web502182299" type="b2602c69:ProjectViewProjectNode" />
+              <item name="web502182299" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Application" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Admin" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="View" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Public" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="web502182299" type="b2602c69:ProjectViewProjectNode" />
+              <item name="web502182299" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Application" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Admin" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="View" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="User" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="web502182299" type="b2602c69:ProjectViewProjectNode" />
+              <item name="web502182299" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Application" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Common" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="web502182299" type="b2602c69:ProjectViewProjectNode" />
+              <item name="web502182299" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Application" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Common" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Common" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="web502182299" type="b2602c69:ProjectViewProjectNode" />
+              <item name="web502182299" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Application" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Common" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Conf" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="web502182299" type="b2602c69:ProjectViewProjectNode" />
+              <item name="web502182299" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Public" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="web502182299" type="b2602c69:ProjectViewProjectNode" />
+              <item name="web502182299" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Public" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Admin" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="web502182299" type="b2602c69:ProjectViewProjectNode" />
+              <item name="web502182299" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Public" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Admin" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="com.intellij.database.dataSource.DataSourceTemplate" value="MySQL" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\mywww\web502182299\Application\Admin\View\User" />
+      <recent name="D:\mywww\web502182299\Application\Admin\Controller" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e456fa2a-29f2-4107-a34f-51fcc27860f8" name="Default" comment="" />
+      <created>1504763108898</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1504763108898</updated>
+      <workItem from="1504763110066" duration="3722000" />
+      <workItem from="1504831149337" duration="599000" />
+      <workItem from="1504916963213" duration="28565000" />
+      <workItem from="1505090519256" duration="2606000" />
+      <workItem from="1505193149912" duration="9943000" />
+      <workItem from="1505308949024" duration="13588000" />
+      <workItem from="1505356953356" duration="170000" />
+      <workItem from="1506740590890" duration="1199000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="60392000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26865673" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32921812" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Application/Home/Controller/FinanceController.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="13946">
+          <caret line="734" column="62" lean-forward="false" selection-start-line="734" selection-start-column="39" selection-end-line="734" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Home/View/Finance/myzr.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1805">
+          <caret line="95" column="63" lean-forward="false" selection-start-line="95" selection-start-column="54" selection-end-line="95" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Admin/View/Public/header.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1482">
+          <caret line="82" column="19" lean-forward="false" selection-start-line="82" selection-start-column="19" selection-end-line="82" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Admin/Controller/ConfigController.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2261">
+          <caret line="119" column="12" lean-forward="false" selection-start-line="119" selection-start-column="12" selection-end-line="119" selection-end-column="12" />
+          <folding>
+            <marker date="1505093114833" expanded="true" signature="4164:4259" ph="ALTER TABLE ecshecom_user_coin" />
+            <marker date="1505093114833" expanded="true" signature="4288:4384" ph="ALTER TABLE ecshecom_user_coin" />
+            <marker date="1505093114833" expanded="true" signature="4414:4500" ph="ALTER TABLE ecshecom_user_coin" />
+            <marker date="1505093114833" expanded="true" signature="4555:4640" ph="ALTER TABLE ecshecom_shop_coin" />
+            <marker date="1505093114833" expanded="true" signature="5391:5437" ph="ALTER TABLE ecshecom_user_coin" />
+            <marker date="1505093114833" expanded="true" signature="5480:5545" ph="ALTER TABLE ecshecom_user_coin" />
+            <marker date="1505093114833" expanded="true" signature="5575:5640" ph="ALTER TABLE ecshecom_user_coin" />
+            <marker date="1505093114833" expanded="true" signature="5675:5721" ph="ALTER TABLE ecshecom_shop_coin" />
+            <marker date="1505093114833" expanded="true" signature="7807:7866" ph="UPDATE `ecsh... " />
+            <marker date="1505093114833" expanded="true" signature="12432:12536" ph="ALTER TABLE `ecshecom_config`... " />
+            <marker date="1505093114833" expanded="true" signature="12611:12667" ph="ALTER TABLE `ecshecom_config`... " />
+            <marker date="1505093114833" expanded="true" signature="12742:12798" ph="ALTER TABLE `ecshecom_config`... " />
+            <marker date="1505093114833" expanded="true" signature="12873:12929" ph="ALTER TABLE `ecshecom_config`... " />
+            <marker date="1505093114833" expanded="true" signature="13007:13066" ph="ALTER TABLE `ecshecom_config`... " />
+            <marker date="1505093114833" expanded="true" signature="13137:13189" ph="ALTER TABLE `ecshecom_config`... " />
+            <marker date="1505093114833" expanded="true" signature="13260:13312" ph="ALTER TABLE `ecshecom_config`... " />
+            <marker date="1505093114833" expanded="true" signature="13383:13435" ph="ALTER TABLE `ecshecom_config`... " />
+            <marker date="1505093114833" expanded="true" signature="13513:13572" ph="ALTER TABLE `ecshecom_config`... " />
+            <marker date="1505093114833" expanded="true" signature="13648:13705" ph="ALTER TABLE `ecshecom_config`... " />
+            <marker date="1505093114833" expanded="true" signature="13783:13842" ph="ALTER TABLE `ecshecom_config`... " />
+            <marker date="1505093114833" expanded="true" signature="13918:13975" ph="ALTER TABLE `ecshecom_config`... " />
+            <marker date="1505093114833" expanded="true" signature="14054:14114" ph="ALTER TABLE `ecshecom_config`... " />
+            <marker date="1505093114833" expanded="true" signature="14195:14257" ph="ALTER TABLE `ecshecom_config`... " />
+            <marker date="1505093114833" expanded="true" signature="14336:14396" ph="ALTER TABLE `ecshecom_config`... " />
+            <marker date="1505093114833" expanded="true" signature="14473:14531" ph="ALTER TABLE `ecshecom_config`... " />
+            <marker date="1505093114833" expanded="true" signature="14609:14668" ph="ALTER TABLE `ecshecom_config`... " />
+            <marker date="1505093114833" expanded="true" signature="14747:14807" ph="ALTER TABLE `ecshecom_config`... " />
+            <marker date="1505093114833" expanded="true" signature="14886:14946" ph="ALTER TABLE `ecshecom_config`... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Admin/View/Finance/myzr.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1026">
+          <caret line="54" column="56" lean-forward="false" selection-start-line="54" selection-start-column="56" selection-end-line="54" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Home/Controller/FinanceController.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="13946">
+          <caret line="734" column="62" lean-forward="true" selection-start-line="734" selection-start-column="39" selection-end-line="734" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Home/View/Finance/myzr.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1805">
+          <caret line="95" column="63" lean-forward="false" selection-start-line="95" selection-start-column="54" selection-end-line="95" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Admin/Controller/FinanceController.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2945">
+          <caret line="155" column="0" lean-forward="true" selection-start-line="155" selection-start-column="0" selection-end-line="155" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/44ded212-4879-444c-8be8-e0e94a885cac/console.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1849">
+          <caret line="4303" column="30" lean-forward="false" selection-start-line="4303" selection-start-column="30" selection-end-line="4303" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Home/Controller/LoginController.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="575">
+          <caret line="226" column="32" lean-forward="true" selection-start-line="226" selection-start-column="32" selection-end-line="226" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Admin/Controller/CoinController.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Admin/Controller/UserController.class - 副本.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1869">
+          <caret line="1544" column="32" lean-forward="false" selection-start-line="1544" selection-start-column="20" selection-end-line="1544" selection-end-column="32" />
+          <folding>
+            <marker date="1500648325870" expanded="true" signature="6269:6365" ph="ALTER TABLE `ecshecom_admin`... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Common/Model/TextModel.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="17" column="65" lean-forward="false" selection-start-line="17" selection-start-column="60" selection-end-line="17" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Home/Controller/ServiceController.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Home/Controller/PayController.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1691">
+          <caret line="164" column="34" lean-forward="false" selection-start-line="164" selection-start-column="34" selection-end-line="164" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Home/Controller/BazaarController.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Home/Conf/config.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="13" column="2" lean-forward="true" selection-start-line="13" selection-start-column="2" selection-end-line="13" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Admin/Conf/config.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/php/lib/php.jar!/stubs/standard/standard_3.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="132" column="9" lean-forward="false" selection-start-line="132" selection-start-column="9" selection-end-line="132" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ecshecom.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="38">
+          <caret line="2" column="66" lean-forward="true" selection-start-line="2" selection-start-column="66" selection-end-line="2" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ThinkPHP/ecshecom.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="95">
+          <caret line="5" column="26" lean-forward="false" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="475">
+          <caret line="31" column="26" lean-forward="false" selection-start-line="31" selection-start-column="26" selection-end-line="31" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Home/Controller/QueueController.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="639">
+          <caret line="278" column="13" lean-forward="false" selection-start-line="278" selection-start-column="13" selection-end-line="278" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/数据库/web1010.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="336">
+          <caret line="3403" column="2" lean-forward="true" selection-start-line="3403" selection-start-column="2" selection-end-line="3403" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Admin/View/Config/qita.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="570">
+          <caret line="156" column="32" lean-forward="false" selection-start-line="156" selection-start-column="32" selection-end-line="156" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Home/View/Finance/myzr.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1805">
+          <caret line="95" column="63" lean-forward="false" selection-start-line="95" selection-start-column="54" selection-end-line="95" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Runtime/Cache/Admin/c2e02b1bd1ca5bf4363bfe167585969f.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2185">
+          <caret line="26" column="35" lean-forward="true" selection-start-line="26" selection-start-column="35" selection-end-line="26" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Home/Controller/FinanceController.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="13946">
+          <caret line="734" column="62" lean-forward="false" selection-start-line="734" selection-start-column="39" selection-end-line="734" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Admin/View/Config/coinEdit.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1026">
+          <caret line="54" column="61" lean-forward="false" selection-start-line="54" selection-start-column="61" selection-end-line="54" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Database/ecshecom.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="13" column="1" lean-forward="true" selection-start-line="13" selection-start-column="1" selection-end-line="13" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Admin/Controller/MenuController.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="798">
+          <caret line="42" column="5" lean-forward="false" selection-start-line="42" selection-start-column="5" selection-end-line="42" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Home/Controller/UserController.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="516">
+          <caret line="380" column="75" lean-forward="false" selection-start-line="380" selection-start-column="75" selection-end-line="380" selection-end-column="75" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Common/Conf/config.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="532">
+          <caret line="28" column="21" lean-forward="false" selection-start-line="28" selection-start-column="5" selection-end-line="28" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/安装说明.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="23" column="0" lean-forward="true" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Runtime/Cache/Admin/7e66325a382c6c2d2895a3dba68b875b.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="421">
+          <caret line="137" column="85" lean-forward="true" selection-start-line="137" selection-start-column="85" selection-end-line="137" selection-end-column="85" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Admin/Controller/ArticleController.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1500648325677" expanded="true" signature="25142:25242" ph="ALTER TABLE `ecshecom_article`... " />
+            <marker date="1500648325677" expanded="true" signature="25311:25410" ph="ALTER TABLE `ecshecom_article`... " />
+            <marker date="1500648325677" expanded="true" signature="25529:25634" ph="ALTER TABLE `ecshecom_article_type`... " />
+            <marker date="1500648325677" expanded="true" signature="25703:25807" ph="ALTER TABLE `ecshecom_article_type`... " />
+            <marker date="1500648325677" expanded="true" signature="25878:25976" ph="ALTER TABLE `ecshecom_article_type`... " />
+            <marker date="1500648325677" expanded="true" signature="26045:26141" ph="ALTER TABLE `ecshecom_article_type`... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Admin/View/User/qianbao.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="15" column="83" lean-forward="false" selection-start-line="15" selection-start-column="76" selection-end-line="15" selection-end-column="83" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Admin/Controller/AdminController.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="326">
+          <caret line="314" column="52" lean-forward="false" selection-start-line="314" selection-start-column="52" selection-end-line="314" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Admin/View/User/qianbaoEdit.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="23" column="40" lean-forward="true" selection-start-line="23" selection-start-column="40" selection-end-line="23" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Admin/View/User/qianbaoAddressEdit.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="22" column="68" lean-forward="false" selection-start-line="22" selection-start-column="68" selection-end-line="22" selection-end-column="68" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ThinkPHP/Mode/Lite/Controller.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-426">
+          <caret line="179" column="23" lean-forward="false" selection-start-line="179" selection-start-column="23" selection-end-line="179" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Admin/View/Public/edit.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-4218">
+          <caret line="18" column="36" lean-forward="true" selection-start-line="18" selection-start-column="36" selection-end-line="18" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Public/Admin/js/application.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="8" column="29" lean-forward="true" selection-start-line="8" selection-start-column="29" selection-end-line="8" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Common/Common/function.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="648" column="9" lean-forward="false" selection-start-line="648" selection-start-column="9" selection-end-line="648" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Admin/Controller/UserQianbaoAddressController.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="278">
+          <caret line="152" column="26" lean-forward="true" selection-start-line="152" selection-start-column="26" selection-end-line="152" selection-end-column="26" />
+          <folding>
+            <marker date="1505204841092" expanded="true" signature="6283:6379" ph="ALTER TABLE `ecshecom_admin`... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Admin/View/Public/header.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="19" column="7" lean-forward="true" selection-start-line="19" selection-start-column="7" selection-end-line="19" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Admin/View/User/qianbaoAddress.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2508">
+          <caret line="132" column="32" lean-forward="false" selection-start-line="132" selection-start-column="32" selection-end-line="132" selection-end-column="32" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Admin/View/Finance/myzr.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="399">
+          <caret line="21" column="49" lean-forward="false" selection-start-line="21" selection-start-column="49" selection-end-line="21" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Admin/Controller/ConfigController.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="3" column="40" lean-forward="false" selection-start-line="3" selection-start-column="40" selection-end-line="3" selection-end-column="40" />
+          <folding>
+            <marker date="1505093114833" expanded="true" signature="4164:4259" ph="ALTER TABLE ecshecom_user_coin" />
+            <marker date="1505093114833" expanded="true" signature="4288:4384" ph="ALTER TABLE ecshecom_user_coin" />
+            <marker date="1505093114833" expanded="true" signature="4414:4500" ph="ALTER TABLE ecshecom_user_coin" />
+            <marker date="1505093114833" expanded="true" signature="4555:4640" ph="ALTER TABLE ecshecom_shop_coin" />
+            <marker date="1505093114833" expanded="true" signature="5391:5437" ph="ALTER TABLE ecshecom_user_coin" />
+            <marker date="1505093114833" expanded="true" signature="5480:5545" ph="ALTER TABLE ecshecom_user_coin" />
+            <marker date="1505093114833" expanded="true" signature="5575:5640" ph="ALTER TABLE ecshecom_user_coin" />
+            <marker date="1505093114833" expanded="true" signature="5675:5721" ph="ALTER TABLE ecshecom_shop_coin" />
+            <marker date="1505093114833" expanded="true" signature="7807:7866" ph="UPDATE `ecsh... " />
+            <marker date="1505093114833" expanded="true" signature="12432:12536" ph="ALTER TABLE `ecshecom_config`... " />
+            <marker date="1505093114833" expanded="true" signature="12611:12667" ph="ALTER TABLE `ecshecom_config`... " />
+            <marker date="1505093114833" expanded="true" signature="12742:12798" ph="ALTER TABLE `ecshecom_config`... " />
+            <marker date="1505093114833" expanded="true" signature="12873:12929" ph="ALTER TABLE `ecshecom_config`... " />
+            <marker date="1505093114833" expanded="true" signature="13007:13066" ph="ALTER TABLE `ecshecom_config`... " />
+            <marker date="1505093114833" expanded="true" signature="13137:13189" ph="ALTER TABLE `ecshecom_config`... " />
+            <marker date="1505093114833" expanded="true" signature="13260:13312" ph="ALTER TABLE `ecshecom_config`... " />
+            <marker date="1505093114833" expanded="true" signature="13383:13435" ph="ALTER TABLE `ecshecom_config`... " />
+            <marker date="1505093114833" expanded="true" signature="13513:13572" ph="ALTER TABLE `ecshecom_config`... " />
+            <marker date="1505093114833" expanded="true" signature="13648:13705" ph="ALTER TABLE `ecshecom_config`... " />
+            <marker date="1505093114833" expanded="true" signature="13783:13842" ph="ALTER TABLE `ecshecom_config`... " />
+            <marker date="1505093114833" expanded="true" signature="13918:13975" ph="ALTER TABLE `ecshecom_config`... " />
+            <marker date="1505093114833" expanded="true" signature="14054:14114" ph="ALTER TABLE `ecshecom_config`... " />
+            <marker date="1505093114833" expanded="true" signature="14195:14257" ph="ALTER TABLE `ecshecom_config`... " />
+            <marker date="1505093114833" expanded="true" signature="14336:14396" ph="ALTER TABLE `ecshecom_config`... " />
+            <marker date="1505093114833" expanded="true" signature="14473:14531" ph="ALTER TABLE `ecshecom_config`... " />
+            <marker date="1505093114833" expanded="true" signature="14609:14668" ph="ALTER TABLE `ecshecom_config`... " />
+            <marker date="1505093114833" expanded="true" signature="14747:14807" ph="ALTER TABLE `ecshecom_config`... " />
+            <marker date="1505093114833" expanded="true" signature="14886:14946" ph="ALTER TABLE `ecshecom_config`... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Admin/Controller/FinanceController.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3021">
+          <caret line="159" column="0" lean-forward="false" selection-start-line="159" selection-start-column="0" selection-end-line="159" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Admin/Controller/UserController.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="509">
+          <caret line="1858" column="18" lean-forward="true" selection-start-line="1858" selection-start-column="18" selection-end-line="1858" selection-end-column="18" />
+          <folding>
+            <marker date="1505357083699" expanded="true" signature="6269:6365" ph="ALTER TABLE `ecshecom_admin`... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

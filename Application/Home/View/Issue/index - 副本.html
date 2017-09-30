@@ -1,0 +1,141 @@
+<include file="Public:header"/>
+
+
+<link rel="stylesheet" href="/ecshecom/css/issue.css"/>
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">首页</a> &gt; 认购中心	</div>
+	<div class="main-content mb20">
+		<div class=" assets_content bg_w" style="min-height:30px;">
+			<div class="safe_center clear">
+				<h1>
+					<span>
+						认购中心					</span>
+	                <span>
+                        <a href="/issue/index.html" id="step1" class="step fz_12 ml50 pd6 active">认购列表</a>
+                        <a href="/issue/log.html" id="step2" class="step fz_12 ml20 pd6">认购记录</a>
+                    </span>
+					<span>
+												<a class="right" onclick="$('#hints').slideToggle();"><i class="fa fa-hand-o-right move fz_14 mr5"></i><span class="fz_12 move">查看介绍</span></a>
+											</span>
+				</h1>
+			</div>
+			<div id="hints" class="mytips" style="display:none;">
+					
+			       <p>					<notempty name="prompt_text">
+					{$prompt_text}
+					</notempty></p><p>										</p>			</div>
+
+
+
+		<div id="slider_issue" class="slider" style="height:200px;">
+
+    <!-- Loading Screen -->
+    <div class="slider-loading" data-u="loading">
+        <div class="slider-loading-a"></div>
+        <div class="slider-loading-b"></div>
+    </div>
+    <div class="slider-body" data-u="slides">
+                <div  onclick="#">
+            <a src="" style=""><img data-u="image" title="" alt="" src="/ecshecom/rengou/1.png"/>
+            </a>
+        </div>
+                <div  onclick="#">
+            <a src="" style=""><img data-u="image" title="" alt="" src="/ecshecom/rengou/2.png"/>
+            </a>
+        </div>
+                <div  onclick="#">
+            <a src="" style=""><img data-u="image" title="" alt="" src="/ecshecom/rengou/3.png"/>
+            </a>
+        </div>
+            </div>
+        <div id="slider-body-navigator_issue"
+         class="sbn-3" data-u="navigator" style="position: absolute;
+        bottom: 16px;" data-autocenter="1">
+        <div data-u="prototype" style=""></div>
+    </div>
+    
+        <span id="slider-body-arrow-l_issue" data-u="arrowleft"
+          class="slider-body-arrowleft-1" data-autocenter="2"></span>
+    <span id="slider-body-arrow-r_issue" data-u="arrowright"
+          class="slider-body-arrowright-1" data-autocenter="2"></span>
+</div>
+<textarea class="mv-hide" style="display: none;">
+    slider_run("slider_issue", [{"$Duration":1200,"x":0.3,"$SlideOut":true,"$Easing":{},"$Opacity":2}]);
+</textarea>
+
+<!--轮播图 end-->	</div>
+</div>
+
+
+
+
+<volist name="list" id="vo">
+
+<div class="crowd_con crowd_con_list clear " data="{$vo['id']}" onclick="goumai(this);" style="cursor:pointer;border: 6px solid #e8e9ea;">
+	<div class="crowd_con_l ">
+		<ul class="crowd_subscribe clear">
+			<li style="padding-right: 30px;    width: 80px;">
+				<img src="__UPLOAD__/coin/{$vo['img']}" style="width: 48px;margin-top:-3px;">
+			</li>
+			<li style="    width: 190px;">
+				<p>认购名称</p><span class="">{$vo['name']}</span>
+			</li>
+			<li>
+				<p>认购总量</p><span class="red">{$vo['num']}</span>
+			</li>
+			<li>
+				<p>认购单价</p>
+				<span class="red">{$vo['price']*1}</span>
+			</li>
+			<li>
+				<p>认购限量</p>
+				<span class="red">{$vo['limit']}</span>
+			</li>
+			<li style="width:200px;">
+				<p>开启时间</p><span class="red">{$vo['time']}</span>
+			</li>
+
+			<li>
+				<p>累计已认购</p><span class="green">{$vo['deal']}</span>
+			</li>
+			<li style="margin-top: 5px;">
+				<a href="{:U('Issue/buy?id='.$vo['id'])}" class="btns" style="padding: 10px 30px;">立即认购</a>
+			</li>
+		</ul>
+	</div>
+</div>
+</volist>
+
+
+<div class="pages"> 
+{$page}
+</div>
+
+
+</div>
+
+
+
+
+
+
+<script>
+	var hints = "0";
+	if(hints == 1){
+		$('#hints').show();
+	}
+	$('#Issue_box').addClass('active');
+	
+	function goumai(_this) {
+		window.location = "/issue/buy/id/" + $(_this).attr('data');
+	}
+
+	
+</script>	
+
+
+
+
+
+<include file="Public:footer"/>

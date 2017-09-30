@@ -1,0 +1,198 @@
+<include file="Public:header"/>
+
+<script src="__PUBLIC__/Home/js/datepicker.min.js"></script>
+<link rel="stylesheet" href="/comfile/css/moneyecshecom.css"/>
+<style>
+</style>
+<div class="autobox">
+	<div class="now">
+		<i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">首页</a> &gt; 理财中心	</div>
+	<div class="main-content mb20">
+		<div class=" assets_content bg_w" style="min-height:30px;">
+			<div class="safe_center clear">
+				<h1>
+					<span>
+						理财中心					</span>
+	                <span>
+                        <a href="/money/index.html" id="step1" class="step fz_12 ml50 pd6 active">理财列表</a>
+                        <a href="/money/log.html" id="step2" class="step fz_12 ml20 pd6">理财记录</a>
+                        <a href="/money/fee.html" id="step3" class="step fz_12 ml20 pd6">收益明细</a>
+                    </span>
+					<span>
+											</span>
+				</h1>
+			</div>
+			<div id="hints" class="mytips" style="display:none;">
+				<script>
+					var hints = "";
+					if(hints == 1){
+						$('#hints').show();
+					}
+				</script>
+							</div>
+					</div>
+	</div>
+	<div style="width:100%;">
+		<div class="w1190 project">
+		<volist name="list" id="vo">
+			            <a href="/money/buy/id/{$vo['id']}.html">
+			<div class="project_list">
+				<table border="0" cellspacing="0" cellpadding="0">
+					<tbody>
+					<tr>
+						<td rowspan="3" class="list_tu">
+							<a href="/money/buy/id/{$vo['id']}.html"><img src="__UPLOAD__/coin/{:C('coin')[$vo['coinname']]['img']}"></a>
+						</td>
+						<td class="list_td11" style="width:650px;">
+							<span><font>编号：</font>{$vo['name']}</span> <span><img src="/comfile/images/ayind.png">{$vo['name']}</span>
+                                           <span class="tip" style="color: rgb(68, 68, 68);">
+                                              <img src="/comfile/images/listicon_07.png">
+
+	                                          按日付收益，到期还本
+
+                                           </span>
+						</td>
+						<td class="list_td12 "><font class="fl_r move mr10">10000</font> 起投数量</td>
+					</tr>
+					<tr>
+						<td class="list_td21">
+							<i class="mark3" style="margin-right:10px;">保</i> <a href="/money/buy/id/6.html">第二期币兴股7天年化8%-零违约金</a> <span>
+							<img src="/comfile/images/listicon_03.png"> 满<b class="blue"> 24小时 </b>自动结息</span>
+						</td>
+						<td class="list_td22">
+							<progress value="99.67" max="100" class="move"></progress>
+							<font>{$vo['bili']}%</font>
+						</td>
+					</tr>
+					<tr>
+						<td class="list_td31">
+                                          <span><img src="/comfile/images/listicon_05.png" style="margin-left:0;"> 年化利率：
+                                              <font class="red">{$vo['fee']}</font> %
+                                          </span>
+                                          <span><img src="/comfile/images/listicon_06.png">
+
+                                                 项目期限： <b class="blue">{$vo['tian']}</b>   个自然日   </span> <span><img src="/comfile/images/listicon_04.png">项目总量：<b class="blue">{$vo['num']}%</b> </span>
+						</td>
+						<td class="list_td32">
+							<a href="javascript:showA('{$vo[\'id\']}','{$vo[\'name\']}','{$vo[\'coinname\']})" class="btns2" style="padding: 15px 85px;">立即参与</a
+						</td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+		</a>
+		 </volist>
+                       
+            		</div>
+					<div class="pages" style="margin: 10px 0 20px 0;">{$page}</div>
+		
+	</div>
+</div>
+
+<div class="okcoinPop" id="withdrawCnyAddress" style="display: none;">
+    <div class="dialog_content" id="dialog_content_CnyAddress" style="margin-left: -200px; margin-top: 200px; left: 50%; top: 21px;">
+        <div class="dialog_title" id="dialog_title_CnyAddress">
+            <span id="CnyAddressTitle">立即理财</span>
+            <a href="javascript:closeAddress();" class="dialog_closed" title="关闭"></a>
+        </div>
+        <div class="dialog_body center">
+            <div style="line-height: 35px; text-align: left; padding-left: 50px;">
+                <ul class="PopLayer">
+                    <input id="bazaar_id" type="hidden" value="">
+                    <li>
+                        <span class="c2" id="lotteryAmountSpan0">理财编号:</span>
+                        <span id="money_id"></span>
+                    </li>
+                    <li>
+                        <span class="c2" id="lotteryAmountSpan1">理财名称:</span>
+                        <span id="money_name"></span>
+                    </li>
+                    <li>
+                        <span class="c2" id="lotteryAmountSpan2">理财币种:</span>
+                        <span id="money_coinname"></span>
+                    </li>
+                    <li>
+                        <span class="c2" id="lotteryAmountSpan3">买入数量:</span>
+                        <input name="name" id="money_num" type="password" class="cztxinput" style="width: 100px; padding: 2px; padding-bottom: 5px;">
+                    </li>
+                    <li>
+                        <span class="c2" id="lotteryAmountSpan5">交易密码:</span>
+                        <input name="name" id="money_paypassword" type="password" class="cztxinput" style="width: 100px; padding: 2px; padding-bottom: 5px;">
+                        <a href="{:U('/Login/findpaypwd')}" class="reg_floatr">忘记?</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" onclick="Update()" class="btn" id="btn" style="">立 即 购 买</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="dialogBoxShadow" style="position: absolute; top: 0px; left: 0px; z-index: 100; background-color: rgb(0, 0, 0); opacity: 0.4; width: 100%;  display: none;"></div>
+<br>
+<br>
+<script>
+    $('#dialogBoxShadow').height($(document).height());
+
+
+    function showA(id, name, coinname) {
+
+        $("#dialogBoxShadow").show();
+        $('#withdrawCnyAddress').show();
+
+        $('#money_id').html(id);
+        $('#money_name').html(name);
+        $('#money_coinname').html(coinname);
+    }
+    function closeAddress() {
+        $("#withdrawCnyAddress").hide();
+        $("#dialogBoxShadow").hide();
+    }
+
+    function Update() {
+
+        var id = $('#money_id').html();
+        var num = $('#money_num').val();
+        var paypassword = $('#money_paypassword').val();
+
+        if (id == '' || id == null) {
+            layer.tips('编号错误', '#money_id', {tips: 3});
+            return false;
+        }
+
+        if (num == '' || num == null) {
+            layer.tips('请输入数量', '#money_num', {tips: 3});
+            return false;
+        }
+
+        if (paypassword == '' || paypassword == null) {
+            layer.tips('请输入密码', '#money_paypassword', {tips: 3});
+            return false;
+        }
+
+
+        $.post("/Game/money", {
+            id: id,
+            num: num,
+            paypassword: paypassword
+        }, function (data) {
+            if (data.status == 1) {
+                layer.msg(data.info, {icon: 1});
+                window.location = "{:U('Game/money_log')}";
+            } else {
+                layer.msg(data.info, {icon: 2});
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, 'json')
+
+    }
+</script>
+<script>
+    //菜单高亮
+    $('#game_box').addClass('active');
+    $('#game_money').addClass('active');
+    $('#game_money i').attr('class', 'coin_menu_op_6');
+</script>
+<include file="Public:footer"/>
