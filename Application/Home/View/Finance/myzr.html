@@ -114,24 +114,26 @@
 					<eq name="ecshecom_opencoin" value="1">
 						<div class="cnyin_record">
 							<div class="adr-zhuanru" style="position: relative;z-index:0;">
-								<div id="pt-qrcode" style="position:absolute;top:0;right:0;display: inline-block;;">
-									<div id="qrcode-wallet" style="display: inline-block;">
-										<saon id="codeaa"></saon>
-									</div>
-									<p id="qrcode-t" style="font-size:13px;text-align: center;">{$coin_list[$xnb]['title']}钱包地址</p>
-								</div>
-								<div class="qb_tishi">
-									这是您的钱包地址，请将您的 <b class="coin-name">{$coin_list[$xnb]['title']}</b>转入此地址：
-                                    <!--检查自定义币种-->
-                                    <eq name="is_custom" value="0">
-                                        <notempty name="coin_list[$xnb]['zr_zs']">
-                                            <span id="zengsong" style="color: red; font-size: 14px;">转入即赠{$coin_list[$xnb]['zr_zs']}%</span>
-                                        </notempty>
-                                    </eq>
-								</div>
-								<div class="qb_dizhi ts mb20">
-									<p id="wallets">{$qianbao}</p>
-								</div>
+                                <notempty name="custom_coin_address">
+                                    <div id="pt-qrcode" style="position:absolute;top:0;right:0;display: inline-block;;">
+                                        <div id="qrcode-wallet" style="display: inline-block;">
+                                            <saon id="codeaa"></saon>
+                                        </div>
+                                        <p id="qrcode-t" style="font-size:13px;text-align: center;">{$coin_list[$xnb]['title']}钱包地址</p>
+                                    </div>
+                                    <div class="qb_tishi">
+                                        这是您的钱包地址，请将您的 <b class="coin-name">{$coin_list[$xnb]['title']}</b>转入此地址：
+                                        <!--检查自定义币种-->
+                                        <eq name="is_custom" value="0">
+                                            <notempty name="coin_list[$xnb]['zr_zs']">
+                                                <span id="zengsong" style="color: red; font-size: 14px;">转入即赠{$coin_list[$xnb]['zr_zs']}%</span>
+                                            </notempty>
+                                        </eq>
+                                    </div>
+                                    <div class="qb_dizhi ts mb20">
+                                        <p id="wallets">{$qianbao}</p>
+                                    </div>
+                                </notempty>
                                 <!--检查自定义币种-->
                                 <if condition="($is_custom eq 1) AND ($qianbao neq '')">
                                     <div class="pwtrade pw mt50">
@@ -157,6 +159,29 @@
                                         </dl>
                                     </div>
                                 </if>
+                                <empty name="custom_coin_address">
+                                    <div class="pwtrade pw mt50">
+                                        <dl>
+                                            <dt>验证码：</dt>
+                                            <dd style="position: relative;">
+                                                <input id="bind_address_verify_code" type="text" class="texts" name="verify" placeholder="请填写验证码" autocomplete="off">
+                                                <a class="reloadverify" title="换一张" href="javascript:void(0)">换一张？</a>
+                                            </dd>
+                                        </dl>
+                                        <dl>
+                                            <dt></dt>
+                                            <dd style="position: relative;">
+                                                <img class="verifyimg reloadverify" alt="点击切换" src="{:U('Verify/bindCustomCoinZcAddressCode')}" style="height: 50px;">
+                                            </dd>
+                                        </dl>
+                                        <dl>
+                                            <dt></dt>
+                                            <dd>
+                                                <input id="custom_coin_address" type="button" class="btns2" value="获取钱包地址">
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                </empty>
 							</div>
 						</div>
 					<else/>
@@ -490,6 +515,32 @@
             }
         });
     });
+
+    <empty name="custom_coin_address">
+        // 绑定自定义币种地址
+        $('#custom_coin_address').click(function() {
+            var verify_code = $('#bind_address_verify_code').val();
+            verify_code = verify_code.replace(/^\s+|\s+$/g, '');
+            if (verify_code == '') {
+                ayer.msg('请输入验证码', {icon: 2});
+                return false;
+            }
+
+            $.post("{:U('Login/bindQianbaoAddress')}", {
+                'coin': $('#coin-select').val(),
+                'code_verify': verify_code
+            }, function (json) {
+                if (parseInt(json.status)) {
+                    layer.msg(json.info, {icon: 1});
+                    window.location.reload();
+                } else {
+                    layer.msg(json.info, {icon: 2});
+                    $('.reloadverify').click();
+                    $('#bind_address_verify_code').val('');
+                }
+            });
+        });
+    </empty>
     </eq>
 </script>
 

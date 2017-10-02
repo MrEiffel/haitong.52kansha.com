@@ -7,12 +7,12 @@
 	</div>
 	<div id="main" class="main">
 		<div class="main-title-h">
-			<span class="h1-title"><a href="{:U('User/qianbaoAddress')}">自定义币种</a> >></span>
+			<span class="h1-title"><a href="{:U('User/index')}">用户管理</a> >></span>
 			 <span class="h1-title">绑定钱包地址</span>
 		</div>
 		<div class="tab-wrap">
 			<div class="tab-content">
-				<form id="form" action="{:U('User/bindQianbaoAddress')}" method="post" class="form-horizontal">
+				<form id="form" action="{:U('Config/bindQianbaoAddress')}" method="post" class="form-horizontal">
 					<input type="hidden" name="user_id" value="{$data['id']}">
 					<div id="tab" class="tab-pane in tab">
 						<div class="form-item cf">

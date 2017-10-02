@@ -697,22 +697,35 @@ class FinanceController extends HomeController
 		}
 
 		$this->assign('xnb', $coin);
-		$Coin = M('Coin')->where(array(
-			'status' => 1,
-			'name'   => array('neq', 'cny')
+        $CoinModel = D('Coin');
+		$Coin = $CoinModel
+            ->where(array(
+                'status' => 1,
+                'name' => array('neq', 'cny')
 			))->select();
-
 		foreach ($Coin as $k => $v) {
 			$coin_list[$v['name']] = $v;
 		}
-
 		$this->assign('coin_list', $coin_list);
-		$user_coin = M('UserCoin')->where(array('userid' => userid()))->find();
+
+		$UserCoinModel = D('UserCoin');
+		$user_id = userid();
+		$user_coin = $UserCoinModel
+            ->where(array(
+                'userid' => $user_id
+            ))
+            ->find();
 		$user_coin[$coin] = round($user_coin[$coin], 6);
 		$this->assign('user_coin', $user_coin);
-		$Coin = M('Coin')->where(array('name' => $coin))->find();
-		$this->assign('zr_jz', $Coin['zr_jz']);
+		$this->assign('custom_coin_address', $user_coin[$coin . 'b']);
 
+		$Coin = $CoinModel
+            ->where(array(
+                'name' => $coin,
+                'status' => 1,
+            ))
+            ->find();
+		$this->assign('zr_jz', $Coin['zr_jz']);
 		
 		$ecshecom_getCoreConfig = ecshecom_getCoreConfig();
 		if(!$ecshecom_getCoreConfig){
@@ -731,7 +744,7 @@ class FinanceController extends HomeController
                 if (!$user_coin[$qbdz]) {
                     if ($Coin['type'] == 'rgb') {
                         $qianbao = md5(username() . $coin);
-                        $rs = M('UserCoin')->where(array('userid' => userid()))->save(array($qbdz => $qianbao));
+                        $rs = $UserCoinModel->where(array('userid' => $user_id))->save(array($qbdz => $qianbao));
 
                         if (!$rs) {
                             $this->error('生成钱包地址出错！');
@@ -770,7 +783,7 @@ class FinanceController extends HomeController
                             $this->error('生成钱包地址出错2！');
                         }
 
-                        $rs = M('UserCoin')->where(array('userid' => userid()))->save(array($qbdz => $qianbao));
+                        $rs = M('UserCoin')->where(array('userid' => $user_id))->save(array($qbdz => $qianbao));
 
                         if (!$rs) {
                             $this->error('钱包地址添加出错3！');
@@ -788,7 +801,7 @@ class FinanceController extends HomeController
 				else {
 					$qianbao = $Coin['ecshecom_coinaddress'];
 					
-					$moble = M('User')->where(array('id' => userid()))->getField('moble');
+					$moble = M('User')->where(array('id' => $user_id))->getField('moble');
 
 					if ($moble) {
 						$moble = substr_replace($moble, '****', 3, 4);
@@ -813,7 +826,7 @@ class FinanceController extends HomeController
         $this->assign('is_custom', $is_custom);
 
 		$this->assign('qianbao', $qianbao);
-		$where['userid'] = userid();
+		$where['userid'] = $user_id;
 		$where['coinname'] = $coin;
 		$Moble = M('Myzr');
 		$count = $Moble->where($where)->count();

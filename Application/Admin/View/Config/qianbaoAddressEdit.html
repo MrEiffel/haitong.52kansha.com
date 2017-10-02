@@ -7,29 +7,22 @@
 	</div>
 	<div id="main" class="main">
 		<div class="main-title-h">
-			<span class="h1-title"><a href="{:U('User/qianbaoAddress')}">用户钱包</a> >></span>
-			<span class="h1-title"><empty name="data">添加钱包
-				 <else/>
-			                                           编辑钱包
-			 </empty></span>
+			<span class="h1-title">
+                <a href="{:U('Config/qianbaoAddress', array('coin_name' => $coin_name))}">自定义币种钱包地址管理</a> >>
+            </span>
+			<span class="h1-title">添加钱包地址</span>
 		</div>
 		<div class="tab-wrap">
 			<div class="tab-content">
-				<form id="form" action="{:U('User/qianbaoAddressEdit')}" method="post" class="form-horizontal">
+				<form id="form" action="{:U('Config/qianbaoAddressEdit')}" method="post" class="form-horizontal">
 					<div id="tab" class="tab-pane in tab">
 						<div class="form-item cf">
 							<table>
 								<tr class="controls">
 									<td class="item-label">币种 :</td>
-									<td><notempty name="coin_config">
-										<select name="coin_name" class="form-control input-10x">
-											<volist name="coin_config" id="vo">
-												<option value="{$vo['name']}"
-												<eq name="vo['name']" value="$data.coin_name">selected</eq>
-												>{$custom_coin_type[$vo['type']]}--{$vo['title']}</option>
-											</volist>
-										</select>
-									</notempty></td>
+									<td>
+										<input type="text" class="form-control input-10x" disabled value="{$data.title}（{$data.name}）">
+									</td>
 									<td class="item-note"></td>
 								</tr>
 								<tr class="controls">

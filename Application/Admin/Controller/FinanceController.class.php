@@ -175,6 +175,9 @@ class FinanceController extends AdminController
 		}
 	}
 
+    /**
+     * 自定义币种转入
+     */
     public function customcoinmyzrQueren()
     {
         $post_data = $_POST;

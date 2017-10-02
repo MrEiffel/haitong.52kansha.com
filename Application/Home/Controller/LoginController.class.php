@@ -15,7 +15,6 @@ class LoginController extends HomeController
 
 	public function upregister($username='', $password='', $repassword='', $verify='', $invit='', $moble='', $moble_verify='')
 	{
-		
 		if(M_ONLY==0){
 			if (!check_verify(strtoupper($verify))) {
 				$this->error('图形验证码错误!');
@@ -108,14 +107,182 @@ class LoginController extends HomeController
 			$mo->execute('commit');
 			$mo->execute('unlock tables');
 			session('reguserId', $rs[0]);
-			$this->success('注册成功！');
+
+			// 新增用户时为该用户每个自定义币种分配钱包地址
+			$update_qianbao_address_result = $this->distributeCustomCoinWalletAddressToUsers($rs[0]);
+			if ($update_qianbao_address_result < 0) {
+                $error = array(
+                    -10001 => '钱包地址不足',
+                    -10002 => '绑定失败',
+                );
+                $this->error('注册失败：' . $error[$update_qianbao_address_result]);
+            } else {
+                $this->success('注册成功！');
+            }
 		}
 		else {
 			$mo->execute('rollback');
 			$this->error('注册失败！');
 		}
 	}
-	
+
+    /**
+     * 用户绑定自定义币种地址的操作
+     * @param null $coin_name
+     * @param null $code_verify
+     */
+    public function bindQianbaoAddress($coin = NULL, $code_verify = NULL)
+    {
+        $user_id = intval(userid());
+        if (empty($user_id)) {
+            $this->error('您没有登录请先登录！');
+        }
+
+        if (empty($code_verify) || !check_verify($code_verify, 'custom_coin_zc_address')) {
+            $this->error('验证码输入错误！');
+        }
+
+        $coin_name = trim($coin);
+        if (empty($coin_name) || !check($coin_name, 'n')) {
+            $this->error('币种格式错误！');
+        }
+
+        if (!C('coin')[$coin_name]) {
+            $this->error('币种错误！');
+        }
+
+        $coin = D('Coin')
+            ->where(array(
+                'name' => $coin_name,
+                'status' => 1,
+                'type' => array('in', array_keys(C('CUSTOM_COIN_TYPE')))
+            ))
+            ->find();
+        if (empty($coin)) {
+            $this->error('币种不存在或已停用');
+        }
+
+        $user_id = userid();
+        $UserCoin = D('UserCoin');
+        $user_coin = $UserCoin
+            ->where(array('userid' => $user_id))
+            ->find();
+        if (!isset($user_coin[$coin_name . 'b']) || !empty($user_coin[$coin_name . 'b'])) {
+            $this->error('币种地址已绑定或币种不存在');
+        }
+
+        $Address = D('UserQianbaoAddress');
+        $address = $Address
+            ->where(array(
+                'status' => 1,
+                'user_id' => 0,
+                'bind_time' => 0,
+                'coin_name' => $coin_name,
+            ))
+            ->find();
+        if (empty($address)) {
+            $this->error('币种地址不足，获取失败，请联系网站管理员');
+        }
+
+        $result = $this->bindCustomCoinWalletAddress($user_id, $coin_name, $address['address']);
+        if ($result === true) {
+            $this->success('获取成功');
+        } else {
+            $this->error('获取失败，请联系网站管理员');
+        }
+	}
+
+    /**
+     * 新增用户时为该用户每个自定义币种分配钱包地址
+     * @param $user_id
+     * @return int
+     */
+	private function distributeCustomCoinWalletAddressToUsers($user_id)
+    {
+        $coin = D('Coin')
+            ->field('id,name,type,title')
+            ->where(array(
+                'status' => 1,
+                'type' => array('in', array_keys(C('CUSTOM_COIN_TYPE')))
+            ))
+            ->select();
+        if (empty($coin)) {
+            return 0;
+        }
+
+        $QianbaoAddress = D('UserQianbaoAddress');
+
+        // 设置响应时间
+        set_time_limit(300);
+        foreach ($coin as $value) {
+            $qianbao_address = $QianbaoAddress
+                ->field('id,coin_name,address')
+                ->where(array(
+                    'status' => 1,
+                    'user_id' => 0,
+                    'bind_time' => 0,
+                    'coin_name' => $value['name'],
+                ))
+                ->find();
+            if (empty($qianbao_address)) {
+                return -10001;
+            }
+
+            $result = $this->bindCustomCoinWalletAddress($user_id, $value['name'], $qianbao_address['address']);
+            if ($result === false) {
+                return -10002;
+            }
+        }
+
+        return 0;
+    }
+
+    /**
+     * 绑定自定义币种的钱包地址
+     * @param int $user_id
+     * @param null $coin_name
+     * @param null $address
+     * @return bool
+     */
+    private function bindCustomCoinWalletAddress($user_id = 0, $coin_name = NULL, $address = NULL)
+    {
+        $model = M();
+        $model->execute('set autocommit=0');
+        $model->execute('lock tables ecshecom_user_coin write,ecshecom_myzr write,ecshecom_finance write,ecshecom_invit write,ecshecom_user write,ecshecom_user_qianbao_address write');
+
+        $result = array();
+        $result[] = $model
+            ->table('ecshecom_user_qianbao_address')
+            ->where(array(
+                'coin_name' => $coin_name,
+                'user_id' => 0,
+                'bind_time' => 0,
+                'address' => trim($address),
+                'status' => 1
+            ))
+            ->save(array(
+                'user_id' => $user_id,
+                'bind_time' => time(),
+            ));
+        $result[] = $model
+            ->table('ecshecom_user_coin')
+            ->where(array(
+                'userid' => $user_id,
+                $coin_name . 'b' => ''
+            ))
+            ->save(array(
+                $coin_name . 'b' => $address
+            ));
+
+        if (check_arr($result)) {
+            $model->execute('commit');
+            $model->execute('unlock tables');
+            return true;
+        } else {
+            $model->execute('rollback');
+            return false;
+        }
+    }
 	
 	public function check_moble($moble=0){
 		

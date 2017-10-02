@@ -418,8 +418,7 @@ class VerifyController extends HomeController
 	}
 
     /**
-     *
-     * Author liyongtian
+     * 自定义币种前台申请转入的验证码
      */
     public function myzrCode()
     {
@@ -429,6 +428,19 @@ class VerifyController extends HomeController
         $config['codeSet'] = '0123456789';
         $verify = new \Think\Verify($config);
         $verify->entry('custom_coin');
+    }
+
+    /**
+     * 自定义币种前台申请转入的验证码
+     */
+    public function bindCustomCoinZcAddressCode()
+    {
+        ob_clean();
+        $config['useNoise'] = false;
+        $config['length'] = 4;
+        $config['codeSet'] = '0123456789';
+        $verify = new \Think\Verify($config);
+        $verify->entry('custom_coin_zc_address');
     }
 }
 

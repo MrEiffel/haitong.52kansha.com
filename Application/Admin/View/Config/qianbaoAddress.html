@@ -6,39 +6,20 @@
 	</div>
 	<div id="main" class="main">
 		<div class="main-title-h">
-			<span class="h1-title">用户钱包地址</span>
+			<span class="h1-title"><a href="{:U('Config/coin')}">币种设置</a> >></span>
+			<span class="h1-title">自定义币种钱包地址管理</span>
 		</div>
 		<div class="cf">
 			<div class="fl">
-				<a class="btn btn-success " href="{:U('User/qianbaoAddressEdit')}">新 增</a>
+				<a class="btn btn-success " href="{:U('Config/qianbaoAddressEdit',array('coin_name' => $coin_name))}">新 增</a>
 				<!--<button class="ajax-post btn  btn-info " url="{:U('User/qianbaoStatus',array('type'=>'resume'))}" target-form="ids">启 用</button>-->
 				<!--<button class="ajax-post btn btn-warning ajax-post" url="{:U('User/qianbaoStatus',array('type'=>'forbid'))}" target-form="ids">禁 用</button>-->
-				<button class="btn ajax-post confirm btn-danger" url="{:U('User/qianbaoAddressStatus',array('type'=>'delete'))}" target-form="ids">删 除</button>
+				<button class="btn ajax-post confirm btn-danger" url="{:U('Config/qianbaoAddressStatus',array('type'=>'delete'))}" target-form="ids">删 除</button>
 			</div>
 			<div class="search-form fr cf">
 				<div class="sleft">
 					<form name="formSearch" id="formSearch" method="get" name="form1">
-						<select style="width: 160px; float: left; margin-right: 10px;" name="coin_name" class="form-control">
-							<option value="">币种</option>
-							<notempty name="coin_config">
-								<volist name="coin_config" id="vo">
-									<option value="{$vo['name']}"
-										<eq name="vo['name']" value="$Think.get.coin_name">selected</eq>
-									>{$custom_coin_type[$vo['type']]}--{$vo['title']}</option>
-								</volist>
-							</notempty>
-						</select>
-						<select style="width: 160px; float: left; margin-right: 10px;" name="is_bind" class="form-control">
-							<option value="">绑定状态</option>
-							<foreach name="bind_status" item="vo" key="k">
-								<option value="{$k}"
-									<eq name="k" value="$Think.get.is_bind">selected</eq>
-								>{$vo}</option>
-							</foreach>
-						</select>
-						<input type="text" name="user_id" class="search-input form-control" value="{$Think.get.user_id}" placeholder="用户ID" style="">
-						<input type="text" name="address" class="search-input form-control" value="{$Think.get.address}" placeholder="钱包地址" style="">
-
+						<input type="text" name="address" class="search-input form-control" value="{$Think.get.address}" placeholder="钱包地址">
 						<a class="sch-btn" href="javascript:;" id="search"> <i class="btn-search"></i> </a>
 					</form>
 					<script>
@@ -66,12 +47,9 @@
 					<th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th>
 					<th class="">ID</th>
 					<th class="">用户ID</th>
-					<th class="">用户真名</th>
-					<th class="">用户手机</th>
 					<th class="">币种</th>
 					<th class="">钱包地址</th>
 					<th class="">绑定状态</th>
-					<th class="">绑定时间</th>
 					<th class="">操作时间</th>
 					<th class="">操作</th>
 				</tr>
@@ -83,8 +61,6 @@
 							<td><input class="ids" type="checkbox" name="id[]" value="{$vo['id']}"/></td>
 							<td>{$vo['id']}</td>
 							<td>{$vo['user_id']}</td>
-							<td>{$vo['truename']}</td>
-							<td>{$vo['moble']}</td>
 							<td>{$coin_config[$vo['coin_name']]['title']}({$vo['coin_name']})</td>
 							<td>{$vo['address']}</td>
 							<td>
@@ -96,7 +72,6 @@
                                     </eq>
                                 </eq>
                             </td>
-							<td>{$vo['bind_time']|addtime}</td>
 							<td>{$vo['add_time']|addtime}</td>
 							<td>
                                 <if condition="($vo['user_id'] gt 0) AND ($vo['status'] eq 1)">
