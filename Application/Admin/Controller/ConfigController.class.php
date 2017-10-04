@@ -300,24 +300,25 @@ class ConfigController extends AdminController
                 $this->error('参数非法');
 		}
 
-        // 检查启用的币种是否存在自定义币种
-        $update_result = 0;
-        if ($method == 'resume' && !empty($custom_coin)) {
-            $custom_coin = reset($custom_coin);
-            // 启用自定义币种时，批量给用户分配当前币种的钱包地址
-            $update_result = $this->distributeCustomCoinWalletAddressToUsers($custom_coin['name']);
-        }
-        if ($update_result < 0) {
-            $error = array(
-                -10001 => '钱包地址不足',
-                -10002 => '绑定失败',
-            );
-            $this->error('操作失败：' . $error[$update_result]);
-        }
+        $result = $Coin->where($where)->save($data);
 
-		$result = $Coin->where($where)->save($data);
 		if ($result) {
-            $this->success('操作成功！');
+            // 检查启用的币种是否存在自定义币种
+            $update_result = 0;
+            if ($method == 'resume' && !empty($custom_coin)) {
+                $custom_coin = reset($custom_coin);
+                // 启用自定义币种时，批量给用户分配当前币种的钱包地址
+                $update_result = $this->distributeCustomCoinWalletAddressToUsers($custom_coin['name']);
+            }
+            if ($update_result < 0) {
+                $error = array(
+                    -10001 => '钱包地址不足',
+                    -10002 => '绑定失败',
+                );
+                $this->error('操作失败：' . $error[$update_result]);
+            } else {
+                $this->success('操作成功！');
+            }
 		} else {
 			$this->error('操作失败！');
 		}
@@ -1229,9 +1230,9 @@ class ConfigController extends AdminController
                 foreach ($coin_list as $value) {
                     if ($value['status'] == 1) {
                         $coin_config[$value['name']] = $value;
-                    } elseif ($value['status'] == 0) {
-                        $all_coin[$value['name']] = $value;
                     }
+
+                    $all_coin[$value['name']] = $value;
                 }
             }
         }
