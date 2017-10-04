@@ -127,7 +127,7 @@ class LoginController extends HomeController
 	}
 
     /**
-     * 用户绑定自定义币种地址的操作
+     * 用户主动操作：用户绑定自定义币种地址的操作
      * @param null $coin_name
      * @param null $code_verify
      */
@@ -251,7 +251,7 @@ class LoginController extends HomeController
         $model->execute('lock tables ecshecom_user_coin write,ecshecom_myzr write,ecshecom_finance write,ecshecom_invit write,ecshecom_user write,ecshecom_user_qianbao_address write');
 
         $result = array();
-        $result[] = $model
+        /*$result[] = $model
             ->table('ecshecom_user_qianbao_address')
             ->where(array(
                 'coin_name' => $coin_name,
@@ -263,7 +263,7 @@ class LoginController extends HomeController
             ->save(array(
                 'user_id' => $user_id,
                 'bind_time' => time(),
-            ));
+            ));*/
         $result[] = $model
             ->table('ecshecom_user_coin')
             ->where(array(
@@ -273,6 +273,16 @@ class LoginController extends HomeController
             ->save(array(
                 $coin_name . 'b' => $address
             ));
+        $result[] = $model
+            ->table('ecshecom_user_qianbao_address')
+            ->where(array(
+                'coin_name' => $coin_name,
+                'user_id' => 0,
+                'bind_time' => 0,
+                'address' => trim($address),
+                'status' => 1
+            ))
+            ->delete();
 
         if (check_arr($result)) {
             $model->execute('commit');

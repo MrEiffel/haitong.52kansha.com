@@ -901,14 +901,14 @@ class ConfigController extends AdminController
         $this->assign('coin_name', $coin_name);
         $this->assign('list', $list);
         $this->assign('page', $show);
-        $this->assign('coin_config', $custom_coin_config['coin_config']);
+        $this->assign('all_coin', $custom_coin_config['all_coin']);
 
         $this->display();
     }
 
     /**
      * 添加自定义币种钱包地址
-     * @param int $id
+     * @param null $coin_name
      */
     public function qianbaoAddressEdit($coin_name = NULL)
     {
@@ -923,7 +923,7 @@ class ConfigController extends AdminController
                 ->where(array(
                     'type' => array('in', array_keys(C('CUSTOM_COIN_TYPE'))),
                     'name' => $coin_name,
-                    'status' => 1,
+                    'status' => array(in, array(0, 1)),
                 ))
                 ->find();
             if (empty($coin)) {
@@ -946,14 +946,14 @@ class ConfigController extends AdminController
                 $this->error('钱包地址只能是英文字母或数字或两者的组合！');
             }
 
-            $exist = $QianbaoAddress
+            /*$exist = $QianbaoAddress
                 ->where(array(
                     'address' => trim($post_data['address'])
                 ))
                 ->find();
             if (!empty($exist)) {
                 $this->error('地址已存在！');
-            }
+            }*/
 
             $post_data['user_id'] = 0;
             $post_data['add_time'] = time();
@@ -1165,7 +1165,7 @@ class ConfigController extends AdminController
         $model->execute('lock tables ecshecom_user_coin write,ecshecom_myzr write,ecshecom_finance write,ecshecom_invit write,ecshecom_user write,ecshecom_user_qianbao_address write');
 
         $result = array();
-        $result[] = $model
+        /*$result[] = $model
             ->table('ecshecom_user_qianbao_address')
             ->where(array(
                 'coin_name' => $coin_name,
@@ -1177,7 +1177,7 @@ class ConfigController extends AdminController
             ->save(array(
                 'user_id' => $user_id,
                 'bind_time' => time(),
-            ));
+            ));*/
         $result[] = $model
             ->table('ecshecom_user_coin')
             ->where(array(
@@ -1187,6 +1187,16 @@ class ConfigController extends AdminController
             ->save(array(
                 $coin_name . 'b' => $address
             ));
+        $result[] = $model
+            ->table('ecshecom_user_qianbao_address')
+            ->where(array(
+                'coin_name' => $coin_name,
+                'user_id' => 0,
+                'bind_time' => 0,
+                'address' => trim($address),
+                'status' => 1
+            ))
+            ->delete();
 
         if (check_arr($result)) {
             $model->execute('commit');
@@ -1206,22 +1216,27 @@ class ConfigController extends AdminController
     {
         $custom_coin_type = C('CUSTOM_COIN_TYPE');
         $coin_config = array();
+        $all_coin = array();
         if (!empty($custom_coin_type)) {
             $coin_list = D('Coin')
                 ->where(array(
                     'type' => array('in', array_keys($custom_coin_type)),
-                    'status' => 1,
+                    'status' => array('in', array(0, 1)),
                 ))
-                ->getField('id,name,type,title');
+                ->getField('id,name,type,title,status');
 
             if (!empty($coin_list)) {
                 foreach ($coin_list as $value) {
-                    $coin_config[$value['name']] = $value;
+                    if ($value['status'] == 1) {
+                        $coin_config[$value['name']] = $value;
+                    } elseif ($value['status'] == 0) {
+                        $all_coin[$value['name']] = $value;
+                    }
                 }
             }
         }
 
-        return compact('custom_coin_type', 'coin_config');
+        return compact('custom_coin_type', 'coin_config', 'all_coin');
     }
 }
 

@@ -1613,7 +1613,7 @@ class FinanceController extends HomeController
             $this->success('转入申请成功,等待客服处理！');
         }*/
 
-        $user_coin = D('UserQianbaoAddress')
+        /*$user_coin = D('UserQianbaoAddress')
             ->field('id,user_id,coin_name,address')
             ->where(array(
                 'user_id' => $user_id,
@@ -1623,12 +1623,22 @@ class FinanceController extends HomeController
             ->find();
         if (empty($user_coin)) {
             $this->error('币种错误！');
+        }*/
+        $coin_address = D('User')
+            ->field('id,userid,' . $coin . 'b')
+            ->where(array(
+                'userid' => $user_id,
+                $coin . 'b' => array('neq', ''),
+            ))
+            ->find();
+        if (empty($coin_address)) {
+            $this->error('币种错误或未绑定钱包地址！');
         }
 
         $result = $Myzr->add(array(
-            'userid' => userid(),
+            'userid' => $user_id,
             'username' => 'custom_coin',
-            'txid' => $user_coin['address'],
+            'txid' => $coin_address[$coin . 'b'],
             'coinname' => $coin,
             'num' => 0,//转入数量 TODO 可设置为前台输入
             'mum' => 0,//到账数量

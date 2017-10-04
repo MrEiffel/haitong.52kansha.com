@@ -14,7 +14,7 @@
 				<a class="btn btn-success " href="{:U('Config/qianbaoAddressEdit',array('coin_name' => $coin_name))}">新 增</a>
 				<!--<button class="ajax-post btn  btn-info " url="{:U('User/qianbaoStatus',array('type'=>'resume'))}" target-form="ids">启 用</button>-->
 				<!--<button class="ajax-post btn btn-warning ajax-post" url="{:U('User/qianbaoStatus',array('type'=>'forbid'))}" target-form="ids">禁 用</button>-->
-				<button class="btn ajax-post confirm btn-danger" url="{:U('Config/qianbaoAddressStatus',array('type'=>'delete'))}" target-form="ids">删 除</button>
+				<button class="btn ajax-post confirm btn-danger" url="{:U('Config/qianbaoAddressStatus',array('type'=>'del'))}" target-form="ids">删 除</button>
 			</div>
 			<div class="search-form fr cf">
 				<div class="sleft">
@@ -61,7 +61,7 @@
 							<td><input class="ids" type="checkbox" name="id[]" value="{$vo['id']}"/></td>
 							<td>{$vo['id']}</td>
 							<td>{$vo['user_id']}</td>
-							<td>{$coin_config[$vo['coin_name']]['title']}({$vo['coin_name']})</td>
+							<td>{$all_coin[$vo['coin_name']]['title']}({$vo['coin_name']})</td>
 							<td>{$vo['address']}</td>
 							<td>
                                 <eq name="vo['status']" value="2">
