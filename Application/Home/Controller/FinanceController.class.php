@@ -1624,7 +1624,7 @@ class FinanceController extends HomeController
         if (empty($user_coin)) {
             $this->error('币种错误！');
         }*/
-        $coin_address = D('User')
+        $coin_address = D('UserCoin')
             ->field('id,userid,' . $coin . 'b')
             ->where(array(
                 'userid' => $user_id,
