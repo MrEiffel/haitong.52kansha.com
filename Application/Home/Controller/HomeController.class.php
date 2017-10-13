@@ -19,9 +19,9 @@ class HomeController extends \Think\Controller
 				redirect('/Login/paypassword');
 			}
 
-			if (!$user['truename']) {
+			/*if (!$user['truename']) {
 				redirect('/Login/truename');
-			}
+			}*/
 			
 			
 			if($user['token']!=session('token_user')){

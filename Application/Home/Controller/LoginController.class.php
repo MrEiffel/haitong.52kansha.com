@@ -415,6 +415,7 @@ class LoginController extends HomeController
 	
 	public function truename()
 	{
+        redirect(U('info'));
 		if (!session('reguserId')) {
 			redirect('/#login');
 		}

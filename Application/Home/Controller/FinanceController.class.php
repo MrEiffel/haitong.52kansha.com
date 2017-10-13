@@ -825,6 +825,9 @@ class FinanceController extends HomeController
         }
         $this->assign('is_custom', $is_custom);
 
+        $myzr_limit = session('myzr_limit');
+		$this->assign('is_click', empty($myzr_limit) || $myzr_limit < time());
+
 		$this->assign('qianbao', $qianbao);
 		$where['userid'] = $user_id;
 		$where['coinname'] = $coin;
@@ -1635,6 +1638,7 @@ class FinanceController extends HomeController
             $this->error('币种错误或未绑定钱包地址！');
         }
 
+        $time = time();
         $result = $Myzr->add(array(
             'userid' => $user_id,
             'username' => 'custom_coin',
@@ -1642,11 +1646,13 @@ class FinanceController extends HomeController
             'coinname' => $coin,
             'num' => 0,//转入数量 TODO 可设置为前台输入
             'mum' => 0,//到账数量
-            'addtime' => time(),
+            'addtime' => $time,
             'status' => 0,
             'is_custom_coin' => 1,
         ));
         if ($result) {
+            // 前台“确认转入”按钮，限制半小时按一次
+            session('myzr_limit', $time + 1800);
             $this->success('转入申请成功,等待客服处理！');
         } else {
             $this->error("钱包币不允许该操作!");

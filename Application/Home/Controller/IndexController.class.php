@@ -13,7 +13,7 @@ class IndexController extends HomeController
 		}
 
 		$this->assign('indexAdver', $indexAdver);
-		
+
 		
 		switch(C('index_html')){
 			case "a":

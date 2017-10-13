@@ -137,6 +137,10 @@
                                 <!--检查自定义币种-->
                                 <if condition="($is_custom eq 1) AND ($qianbao neq '')">
                                     <div class="pwtrade pw mt50">
+										<dl>
+											<dt></dt>
+											<dd style="font-size: 14px;color:red;">*确认转入后半小时内所有转账自动更新</dd>
+										</dl>
                                         <dl>
                                             <dt>验证码：</dt>
                                             <dd style="position: relative;">
@@ -153,7 +157,11 @@
                                         <dl>
                                             <dt></dt>
                                             <dd>
-                                                <input id="zr_custom_coin_btn" type="button" class="btns2" value="立即转入">
+												<eq name="is_click" value="unclick">
+													<input id="zr_custom_coin_btn" type="button" class="btns2" value="确认转入">
+												<else/>
+													<input type="button" class="btns2" onclick="alert('转入申请审核中，请稍后刷新再试');" style="color: #a09b9b;background-color: #f4f4f4;" value="确认转入">
+												</eq>
                                                 <!--<input type="button" class="btns2" value="{$zr_jz}" disabled>-->
                                             </dd>
                                         </dl>
