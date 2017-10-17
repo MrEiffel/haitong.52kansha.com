@@ -9,7 +9,8 @@ class UserController extends HomeController
 			redirect('/#login');
 		}
 
-		$user = M('User')->where(array('id' => userid()))->find();
+		$user = M('User')->where(array('id' => userid()))->find();	
+		
 		$this->assign('user', $user);
 		$this->assign('prompt_text', D('Text')->get_content('user_index'));
 		$this->display();
@@ -26,8 +27,30 @@ class UserController extends HomeController
 		if ($user['idcard']) {
 			$user['idcard'] = substr_replace($user['idcard'], '********', 6, 8);
 		}
+		
+		$imgstr = "";
+		$imgnum=0;
+		if($user['idcardimg1']){
+			$img_arr = array();
+			$img_arr = explode("_",$user['idcardimg1']);
+
+			foreach($img_arr as $k=>$v){
+				$imgstr = $imgstr.'<li style="height:100px;"><img style="width:300px;height:100px;" src="/Upload/idcard/'.$v.'" /></li>';
+				$imgnum++;
+			}
+
+			unset($img_arr);
+		}
+		$allowImg = false;
+		if( ($user['idcardauth']==0 && $imgnum<3) || ($user['idcardauth']==0 && $imgnum==3 && !empty($user['idcardinfo']))){
+			$allowImg = true;
+		}
 
 		$this->assign('user', $user);
+		$this->assign('userimg', $imgstr);
+		$this->assign('imgnum', $imgnum);
+		$this->assign('allowImg', $allowImg);
+		
 		$this->assign('prompt_text', D('Text')->get_content('user_nameauth'));
 		$this->display();
 	}
@@ -47,7 +70,7 @@ class UserController extends HomeController
 		if (!userid()) {
 			$this->error('请先登录！');
 		}
-
+		
 		if (!session('real_moble')) {
 			$this->error('验证码已失效！');
 		}
@@ -85,18 +108,117 @@ class UserController extends HomeController
 			$this->error('修改失败');
 		}
 	}
+	
+	
+	public function uppassword_qq($oldpassword="", $newpassword="",$repassword="")
+	{
+		if (!userid()) {
+			$this->error('请先登录！');
+		}
+
+		if ($oldpassword == $newpassword) {
+			$this->error('新修改的密码和原密码一样！');
+		}
+		if (!check($oldpassword, 'password')) {
+			$this->error('旧登录密码格式错误！');
+		}
+
+		if (!check($newpassword, 'password')) {
+			$this->error('新登录密码格式错误！');
+		}
+
+		if ($newpassword != $repassword) {
+			$this->error('确认新密码错误！');
+		}
+
+		$password = M('User')->where(array('id' => userid()))->getField('password');
+
+		if (md5($oldpassword) != $password) {
+			$this->error('旧登录密码错误！');
+		}
+		$paypassword = M('User')->where(array('id' => userid()))->getField('paypassword');
+
+		if(md5($newpassword) == $paypassword){
+			$this->error("新密码不能和交易密码一样");
+		}
+		
+		
+		
+		$rs = M('User')->where(array('id' => userid()))->save(array('password' => md5($newpassword)));
+
+		if (!($rs===false)) {
+			$this->success('修改成功');
+		}
+		else {
+			$this->error('修改失败');
+		}
+	}
+	
+	
+	
 
 	public function paypassword()
 	{
 		if (!userid()) {
 			redirect('/#login');
 		}
-
-
+		
+		
+		$user = M('User')->where(array('id' => userid()))->find();
+		$this->assign('user', $user);
+		
 		$this->assign('prompt_text', D('Text')->get_content('user_paypassword'));
 		$this->display();
 	}
 
+	
+	
+	public function uppaypassword_qq($oldpaypassword, $newpaypassword, $repaypassword)
+	{
+		if (!userid()) {
+			$this->error('请先登录！');
+		}
+
+
+		if (!check($oldpaypassword, 'password')) {
+			$this->error('旧交易密码格式错误！');
+		}
+
+		if (!check($newpaypassword, 'password')) {
+			$this->error('新交易密码格式错误！');
+		}
+
+		if ($newpaypassword != $repaypassword) {
+			$this->error('确认新密码错误！');
+		}
+
+		$user = M('User')->where(array('id' => userid()))->find();
+
+		if (md5($oldpaypassword) != $user['paypassword']) {
+			$this->error('旧交易密码错误！');
+		}
+
+		if (md5($newpaypassword) == $user['password']) {
+			$this->error('交易密码不能和登录密码相同！');
+		}
+
+		$rs = M('User')->where(array('id' => userid()))->save(array('paypassword' => md5($newpaypassword)));
+
+		if (!($rs===false)) {
+			$this->success('修改成功');
+		}
+		else {
+			$this->error('修改失败');
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	public function uppaypassword($oldpaypassword, $newpaypassword, $repaypassword, $moble_verify)
 	{
 		if (!userid()) {
@@ -231,9 +353,9 @@ class UserController extends HomeController
 
 		$user = M('User')->where(array('id' => userid()))->find();
 
-		if ($user['moble']) {
-			$user['moble'] = substr_replace($user['moble'], '****', 3, 4);
-		}
+		//if ($user['moble']) {
+			//$user['moble'] = substr_replace($user['moble'], '****', 3, 4);
+		//}
 
 		$this->assign('user', $user);
 		$this->assign('prompt_text', D('Text')->get_content('user_moble'));
@@ -271,6 +393,48 @@ class UserController extends HomeController
 			$this->error('手机认证失败！');
 		}
 	}
+	
+	
+	
+	public function upmoble_qq($moble_new="", $moble_verify_new="")
+	{
+		if (!userid()) {
+			$this->error('您没有登录请先登录！');
+		}
+
+		if (!check($moble_new, 'moble')) {
+			$this->error('手机号码格式错误！');
+		}
+
+		if (!check($moble_verify_new, 'd')) {
+			$this->error('短信验证码格式错误！');
+		}
+
+		if ($moble_verify_new != session('real_verify')) {
+			$this->error('短信验证码错误！');
+		}
+
+		if (M('User')->where(array('moble' => $moble_new))->find()) {
+			$this->error('手机号码已存在！');
+		}
+
+		$rs = M('User')->where(array('id' => userid()))->save(array('moble' => $moble_new,'username'=>$moble_new, 'mobletime' => time()));
+
+		if (!($rs===false)) {
+			$this->success('手机绑定成功！');
+		}
+		else {
+			$this->error('手机绑定失败！');
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 
 	public function alipay()
 	{
@@ -359,11 +523,11 @@ class UserController extends HomeController
 
 		$rs = M('User')->where(array('id' => userid()))->save(array('tpwdsetting' => $tpwdsetting));
 
-		if ($rs) {
-			$this->success('成功！');
+		if (!($rs===false)) {
+			$this->success('操作成功！');
 		}
 		else {
-			$this->error('失败！');
+			$this->error('操作失败！');
 		}
 	}
 
@@ -377,8 +541,9 @@ class UserController extends HomeController
 		$this->assign('UserBankType', $UserBankType);
 		$truename = M('User')->where(array('id' => userid()))->getField('truename');
 		$this->assign('truename', $truename);
-		$UserBank = M('UserBank')->where(array('userid' => userid(), 'status' => 1))->order('id desc')->limit(1)->select();
-		//$UserBank = M('UserBank')->where(array('userid' => userid(), 'status' => 1))->order('id desc')->find();
+		//$UserBank = M('UserBank')->where(array('userid' => userid(), 'status' => 1))->order('id desc')->limit(1)->select();
+		$UserBank = M('UserBank')->where(array('userid' => userid(), 'status' => 1))->order('id desc')->select();
+		
 		$this->assign('UserBank', $UserBank);
 		$this->assign('prompt_text', D('Text')->get_content('user_bank'));
 		$this->display();
@@ -390,22 +555,15 @@ class UserController extends HomeController
 			redirect('/#login');
 		}
 
-/* 		if (!check($name, 'a')) {
+		if (!check($name, 'a')) {
 			$this->error('备注名称格式错误！');
 		}
 
 		if (!check($bank, 'a')) {
 			$this->error('开户银行格式错误！');
-		} */
+		} 
 		
-		if (!check($bankcard, 'moble')) {
-			if (!check($bankcard, 'email')) {
-				$this->error('支付宝账号格式错误！');
-			}
-		}
-		
-
-/* 		if (!check($bankprov, 'c')) {
+		if (!check($bankprov, 'c')) {
 			$this->error('开户省市格式错误！');
 		}
 
@@ -420,7 +578,7 @@ class UserController extends HomeController
 		if (!check($bankcard, 'd')) {
 			$this->error('银行账号格式错误！');
 		}
- */
+
 		if (!check($paypassword, 'password')) {
 			$this->error('交易密码格式错误！');
 		}
@@ -431,13 +589,13 @@ class UserController extends HomeController
 			$this->error('交易密码错误！');
 		}
 
-/* 		if (!M('UserBankType')->where(array('title' => $bank))->find()) {
+ 		if (!M('UserBankType')->where(array('title' => $bank))->find()) {
 			$this->error('开户银行错误！');
-		} */
+		} 
 
 		$userBank = M('UserBank')->where(array('userid' => userid()))->select();
 
-/* 		foreach ($userBank as $k => $v) {
+ 		foreach ($userBank as $k => $v) {
 			if ($v['name'] == $name) {
 				$this->error('请不要使用相同的备注名称！');
 			}
@@ -445,24 +603,23 @@ class UserController extends HomeController
 			if ($v['bankcard'] == $bankcard) {
 				$this->error('银行卡号已存在！');
 			}
-		} */
+		} 
 
-		if (1 <= count($userBank)) {
-			$this->error('每个用户最多只能添加1个支付宝账户！');
+		if (10 <= count($userBank)) {
+			$this->error('每个用户最多只能添加10个银行卡账户！');
 		}
 
 		if (M('UserBank')->add(array('userid' => userid(), 'name' => $name, 'bank' => $bank, 'bankprov' => $bankprov, 'bankcity' => $bankcity, 'bankaddr' => $bankaddr, 'bankcard' => $bankcard, 'addtime' => time(), 'status' => 1))) {
-			$this->success('支付宝账户添加成功！');
+			$this->success('银行添加成功！');
 		}
 		else {
-			$this->error('支付宝账户添加失败！');
+			$this->error('银行添加失败！');
 		}
 	}
 
 	public function delbank($id, $paypassword)
 	{
-		$this->error('警告:非法操作！');
-		die();
+
 		if (!userid()) {
 			redirect('/#login');
 		}
@@ -672,6 +829,80 @@ class UserController extends HomeController
 			$this->error('添加失败！');
 		}
 	}
+	
+	
+	
+	
+	public function upgoods_ecshecom($name="", $truename="", $idcard="", $moble="", $addr="", $paypassword="",$prov="",$city="")
+	{
+		if (!userid()) {
+			redirect('/#login');
+		}
+
+		if (!check($name, 'a')) {
+			$this->error('备注名称格式错误！');
+		}
+
+		if (!check($truename, 'truename')) {
+			$this->error('联系姓名格式错误！');
+		}
+
+		if (!check($moble, 'moble')) {
+			$this->error('联系电话格式错误！');
+		}
+
+		if (!check($addr, 'a')) {
+			$this->error('联系地址格式错误！');
+		}
+
+		if (!check($prov, 'a')) {
+			$this->error('省份填写错误！');
+		}
+		if (!check($city, 'a')) {
+			$this->error('城市填写错误！');
+		}		
+		
+		$user_paypassword = M('User')->where(array('id' => userid()))->getField('paypassword');
+
+		if (md5($paypassword) != $user_paypassword) {
+			$this->error('交易密码错误！');
+		}
+
+		$userGoods = M('UserGoods')->where(array('userid' => userid()))->select();
+
+		foreach ($userGoods as $k => $v) {
+			if ($v['name'] == $name) {
+				$this->error('请不要使用相同的地址标识！');
+			}
+		}
+
+		if(10 <= count($userGoods)) {
+			$this->error('每个人最多只能添加10个地址！');
+		}
+
+		if(M('UserGoods')->add(array('userid' => userid(), 'name' => $name, 'addr' => $addr, 'prov' => $prov,'city'=>$city, 'truename' => $truename, 'moble' => $moble, 'addtime' => time(), 'status' => 1))) {
+			$this->success('添加成功！');
+		}
+		else {
+			$this->error('添加失败！');
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	public function delgoods($id, $paypassword)
 	{
