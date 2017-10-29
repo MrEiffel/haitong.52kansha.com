@@ -943,9 +943,9 @@ class ConfigController extends AdminController
                 $this->error('请输入地址！');
             }
             // 钱包地址只能是英文字母+数字
-            if (!preg_match('/^[a-zA-Z\d]+$/', $post_data['address'])) {
+            /*if (!preg_match('/^[a-zA-Z\d]+$/', $post_data['address'])) {
                 $this->error('钱包地址只能是英文字母或数字或两者的组合！');
-            }
+            }*/
 
             /*$exist = $QianbaoAddress
                 ->where(array(

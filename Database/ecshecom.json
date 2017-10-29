@@ -1,14 +1,20 @@
 {
-	"authQQ" : "502182299",
-	"ecshecom_indexcat" : ["CNY交易区","BTC交易区","ETH交易区"], /*用于交易市场的分类*/
-	"ecshecom_userTradeNum" : 20, /*普通用户组交易市场可以浏览显示买入卖出数据信息条数*/
-	"ecshecom_specialUserTradeNum": 50,/*特殊用户组交易市场可以浏览显示买入卖出数据信息条数*/
-	"ecshecom_userTradeDetailNum" : 100,/*普通用户组市场行情页面可以浏览显示买入卖出数据信息条数*/
-	"ecshecom_specialUserTradeDetailNum": 500,/*普通用户组行情页面可以浏览显示买入卖出数据信息条数*/
-	
-	"ecshecom_opencoin": 1 /*是否开启钱包对接服务器模式*/
-	
+  "authQQ": "502182299",
+  "ecshecom_indexcat": [
+    "BTC交易区",
+    "ETH交易区",
+    "CNY交易区"
+  ],
+  /*用于交易市场的分类*/
+  "ecshecom_userTradeNum": 20,
+  /*普通用户组交易市场可以浏览显示买入卖出数据信息条数*/
+  "ecshecom_specialUserTradeNum": 50,
+  /*特殊用户组交易市场可以浏览显示买入卖出数据信息条数*/
+  "ecshecom_userTradeDetailNum": 100,
+  /*普通用户组市场行情页面可以浏览显示买入卖出数据信息条数*/
+  "ecshecom_specialUserTradeDetailNum": 500,
+  /*普通用户组行情页面可以浏览显示买入卖出数据信息条数*/
 
-
-	
+  "ecshecom_opencoin": 1
+  /*是否开启钱包对接服务器模式*/
 }

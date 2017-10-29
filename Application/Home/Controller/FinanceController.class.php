@@ -825,7 +825,7 @@ class FinanceController extends HomeController
         }
         $this->assign('is_custom', $is_custom);
 
-        $myzr_limit = session('myzr_limit');
+        $myzr_limit = session('myzr_limit_' . $coin);
 		$this->assign('is_click', empty($myzr_limit) || $myzr_limit < time());
 
 		$this->assign('qianbao', $qianbao);
@@ -1652,7 +1652,7 @@ class FinanceController extends HomeController
         ));
         if ($result) {
             // 前台“确认转入”按钮，限制半小时按一次
-            session('myzr_limit', $time + 1800);
+            session('myzr_limit_' . $coin, $time + 16);
             $this->success('转入申请成功,等待客服处理！');
         } else {
             $this->error("钱包币不允许该操作!");
