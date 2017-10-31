@@ -5,7 +5,7 @@ class VerifyController extends \Think\Controller
 {
 	public function code()
 	{
-        ob_clean();
+        ob_end_clean();
         $config['useNoise'] = false;
 		$config['length'] = 4;
 		$config['codeSet'] = '0123456789';

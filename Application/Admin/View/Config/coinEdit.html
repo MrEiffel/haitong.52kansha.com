@@ -199,17 +199,19 @@
                                     </td>
                                     <td class="item-note">转出确认次数必须填写,且大于0</td>
                                 </tr>
-							</eq>	
-							<!--
+							</eq>
+
+                                <!-- 原来是屏蔽的begin -->
                                 <tr class="controls">
                                     <td class="item-label">转出手续费 :</td>
                                     <td><input type="text" class="form-control input-10x" name="zc_fee" value="{$data['zc_fee']}"></td>
 
                                     <td class="item-note">% (填写0.01-100 任意数字) 转出手续费比例,费用直接存入官方手续费地址</td>
                                 </tr>
+                                <!-- 原来是屏蔽的end -->
 
                                 
-                                <empty name="data['name']">
+                                <!--<empty name="data['name']">
                                         <tr class="controls">
                                             <td class="item-label">官方手续费地址[重要] :</td>
                                             <td><input type="text" class="form-control input-10x" name="zc_user" value="0" readonly></td>
@@ -222,9 +224,7 @@
 
                                             <td class="item-note">请填写一个官方前台账户生成的本币地址到本处作为手续费(收取|扣除)账户,否则手续费比例设置无效</td>
                                         </tr>
-                                </empty>
-
-							-->
+                                </empty>-->
 							
 							<eq name="ecshecom_opencoin" value="0">
 							
