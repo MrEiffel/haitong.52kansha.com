@@ -687,9 +687,9 @@ class UserController extends HomeController
 			$this->error('备注名称格式错误！');
 		}
 
-		if (!check($addr, 'dw')) {
+		/*if (!check($addr, 'dw')) {
 			$this->error('钱包地址格式错误！');
-		}
+		}*/
 
 		if (!check($paypassword, 'password')) {
 			$this->error('交易密码格式错误！');
