@@ -381,7 +381,7 @@ class TradeController extends AdminController
 				$this->error('测试站暂时不能修改！');
 			}
 
-			$round = array(0, 1, 2, 3, 4, 5, 6);
+			$round = array(0, 1, 2, 3, 4, 5, 6, 7, 8);
 
 			if (!in_array($_POST['round'], $round)) {
 				$this->error('小数位数格式错误！');

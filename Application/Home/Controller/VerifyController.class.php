@@ -422,7 +422,7 @@ class VerifyController extends HomeController
      */
     public function myzrCode()
     {
-        ob_clean();
+        ob_end_clean();
         $config['useNoise'] = false;
         $config['length'] = 4;
         $config['codeSet'] = '0123456789';
@@ -435,7 +435,7 @@ class VerifyController extends HomeController
      */
     public function bindCustomCoinZcAddressCode()
     {
-        ob_clean();
+        ob_end_clean();
         $config['useNoise'] = false;
         $config['length'] = 4;
         $config['codeSet'] = '0123456789';
