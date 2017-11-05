@@ -29,10 +29,7 @@ class TradeController extends HomeController
 			$market = C('market_mr');
 		}
 		
-		
 		$market_time_ecshecom = C('market')[$market]['begintrade']."-".C('market')[$market]['endtrade'];
-		
-		
 		
 		$this->assign('market_time', $market_time_ecshecom);
 		$this->assign('showPW', $showPW);
@@ -141,14 +138,17 @@ class TradeController extends HomeController
 			$this->error('请先登录！');
 		}
 
-		if (C('market')[$market]['begintrade']) {
-			$begintrade = C('market')[$market]['begintrade'];
+		$market_config = C('market');
+		$market_data = $market_config[$market];
+
+		if ($market_data['begintrade']) {
+			$begintrade = $market_data['begintrade'];
 		}else{
 			$begintrade = "00:00:00";
 		}
 		
-		if (C('market')[$market]['endtrade']) {
-			$endtrade = C('market')[$market]['endtrade'];
+		if ($market_data['endtrade']) {
+			$endtrade = $market_data['endtrade'];
 		}else{
 			$endtrade = "23:59:59";
 		}
@@ -173,6 +173,17 @@ class TradeController extends HomeController
 		if (!check($num, 'double')) {
 			$this->error('交易数量格式错误');
 		}
+
+		// 根据需求交易数量可以细化到8位小数,为安全做一下数据校验
+        if (!is_numeric($num)) {
+            $this->error('交易数量格式错误1');
+        }
+        if (is_float($num + 0)) {
+		    $num_array = explode('.', $num);
+		    if (strlen(end($num_array)) > 8) {
+                $this->error('交易数量格式错误2');
+            }
+        }
 
 		if (($type != 1) && ($type != 2)) {
 			$this->error('交易类型格式错误');
@@ -201,7 +212,7 @@ class TradeController extends HomeController
 		}
 
 		
-		if (!C('market')[$market]) {
+		if (!$market_data) {
 			$this->error('交易市场错误');
 		}
 		else {
@@ -211,25 +222,24 @@ class TradeController extends HomeController
 
 		// TODO: SEPARATE
 
-		$price = round(floatval($price), C('market')[$market]['round']);
+		$price = round(floatval($price), $market_data['round']);
 
 		if (!$price) {
 			$this->error('交易价格错误' . $price);
 		}
 
-		$num = round($num, 8 - C('market')[$market]['round']);
-
+		$num = $market_data['round'] >= 8 ? number_format($num, $market_data['round']) : round($num, 8 - $market_data['round']);
 		if (!check($num, 'double')) {
 			$this->error('交易数量错误');
 		}
 
 		if ($type == 1) {
-			$min_price = (C('market')[$market]['buy_min'] ? C('market')[$market]['buy_min'] : 1.0E-8);
-			$max_price = (C('market')[$market]['buy_max'] ? C('market')[$market]['buy_max'] : 10000000);
+			$min_price = ($market_data['buy_min'] ? $market_data['buy_min'] : 1.0E-8);
+			$max_price = ($market_data['buy_max'] ? $market_data['buy_max'] : 10000000);
 		}
 		else if ($type == 2) {
-			$min_price = (C('market')[$market]['sell_min'] ? C('market')[$market]['sell_min'] : 1.0E-8);
-			$max_price = (C('market')[$market]['sell_max'] ? C('market')[$market]['sell_max'] : 10000000);
+			$min_price = ($market_data['sell_min'] ? $market_data['sell_min'] : 1.0E-8);
+			$max_price = ($market_data['sell_max'] ? $market_data['sell_max'] : 10000000);
 		}
 		else {
 			$this->error('交易类型错误');
@@ -243,23 +253,23 @@ class TradeController extends HomeController
 			$this->error('交易价格超过最小限制！');
 		}
 
-		$hou_price = C('market')[$market]['hou_price'];
+		$hou_price = $market_data['hou_price'];
 
 		if(!$hou_price){
-			$hou_price = C('market')[$market]['ecshecom_faxingjia'];
+			$hou_price = $market_data['ecshecom_faxingjia'];
 		}
 		
 		if ($hou_price) {
-			if (C('market')[$market]['zhang']) {
-				$zhang_price = round(($hou_price / 100) * (100 + C('market')[$market]['zhang']), C('market')[$market]['round']);
+			if ($market_data['zhang']) {
+				$zhang_price = round(($hou_price / 100) * (100 + $market_data['zhang']), $market_data['round']);
 
 				if ($zhang_price < $price) {
 					$this->error('交易价格超过今日涨幅限制！');
 				}
 			}
 
-			if (C('market')[$market]['die']) {
-				$die_price = round(($hou_price / 100) * (100 - C('market')[$market]['die']), C('market')[$market]['round']);
+			if ($market_data['die']) {
+				$die_price = round(($hou_price / 100) * (100 - $market_data['die']), $market_data['round']);
 
 				if ($price < $die_price) {
 					$this->error('交易价格超过今日跌幅限制！');
@@ -270,11 +280,11 @@ class TradeController extends HomeController
 		$user_coin = M('UserCoin')->where(array('userid' => userid()))->find();
 
 		if ($type == 1) {
-			$trade_fee = C('market')[$market]['fee_buy'];
+			$trade_fee = $market_data['fee_buy'];
 
 			if ($trade_fee) {
 				$fee = round((($num * $price) / 100) * $trade_fee, 8);
-				$mum = round((($num * $price) / 100) * (100 + $trade_fee), 8);
+				$mum = $market_data['round'] >= 8 ? number_format((($num * $price) / 100) * (100 + $trade_fee), $market_data['round'] * 2) : round((($num * $price) / 100) * (100 + $trade_fee), 8);
 			}
 			else {
 				$fee = 0;
@@ -286,7 +296,7 @@ class TradeController extends HomeController
 			}
 		}
 		else if ($type == 2) {
-			$trade_fee = C('market')[$market]['fee_sell'];
+			$trade_fee = $market_data['fee_sell'];
 
 			if ($trade_fee) {
 				$fee = round((($num * $price) / 100) * $trade_fee, 8);
@@ -308,11 +318,11 @@ class TradeController extends HomeController
 		if (C('coin')[$xnb]['fee_bili']) {
 			if ($type == 2) {
 				// TODO: SEPARATE
-				$bili_user = round($user_coin[$xnb] + $user_coin[$xnb . 'd'], C('market')[$market]['round']);
+				$bili_user = round($user_coin[$xnb] + $user_coin[$xnb . 'd'], $market_data['round']);
 
 				if ($bili_user) {
 					// TODO: SEPARATE
-					$bili_keyi = round(($bili_user / 100) * C('coin')[$xnb]['fee_bili'], C('market')[$market]['round']);
+					$bili_keyi = round(($bili_user / 100) * C('coin')[$xnb]['fee_bili'], $market_data['round']);
 
 					if ($bili_keyi) {
 						$bili_zheng = M()->query('select id,price,sum(num-deal)as nums from ecshecom_trade where userid=' . userid() . ' and status=0 and type=2 and market like \'%' . $xnb . '%\' ;');
@@ -378,15 +388,15 @@ class TradeController extends HomeController
 			}
 		}
 
-		if (C('market')[$market]['trade_min']) {
-			if ($mum < C('market')[$market]['trade_min']) {
-				$this->error('交易总额不能小于' . C('market')[$market]['trade_min']);
+		if ($market_data['trade_min']) {
+			if ($mum < $market_data['trade_min']) {
+				$this->error('交易总额不能小于' . $market_data['trade_min']);
 			}
 		}
 
-		if (C('market')[$market]['trade_max']) {
-			if (C('market')[$market]['trade_max'] < $mum) {
-				$this->error('交易总额不能大于' . C('market')[$market]['trade_max']);
+		if ($market_data['trade_max']) {
+			if ($market_data['trade_max'] < $mum) {
+				$this->error('交易总额不能大于' . $market_data['trade_max']);
 			}
 		}
 
@@ -495,13 +505,15 @@ class TradeController extends HomeController
 			$rmb = explode('_', $market)[1];
 		}
 
-		$fee_buy = C('market')[$market]['fee_buy'];
-		$fee_sell = C('market')[$market]['fee_sell'];
-		$invit_buy = C('market')[$market]['invit_buy'];
-		$invit_sell = C('market')[$market]['invit_sell'];
-		$invit_1 = C('market')[$market]['invit_1'];
-		$invit_2 = C('market')[$market]['invit_2'];
-		$invit_3 = C('market')[$market]['invit_3'];
+		$market_config = C('market');
+		$market_data = $market_config[$market];
+		$fee_buy = $market_data['fee_buy'];
+		$fee_sell = $market_data['fee_sell'];
+		$invit_buy = $market_data['invit_buy'];
+		$invit_sell = $market_data['invit_sell'];
+		$invit_1 = $market_data['invit_1'];
+		$invit_2 = $market_data['invit_2'];
+		$invit_3 = $market_data['invit_3'];
 		$mo = M();
 		$new_trade_ecshecom = 0;
 
@@ -525,8 +537,8 @@ class TradeController extends HomeController
 				if ($sell['num'] <= $sell['deal']) {
 				}
 
-				$amount = min(round($buy['num'] - $buy['deal'], 8 - C('market')[$market]['round']), round($sell['num'] - $sell['deal'], 8 - C('market')[$market]['round']));
-				$amount = round($amount, 8 - C('market')[$market]['round']);
+				$amount = min(round($buy['num'] - $buy['deal'], 8 - $market_data['round']), round($sell['num'] - $sell['deal'], 8 - $market_data['round']));
+				$amount = round($amount, 8 - $market_data['round']);
 
 				if ($amount <= 0) {
 					$log = '错误1交易市场' . $market . '出错：买入订单:' . $buy['id'] . '卖出订单：' . $sell['id'] . '交易方式：' . $type . "\n";
@@ -553,7 +565,7 @@ class TradeController extends HomeController
 				}
 				else {
 					// TODO: SEPARATE
-					$price = round($price, C('market')[$market]['round']);
+					$price = round($price, $market_data['round']);
 				}
 
 				$mum = round($price * $amount, 8);
@@ -644,13 +656,13 @@ class TradeController extends HomeController
 				}
 				// TODO: SEPARATE
 
-				if ($amount <= round($user_sell[$xnb . 'd'], C('market')[$market]['round'])) {
+				if ($amount <= round($user_sell[$xnb . 'd'], $market_data['round'])) {
 					$save_sell_xnb = $amount;
 				}
 				else {
 					// TODO: SEPARATE
 
-					if ($amount <= round($user_sell[$xnb . 'd'], C('market')[$market]['round']) + 1) {
+					if ($amount <= round($user_sell[$xnb . 'd'], $market_data['round']) + 1) {
 						$save_sell_xnb = $user_sell[$xnb . 'd'];
 						$log = '错误10交易市场' . $market . '出错：买入订单:' . $buy['id'] . '卖出订单：' . $sell['id'] . '交易方式：' . $type . '成交数量' . $amount . '成交价格' . $price . '成交总额' . $mum . "\n";
 						$log .= 'ERR: 卖家更新冻结虚拟币出现误差,应该更新' . $amount . '账号余额' . $user_sell[$xnb . 'd'] . '实际更新' . $save_sell_xnb;
@@ -901,10 +913,22 @@ class TradeController extends HomeController
 			unset($rs);
 		}
 
+		$Trade = D('Trade');
 		if ($new_trade_ecshecom) {
 			$new_price = round(M('TradeLog')->where(array('market' => $market, 'status' => 1))->order('id desc')->getField('price'), 6);
-			$buy_price = round(M('Trade')->where(array('type' => 1, 'market' => $market, 'status' => 0))->max('price'), 6);
-			$sell_price = round(M('Trade')->where(array('type' => 2, 'market' => $market, 'status' => 0))->min('price'), 6);
+
+			// 获取最大买入价
+			$buy_price = $Trade
+                ->where(array('type' => 1, 'market' => $market, 'status' => 0))
+                ->max('price');
+			$buy_price = number_format($buy_price, $market_data['round']);
+
+			// 获取最大卖出价
+            $sell_price = $Trade
+                ->where(array('type' => 2, 'market' => $market, 'status' => 0))
+                ->max('price');
+            $sell_price = number_format($sell_price, $market_data['round']);
+
 			$min_price = round(M('TradeLog')->where(array(
 				'market'  => $market,
 				'addtime' => array('gt', time() - (60 * 60 * 24))

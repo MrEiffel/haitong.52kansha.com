@@ -418,14 +418,12 @@ class AjaxController extends HomeController
 	
 	
 	//新增自定义分区查询 2017-06-05
-	
 	public function allcoin_a($id=1,$ajax = 'json')
 	{
+        $data = array();
 		//$data = (APP_DEBUG ? null : S('ecshecom_allcoin'));
-		
-		
+
 		$ecshecom_data=array();
-		
 		$ecshecom_data['info']="数据异常";
 		$ecshecom_data['status']=0;
 		$ecshecom_data['url']="";
@@ -471,34 +469,31 @@ class AjaxController extends HomeController
             }
         }
 
-		if (!$data) {
-			
+		if (empty($data)) {
 			$ecshecom_data['info']="数据正常";
 			$ecshecom_data['status']=1;
 			$ecshecom_data['url']="";
-			
-			
+
 			foreach (C('market') as $k => $v) {
-				
 				if($v['jiaoyiqu']==$id){
-						$ecshecom_data['url'][$k][0] = $v['title'];
-						$ecshecom_data['url'][$k][1] = round($v['new_price'], $v['round']);
-						$ecshecom_data['url'][$k][2] = round($v['buy_price'], $v['round']);
-						$ecshecom_data['url'][$k][3] = round($v['sell_price'], $v['round']);
-						$ecshecom_data['url'][$k][4] = isset($themarketLogs[$k]) ? $themarketLogs[$k] : 0;//round($v['volume'] * $v['new_price'], 2) * 1;
-						$ecshecom_data['url'][$k][5] = '';
-						$ecshecom_data['url'][$k][6] = round($v['volume'], 2) * 1;
-						$ecshecom_data['url'][$k][7] = round($v['change'], 2);
-						$ecshecom_data['url'][$k][8] = $v['name'];
-						$ecshecom_data['url'][$k][9] = $v['xnbimg'];
-						$ecshecom_data['url'][$k][10] = '';
+                    $ecshecom_data['url'][$k][0] = $v['title'];
+                    $ecshecom_data['url'][$k][1] = number_format($v['new_price'], $v['round']);
+                    $ecshecom_data['url'][$k][2] = number_format($v['buy_price'], $v['round']);
+                    $ecshecom_data['url'][$k][3] = number_format($v['sell_price'], $v['round']);
+                    $ecshecom_data['url'][$k][4] = isset($themarketLogs[$k]) ? $themarketLogs[$k] : 0;//round($v['volume'] * $v['new_price'], 2) * 1;
+                    $ecshecom_data['url'][$k][5] = '';
+                    $ecshecom_data['url'][$k][6] = round($v['volume'], 2) * 1;
+                    $ecshecom_data['url'][$k][7] = round($v['change'], 2);
+                    $ecshecom_data['url'][$k][8] = $v['name'];
+                    $ecshecom_data['url'][$k][9] = $v['xnbimg'];
+                    $ecshecom_data['url'][$k][10] = '';
 				}
 
 			}
 
 			//S('allcoin', $data);
 		}
-		
+
 		if ($ajax) {
 			echo json_encode($ecshecom_data);
 			unset($ecshecom_data);
@@ -583,7 +578,8 @@ class AjaxController extends HomeController
 				$xnb = explode('_', $market)[0];
 				$rmb = explode('_', $market)[1];
 
-				foreach (C('market') as $k => $v) {
+				$market_config = C('market');
+				foreach ($market_config as $k => $v) {
 					$v['xnb'] = explode('_', $v['name'])[0];
 					$v['rmb'] = explode('_', $v['name'])[1];
 					$data['list'][$k]['name'] = $v['name'];
@@ -592,29 +588,29 @@ class AjaxController extends HomeController
 					$data['list'][$k]['new_price'] = $v['new_price'];
 				}
 
-				$data['info']['img'] = C('market')[$market]['xnbimg'];
-				$data['info']['title'] = C('market')[$market]['title'];
-				$data['info']['new_price'] = C('market')[$market]['new_price'];
-				
-				if(C('market')[$market]['max_price']){
-					$data['info']['max_price'] = C('market')[$market]['max_price'];
+                $market_data = $market_config[$market];
+                $data['info']['img'] = $market_data['xnbimg'];
+                $data['info']['title'] = $market_data['title'];
+                $data['info']['new_price'] = $market_data['new_price'];
+
+                if($market_data['max_price']){
+					$data['info']['max_price'] = $market_data['max_price'];
 				}else{
-					$ecshecom_tempprice = round((C('market')[$market]['ecshecom_faxingjia'] / 100) * (100 + C('market')[$market]['zhang']), C('market')[$market]['round']);
+					$ecshecom_tempprice = round(($market_data['ecshecom_faxingjia'] / 100) * (100 + $market_data['zhang']), $market_data['round']);
 					$data['info']['max_price'] = $ecshecom_tempprice;
 				}
 				
-				if(C('market')[$market]['min_price']){
-					$data['info']['min_price'] = C('market')[$market]['min_price'];
+				if($market_data['min_price']){
+					$data['info']['min_price'] = $market_data['min_price'];
 				}else{
-					$ecshecom_tempprice = round((C('market')[$market]['ecshecom_faxingjia'] / 100) * (100 - C('market')[$market]['die']), C('market')[$market]['round']);
+					$ecshecom_tempprice = round(($market_data['ecshecom_faxingjia'] / 100) * (100 - $market_data['die']), $market_data['round']);
 					$data['info']['min_price'] = $ecshecom_tempprice;
 				}
-				
-				
-				$data['info']['buy_price'] = C('market')[$market]['buy_price'];
-				$data['info']['sell_price'] = C('market')[$market]['sell_price'];
-				$data['info']['volume'] = C('market')[$market]['volume'];
-				$data['info']['change'] = C('market')[$market]['change'];
+
+				$data['info']['buy_price'] = number_format($market_data['buy_price'], $market_data['round']);
+				$data['info']['sell_price'] = number_format($market_data['sell_price'], $market_data['round']);
+				$data['info']['volume'] = $market_data['volume'];
+				$data['info']['change'] = $market_data['change'];
 				S('getJsonTop' . $market, $data);
 			}
 		}
@@ -634,12 +630,14 @@ class AjaxController extends HomeController
 			$tradeLog = M('TradeLog')->where(array('status' => 1,'market' => $market))->order('id desc')->limit(50)->select();
 
 			if ($tradeLog) {
+			    $market_config = C('market');
+			    $market_data = $market_config[$market];
 				foreach ($tradeLog as $k => $v) {
 					$data['tradelog'][$k]['addtime'] = date('m-d H:i:s', $v['addtime']);
 					$data['tradelog'][$k]['type'] = $v['type'];
-					$data['tradelog'][$k]['price'] = $v['price'] * 1;
-					$data['tradelog'][$k]['num'] = round($v['num'], 6);
-					$data['tradelog'][$k]['mum'] = round($v['mum'], 2);
+					$data['tradelog'][$k]['price'] = number_format($v['price'] * 1, $market_data['round']);
+					$data['tradelog'][$k]['num'] = number_format($v['num'], $market_data['round']);
+					$data['tradelog'][$k]['mum'] = number_format($v['mum'], $market_data['round']);
 				}
 
 				S('getTradelog' . $market, $data);
@@ -683,10 +681,10 @@ class AjaxController extends HomeController
 	
 	
 	
-
 	public function getDepth($market = NULL, $trade_moshi = 1, $ajax = 'json')
 	{
-		if (!C('market')[$market]) {
+	    $market_config = C('market');
+		if (empty($market_config[$market])) {
 			return null;
 		}
 
@@ -722,7 +720,8 @@ class AjaxController extends HomeController
 
 			$trade_moshi = intval($trade_moshi);
 			
-			
+			$buy = array();
+			$sell = array();
 			$mo = M();
 			if ($trade_moshi == 1) {
 				$buy = $mo->query('select id,price,sum(num-deal)as nums from ecshecom_trade where status=0 and type=1 and market =\'' . $market . '\' group by price order by price desc limit ' . $limt . ';');
@@ -739,9 +738,16 @@ class AjaxController extends HomeController
 				$sell = array_reverse($mo->query('select id,price,sum(num-deal)as nums from ecshecom_trade where status=0 and type=2 and market =\'' . $market . '\' group by price order by price asc limit ' . $limt . ';'));
 			}
 
+			$data = array();
 			if ($buy) {
 				foreach ($buy as $k => $v) {
-					$data['depth']['buy'][$k] = array(floatval($v['price'] * 1), floatval($v['nums'] * 1));
+				    $price = number_format(floatval($v['price'] * 1), $market_config[$market]['round']);
+				    $nums = number_format(floatval($v['nums'] * 1), $market_config[$market]['round']);
+					$data['depth']['buy'][$k] = array(
+                        $price,
+                        $nums,
+                        number_format($price * $nums, $market_config[$market]['round'])
+                    );
 				}
 			}
 			else {
@@ -750,7 +756,13 @@ class AjaxController extends HomeController
 
 			if ($sell) {
 				foreach ($sell as $k => $v) {
-					$data['depth']['sell'][$k] = array(floatval($v['price'] * 1), floatval($v['nums'] * 1));
+                    $price = number_format(floatval($v['price'] * 1), $market_config[$market]['round']);
+                    $nums = number_format(floatval($v['nums'] * 1), $market_config[$market]['round']);
+					$data['depth']['sell'][$k] = array(
+                        $price,
+                        $nums,
+                        number_format($price * $nums, $market_config[$market]['round'] * 2)
+                    );
 				}
 			}
 			else {
@@ -778,7 +790,9 @@ class AjaxController extends HomeController
 			return null;
 		}
 
-		if (!C('market')[$market]) {
+		$market_config = C('market');
+        $market_data = $market_config[$market];
+		if (empty($market_data)) {
 			return null;
 		}
 
@@ -788,9 +802,9 @@ class AjaxController extends HomeController
 			foreach ($result as $k => $v) {
 				$data['entrust'][$k]['addtime'] = date('m-d H:i:s', $v['addtime']);
 				$data['entrust'][$k]['type'] = $v['type'];
-				$data['entrust'][$k]['price'] = $v['price'] * 1;
-				$data['entrust'][$k]['num'] = round($v['num'], 6);
-				$data['entrust'][$k]['deal'] = round($v['deal'], 6);
+				$data['entrust'][$k]['price'] = number_format($v['price'] * 1, $market_data['round']);
+				$data['entrust'][$k]['num'] = number_format($v['num'], $market_data['round']);
+				$data['entrust'][$k]['deal'] = number_format($v['deal'], $market_data['round']);
 				$data['entrust'][$k]['id'] = round($v['id']);
 			}
 		}
