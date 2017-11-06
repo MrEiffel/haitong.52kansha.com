@@ -228,7 +228,9 @@ class TradeController extends HomeController
 			$this->error('交易价格错误' . $price);
 		}
 
-		$num = $market_data['round'] >= 8 ? number_format($num, $market_data['round']) : round($num, 8 - $market_data['round']);
+		if (is_float($num)) {
+            $num = $market_data['round'] >= 8 ? number_format($num, $market_data['round']) : round($num, 8 - $market_data['round']);
+        }
 		if (!check($num, 'double')) {
 			$this->error('交易数量错误');
 		}

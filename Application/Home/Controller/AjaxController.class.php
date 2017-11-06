@@ -573,7 +573,7 @@ class AjaxController extends HomeController
 	{
 		$data = (APP_DEBUG ? null : S('getJsonTop' . $market));
 
-		if (!$data) {
+		if (empty($data)) {
 			if ($market) {
 				$xnb = explode('_', $market)[0];
 				$rmb = explode('_', $market)[1];
@@ -607,8 +607,15 @@ class AjaxController extends HomeController
 					$data['info']['min_price'] = $ecshecom_tempprice;
 				}
 
-				$data['info']['buy_price'] = number_format($market_data['buy_price'], $market_data['round']);
-				$data['info']['sell_price'] = number_format($market_data['sell_price'], $market_data['round']);
+                $data['info']['buy_price'] = 0;
+				if ($market_data['buy_price'] > 0) {
+                    $data['info']['buy_price'] = number_format($market_data['buy_price'], $market_data['round']);
+                }
+                $data['info']['sell_price'] = 0;
+                if ($market_data['sell_price'] > 0) {
+                    $data['info']['sell_price'] = number_format($market_data['sell_price'], $market_data['round']);
+                }
+
 				$data['info']['volume'] = $market_data['volume'];
 				$data['info']['change'] = $market_data['change'];
 				S('getJsonTop' . $market, $data);
@@ -741,12 +748,12 @@ class AjaxController extends HomeController
 			$data = array();
 			if ($buy) {
 				foreach ($buy as $k => $v) {
-				    $price = number_format(floatval($v['price'] * 1), $market_config[$market]['round']);
-				    $nums = number_format(floatval($v['nums'] * 1), $market_config[$market]['round']);
+				    $buy_price = number_format(floatval($v['price'] * 1), $market_config[$market]['round']);
+				    $buy_nums = number_format(floatval($v['nums'] * 1), $market_config[$market]['round']);
 					$data['depth']['buy'][$k] = array(
-                        $price,
-                        $nums,
-                        number_format($price * $nums, $market_config[$market]['round'])
+                        $buy_price,
+                        $buy_nums,
+                        number_format($buy_price * $buy_nums, $market_config[$market]['round'])
                     );
 				}
 			}
@@ -756,12 +763,12 @@ class AjaxController extends HomeController
 
 			if ($sell) {
 				foreach ($sell as $k => $v) {
-                    $price = number_format(floatval($v['price'] * 1), $market_config[$market]['round']);
-                    $nums = number_format(floatval($v['nums'] * 1), $market_config[$market]['round']);
+                    $sell_price = number_format(floatval($v['price'] * 1), $market_config[$market]['round']);
+                    $sell_nums = number_format(floatval($v['nums'] * 1), $market_config[$market]['round']);
 					$data['depth']['sell'][$k] = array(
-                        $price,
-                        $nums,
-                        number_format($price * $nums, $market_config[$market]['round'] * 2)
+                        $sell_price,
+                        $sell_nums,
+                        number_format($sell_price * $sell_nums, $market_config[$market]['round'])
                     );
 				}
 			}
@@ -817,10 +824,10 @@ class AjaxController extends HomeController
 		if ($userCoin) {
 			$xnb = explode('_', $market)[0];
 			$rmb = explode('_', $market)[1];
-			$data['usercoin']['xnb'] = floatval($userCoin[$xnb]);
-			$data['usercoin']['xnbd'] = floatval($userCoin[$xnb . 'd']);
-			$data['usercoin']['cny'] = floatval($userCoin[$rmb]);
-			$data['usercoin']['cnyd'] = floatval($userCoin[$rmb . 'd']);
+			$data['usercoin']['xnb'] = number_format(floatval($userCoin[$xnb]), $market_data['round']);
+			$data['usercoin']['xnbd'] = number_format(floatval($userCoin[$xnb . 'd']), $market_data['round']);
+			$data['usercoin']['cny'] = number_format(floatval($userCoin[$rmb]), $market_data['round']);
+			$data['usercoin']['cnyd'] = number_format(floatval($userCoin[$rmb . 'd']), $market_data['round']);
 		}
 		else {
 			$data['usercoin'] = null;
