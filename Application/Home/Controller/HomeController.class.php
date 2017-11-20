@@ -134,28 +134,29 @@ class HomeController extends \Think\Controller
 
 		
 		
-		
+
 		C($coinList);
-		
+
 		$market = (APP_DEBUG ? null : S('home_market'));
-		
-		
-		
-		
+
+
+
+
 		$market_type = array();
 		$coin_on = array();
-		
+
 		if (!$market) {
 			$market = M('Market')->where(array('status' => 1))->select();
 			S('home_market', $market);
 		}
 
 		foreach ($market as $k => $v) {
-			$v['new_price'] = round($v['new_price'], $v['round']);
-			$v['buy_price'] = round($v['buy_price'], $v['round']);
-			$v['sell_price'] = round($v['sell_price'], $v['round']);
-			$v['min_price'] = round($v['min_price'], $v['round']);
-			$v['max_price'] = round($v['max_price'], $v['round']);
+		    $limit = 16;
+			$v['new_price'] = $this->priceNumberFormat($v['new_price'], $v['round'], $limit);
+			$v['sell_price'] = $this->priceNumberFormat($v['sell_price'], $v['round'], $limit);
+			$v['min_price'] = $this->priceNumberFormat($v['min_price'], $v['round'], $limit);
+			$v['max_price'] = $this->priceNumberFormat($v['max_price'], $v['round'], $limit);
+
 			$v['xnb'] = explode('_', $v['name'])[0];
 			$v['rmb'] = explode('_', $v['name'])[1];
 			$v['xnbimg'] = C('coin')[$v['xnb']]['img'];
@@ -164,7 +165,7 @@ class HomeController extends \Think\Controller
 			$v['change'] = $v['change'] * 1;
 			$v['title'] = C('coin')[$v['xnb']]['title'] . '(' . strtoupper($v['xnb']) . '/' . strtoupper($v['rmb']) . ')';
 			$v['navtitle'] = C('coin')[$v['xnb']]['title'] . '(' . strtoupper($v['xnb']). ')';
-			
+
 			if($v['begintrade']){
 				$v['begintrade'] = $v['begintrade'];
 			}else{
@@ -175,17 +176,17 @@ class HomeController extends \Think\Controller
 			}else{
 				$v['endtrade']    = "23:59:59";
 			}
-			
-			
-			
+
+
+
 			$market_type[$v['xnb']]=$v['name'];
 			$coin_on[]= $v['xnb'];
 			$marketList['market'][$v['name']] = $v;
 		}
-	
+
 		C('market_type',$market_type);
 		C('coin_on',$coin_on);
-	
+
 		C($marketList);
 		$C = C();
 
@@ -210,11 +211,11 @@ class HomeController extends \Think\Controller
 
 			S('daohang_aa', 1);
 		}
-		
-		
+
+
 		//echo C('reg_award').C('reg_award_coin').C('reg_award_num');
 		//die();
-		
+
 
 		if (!S('daohang')) {
 			$this->daohang = M('Daohang')->where(array('status' => 1))->order('sort asc')->select();
@@ -241,10 +242,10 @@ class HomeController extends \Think\Controller
 
 			S('footer_indexArticle', $footerArticle);
 		}
-		
-		
+
+
 		$this->assign('footerArticle', $footerArticle);
-		
+
 	}
 
     public function _empty() {
@@ -253,6 +254,18 @@ class HomeController extends \Think\Controller
         echo '模块不存在！';
         die();
 
+    }
+
+    /**
+     * 处理价格的小数超过6位时显示二进制数的问题
+     * @param $price
+     * @param $round
+     * @param $limit
+     * @return float|string
+     */
+    private function priceNumberFormat($price, $round, $limit = 8)
+    {
+        return $round >= $limit ? number_format($price, $round) : round($price, $limit - $round);
     }
 }
 
