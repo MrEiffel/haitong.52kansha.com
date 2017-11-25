@@ -133,7 +133,6 @@ class TradeController extends HomeController
 
 	public function upTrade($paypassword = NULL, $market = NULL, $price, $num, $type)
 	{
-		
 		if (!userid()) {
 			$this->error('请先登录！');
 		}
@@ -152,7 +151,6 @@ class TradeController extends HomeController
 		}else{
 			$endtrade = "23:59:59";
 		}
-		
 
 		$trade_begin_time = strtotime(date("Y-m-d")." ".$begintrade);
 		$trade_end_time = strtotime(date("Y-m-d")." ".$endtrade);
@@ -161,10 +159,6 @@ class TradeController extends HomeController
 		if($cur_time<$trade_begin_time || $cur_time>$trade_end_time){
 			$this->error('当前市场禁止交易,交易时间为每日'.$begintrade.'-'.$endtrade);
 		}
-
-		
-		
-		
 		
 		if (!check($price, 'double')) {
 			$this->error('交易价格格式错误');
@@ -210,7 +204,6 @@ class TradeController extends HomeController
 				}
 			}
 		}
-
 		
 		if (!$market_data) {
 			$this->error('交易市场错误');
@@ -228,9 +221,7 @@ class TradeController extends HomeController
 			$this->error('交易价格错误' . $price);
 		}
 
-		if (is_float($num)) {
-            $num = $market_data['round'] >= 8 ? number_format($num, $market_data['round']) : round($num, 8 - $market_data['round']);
-        }
+        $num = round($num, $market_data['round']);
 		if (!check($num, 'double')) {
 			$this->error('交易数量错误');
 		}
@@ -286,7 +277,7 @@ class TradeController extends HomeController
 
 			if ($trade_fee) {
 				$fee = round((($num * $price) / 100) * $trade_fee, 8);
-				$mum = $market_data['round'] >= 8 ? number_format((($num * $price) / 100) * (100 + $trade_fee), $market_data['round'] * 2) : round((($num * $price) / 100) * (100 + $trade_fee), 8);
+				$mum = round((($num * $price) / 100) * (100 + $trade_fee), $market_data['round'] * 2);
 			}
 			else {
 				$fee = 0;
@@ -447,8 +438,6 @@ class TradeController extends HomeController
 			$rs[] = $mo->table('ecshecom_user_coin')->where(array('userid' => userid()))->setInc($rmb . 'd', $mum);
 			$rs[] = $finance_nameid = $mo->table('ecshecom_trade')->add(array('userid' => userid(), 'market' => $market, 'price' => $price, 'num' => $num, 'mum' => $mum, 'fee' => $fee, 'type' => 1, 'addtime' => time(), 'status' => 0));
 			
-			
-			
 			//20170531 修改只统计人民币交易金额变化
 			if($rmb == "cny"){
 				$finance_mum_user_coin = $mo->table('ecshecom_user_coin')->where(array('userid' => userid()))->find();
@@ -457,18 +446,13 @@ class TradeController extends HomeController
 
 				if ($finance['mum'] < $finance_num) {
 					$finance_status = (1 < ($finance_num - $finance['mum']) ? 0 : 1);
-				}
-				else {
+				} else {
 					$finance_status = (1 < ($finance['mum'] - $finance_num) ? 0 : 1);
 				}
 
 				$rs[] = $mo->table('ecshecom_finance')->add(array('userid' => userid(), 'coinname' => 'cny', 'num_a' => $finance_num_user_coin['cny'], 'num_b' => $finance_num_user_coin['cnyd'], 'num' => $finance_num_user_coin['cny'] + $finance_num_user_coin['cnyd'], 'fee' => $mum, 'type' => 2, 'name' => 'trade', 'nameid' => $finance_nameid, 'remark' => '交易中心-委托买入-市场' . $market, 'mum_a' => $finance_mum_user_coin['cny'], 'mum_b' => $finance_mum_user_coin['cnyd'], 'mum' => $finance_mum_user_coin['cny'] + $finance_mum_user_coin['cnyd'], 'move' => $finance_hash, 'addtime' => time(), 'status' => $finance_status));
 			}
-			
-			
-			
-		}
-		else if ($type == 2) {
+		} else if ($type == 2) {
 			if ($user_coin[$xnb] < $num) {
 				$this->error(C('coin')[$xnb]['title'] . '余额不足2！');
 			}
@@ -476,8 +460,7 @@ class TradeController extends HomeController
 			$rs[] = $mo->table('ecshecom_user_coin')->where(array('userid' => userid()))->setDec($xnb, $num);
 			$rs[] = $mo->table('ecshecom_user_coin')->where(array('userid' => userid()))->setInc($xnb . 'd', $num);
 			$rs[] = $mo->table('ecshecom_trade')->add(array('userid' => userid(), 'market' => $market, 'price' => $price, 'num' => $num, 'mum' => $mum, 'fee' => $fee, 'type' => 2, 'addtime' => time(), 'status' => 0));
-		}
-		else {
+		} else {
 			$mo->execute('rollback');
 			$mo->execute('unlock tables');
 			$this->error('交易类型错误');
@@ -489,8 +472,7 @@ class TradeController extends HomeController
 			S('getDepth', null);
 			$this->matchingTrade($market);
 			$this->success('交易成功！');
-		}
-		else {
+		} else {
 			$mo->execute('rollback');
 			$mo->execute('unlock tables');
 			$this->error('交易失败！');
@@ -501,8 +483,7 @@ class TradeController extends HomeController
 	{
 		if (!$market) {
 			return false;
-		}
-		else {
+		} else {
 			$xnb = explode('_', $market)[0];
 			$rmb = explode('_', $market)[1];
 		}
@@ -525,8 +506,7 @@ class TradeController extends HomeController
 
 			if ($sell['id'] < $buy['id']) {
 				$type = 1;
-			}
-			else {
+			} else {
 				$type = 2;
 			}
 
@@ -539,8 +519,8 @@ class TradeController extends HomeController
 				if ($sell['num'] <= $sell['deal']) {
 				}
 
-				$amount = min(round($buy['num'] - $buy['deal'], 8 - $market_data['round']), round($sell['num'] - $sell['deal'], 8 - $market_data['round']));
-				$amount = round($amount, 8 - $market_data['round']);
+				$amount = min(round($buy['num'] - $buy['deal'], $market_data['round']), round($sell['num'] - $sell['deal'], $market_data['round']));
+				$amount = round($amount, $market_data['round']);
 
 				if ($amount <= 0) {
 					$log = '错误1交易市场' . $market . '出错：买入订单:' . $buy['id'] . '卖出订单：' . $sell['id'] . '交易方式：' . $type . "\n";
@@ -552,11 +532,9 @@ class TradeController extends HomeController
 
 				if ($type == 1) {
 					$price = $sell['price'];
-				}
-				else if ($type == 2) {
+				} else if ($type == 2) {
 					$price = $buy['price'];
-				}
-				else {
+				} else {
 					break;
 				}
 
@@ -564,29 +542,26 @@ class TradeController extends HomeController
 					$log = '错误2交易市场' . $market . '出错：买入订单:' . $buy['id'] . '卖出订单：' . $sell['id'] . '交易方式：' . $type . '成交数量' . $amount . "\n";
 					$log .= 'ERR: 成交价格出错，价格是' . $price;
 					break;
-				}
-				else {
+				} else {
 					// TODO: SEPARATE
 					$price = round($price, $market_data['round']);
 				}
 
-				$mum = round($price * $amount, 8);
+				$mum = round($price * $amount, $market_data['round'] * 2);
 
 				if (!$mum) {
 					$log = '错误3交易市场' . $market . '出错：买入订单:' . $buy['id'] . '卖出订单：' . $sell['id'] . '交易方式：' . $type . '成交数量' . $amount . "\n";
 					$log .= 'ERR: 成交总额出错，总额是' . $mum;
 					mlog($log);
 					break;
-				}
-				else {
-					$mum = round($mum, 8);
+				} else {
+					$mum = round($mum, $market_data['round'] * 2);
 				}
 
 				if ($fee_buy) {
-					$buy_fee = round(($mum / 100) * $fee_buy, 8);
-					$buy_save = round(($mum / 100) * (100 + $fee_buy), 8);
-				}
-				else {
+					$buy_fee = round(($mum / 100) * $fee_buy, $market_data['round']);
+					$buy_save = round(($mum / 100) * (100 + $fee_buy), $market_data['round']);
+				} else {
 					$buy_fee = 0;
 					$buy_save = $mum;
 				}
@@ -599,10 +574,9 @@ class TradeController extends HomeController
 				}
 
 				if ($fee_sell) {
-					$sell_fee = round(($mum / 100) * $fee_sell, 8);
-					$sell_save = round(($mum / 100) * (100 - $fee_sell), 8);
-				}
-				else {
+					$sell_fee = round(($mum / 100) * $fee_sell, $market_data['round']);
+					$sell_save = round(($mum / 100) * (100 - $fee_sell), $market_data['round']);
+				} else {
 					$sell_fee = 0;
 					$sell_save = $mum;
 				}
@@ -640,16 +614,14 @@ class TradeController extends HomeController
 					break;
 				}
 
-				if ($buy_save <= round($user_buy[$rmb . 'd'], 8)) {
+				if ($buy_save <= round($user_buy[$rmb . 'd'], $market_data['round'])) {
 					$save_buy_rmb = $buy_save;
-				}
-				else if ($buy_save <= round($user_buy[$rmb . 'd'], 8) + 1) {
+				} else if ($buy_save <= round($user_buy[$rmb . 'd'], $market_data['round']) + 1) {
 					$save_buy_rmb = $user_buy[$rmb . 'd'];
 					$log = '错误8交易市场' . $market . '出错：买入订单:' . $buy['id'] . '卖出订单：' . $sell['id'] . '交易方式：' . $type . '成交数量' . $amount . '成交价格' . $price . '成交总额' . $mum . "\n";
 					$log .= 'ERR: 买家更新冻结人民币出现误差,应该更新' . $buy_save . '账号余额' . $user_buy[$rmb . 'd'] . '实际更新' . $save_buy_rmb;
 					mlog($log);
-				}
-				else {
+				} else {
 					$log = '错误9交易市场' . $market . '出错：买入订单:' . $buy['id'] . '卖出订单：' . $sell['id'] . '交易方式：' . $type . '成交数量' . $amount . '成交价格' . $price . '成交总额' . $mum . "\n";
 					$log .= 'ERR: 买家更新冻结人民币出现错误,应该更新' . $buy_save . '账号余额' . $user_buy[$rmb . 'd'] . '进行错误处理';
 					mlog($log);
@@ -660,8 +632,7 @@ class TradeController extends HomeController
 
 				if ($amount <= round($user_sell[$xnb . 'd'], $market_data['round'])) {
 					$save_sell_xnb = $amount;
-				}
-				else {
+				} else {
 					// TODO: SEPARATE
 
 					if ($amount <= round($user_sell[$xnb . 'd'], $market_data['round']) + 1) {
@@ -669,8 +640,7 @@ class TradeController extends HomeController
 						$log = '错误10交易市场' . $market . '出错：买入订单:' . $buy['id'] . '卖出订单：' . $sell['id'] . '交易方式：' . $type . '成交数量' . $amount . '成交价格' . $price . '成交总额' . $mum . "\n";
 						$log .= 'ERR: 卖家更新冻结虚拟币出现误差,应该更新' . $amount . '账号余额' . $user_sell[$xnb . 'd'] . '实际更新' . $save_sell_xnb;
 						mlog($log);
-					}
-					else {
+					} else {
 						$log = '错误11交易市场' . $market . '出错：买入订单:' . $buy['id'] . '卖出订单：' . $sell['id'] . '交易方式：' . $type . '成交数量' . $amount . '成交价格' . $price . '成交总额' . $mum . "\n";
 						$log .= 'ERR: 卖家更新冻结虚拟币出现错误,应该更新' . $amount . '账号余额' . $user_sell[$xnb . 'd'] . '进行错误处理';
 						mlog($log);
@@ -710,8 +680,7 @@ class TradeController extends HomeController
 
 				if ($finance['mum'] < $finance_num) {
 					$finance_status = (1 < ($finance_num - $finance['mum']) ? 0 : 1);
-				}
-				else {
+				} else {
 					$finance_status = (1 < ($finance['mum'] - $finance_num) ? 0 : 1);
 				}
 
@@ -730,8 +699,7 @@ class TradeController extends HomeController
 
 				if ($finance['mum'] < $finance_num) {
 					$finance_status = (1 < ($finance_num - $finance['mum']) ? 0 : 1);
-				}
-				else {
+				} else {
 					$finance_status = (1 < ($finance['mum'] - $finance_num) ? 0 : 1);
 				}
 
@@ -760,22 +728,20 @@ class TradeController extends HomeController
 				}
 
 				if ($price < $buy['price']) {
-					$chajia_dong = round((($amount * $buy['price']) / 100) * (100 + $fee_buy), 8);
-					$chajia_shiji = round((($amount * $price) / 100) * (100 + $fee_buy), 8);
-					$chajia = round($chajia_dong - $chajia_shiji, 8);
+					$chajia_dong = round((($amount * $buy['price']) / 100) * (100 + $fee_buy), $market_data['round']);
+					$chajia_shiji = round((($amount * $price) / 100) * (100 + $fee_buy), $market_data['round']);
+					$chajia = round($chajia_dong - $chajia_shiji, $market_data['round']);
 
 					if ($chajia) {
 						$chajia_user_buy = $mo->table('ecshecom_user_coin')->where(array('userid' => $buy['userid']))->find();
 
-						if ($chajia <= round($chajia_user_buy[$rmb . 'd'], 8)) {
+						if ($chajia <= round($chajia_user_buy[$rmb . 'd'], $market_data['round'])) {
 							$chajia_save_buy_rmb = $chajia;
-						}
-						else if ($chajia <= round($chajia_user_buy[$rmb . 'd'], 8) + 1) {
+						} else if ($chajia <= round($chajia_user_buy[$rmb . 'd'], $market_data['round']) + 1) {
 							$chajia_save_buy_rmb = $chajia_user_buy[$rmb . 'd'];
 							mlog('错误91交易市场' . $market . '出错：买入订单:' . $buy['id'] . '卖出订单：' . $sell['id'] . '交易方式：' . $type . '成交数量' . $amount, '成交价格' . $price . '成交总额' . $mum . "\n");
 							mlog('交易市场' . $market . '出错：买入订单:' . $buy['id'] . '卖出订单：' . $sell['id'] . '成交数量' . $amount . '交易方式：' . $type . '卖家更新冻结虚拟币出现误差,应该更新' . $chajia . '账号余额' . $chajia_user_buy[$rmb . 'd'] . '实际更新' . $chajia_save_buy_rmb);
-						}
-						else {
+						} else {
 							mlog('错误92交易市场' . $market . '出错：买入订单:' . $buy['id'] . '卖出订单：' . $sell['id'] . '交易方式：' . $type . '成交数量' . $amount, '成交价格' . $price . '成交总额' . $mum . "\n");
 							mlog('交易市场' . $market . '出错：买入订单:' . $buy['id'] . '卖出订单：' . $sell['id'] . '成交数量' . $amount . '交易方式：' . $type . '卖家更新冻结虚拟币出现错误,应该更新' . $chajia . '账号余额' . $chajia_user_buy[$rmb . 'd'] . '进行错误处理');
 							$mo->execute('rollback');
@@ -915,41 +881,62 @@ class TradeController extends HomeController
 			unset($rs);
 		}
 
-		$Trade = D('Trade');
 		if ($new_trade_ecshecom) {
-			$new_price = round(M('TradeLog')->where(array('market' => $market, 'status' => 1))->order('id desc')->getField('price'), 6);
-
 			// 获取最大买入价
+            $Trade = D('Trade');
 			$buy_price = $Trade
                 ->where(array('type' => 1, 'market' => $market, 'status' => 0))
                 ->max('price');
-			$buy_price = number_format($buy_price, $market_data['round']);
+			$buy_price = round($buy_price, $market_data['round']);
 
 			// 获取最大卖出价
             $sell_price = $Trade
                 ->where(array('type' => 2, 'market' => $market, 'status' => 0))
+                ->min('price');
+            $sell_price = round($sell_price, $market_data['round']);
+
+            $TradeLog = D('TradeLog');
+            $new_price = $TradeLog
+                ->where(array('market' => $market, 'status' => 1))
+                ->order('id desc')
+                ->getField('price');
+            $new_price = round($new_price, $market_data['round']);
+
+            $now = time();
+			$min_price = $TradeLog
+                ->where(array(
+				'market'  => $market,
+				'addtime' => array('gt', $now - (60 * 60 * 24))
+				))
+                ->min('price');
+			$min_price = round($min_price, $market_data['round']);
+
+            $max_price = $TradeLog
+                ->where(array(
+                    'market'  => $market,
+                    'addtime' => array('gt', $now - (60 * 60 * 24))
+                ))
                 ->max('price');
-            $sell_price = number_format($sell_price, $market_data['round']);
+            $max_price = round($max_price, $market_data['round']);
 
-			$min_price = round(M('TradeLog')->where(array(
-				'market'  => $market,
-				'addtime' => array('gt', time() - (60 * 60 * 24))
-				))->min('price'), 6);
-			$max_price = round(M('TradeLog')->where(array(
-				'market'  => $market,
-				'addtime' => array('gt', time() - (60 * 60 * 24))
-				))->max('price'), 6);
-			$volume = round(M('TradeLog')->where(array(
-				'market'  => $market,
-				'addtime' => array('gt', time() - (60 * 60 * 24))
-				))->sum('num'), 6);
-			$sta_price = round(M('TradeLog')->where(array(
-				'market'  => $market,
-				'status'  => 1,
-				'addtime' => array('gt', time() - (60 * 60 * 24))
-				))->order('id asc')->getField('price'), 6);
-			$Cmarket = M('Market')->where(array('name' => $market))->find();
+            $volume = $TradeLog
+                ->where(array(
+                    'market'  => $market,
+                    'addtime' => array('gt', $now - (60 * 60 * 24))
+                ))->sum('num');
+            $volume = round($volume, $market_data['round']);
 
+            $sta_price = $TradeLog
+                ->where(array(
+                    'market'  => $market,
+                    'status'  => 1,
+                    'addtime' => array('gt', $now - (60 * 60 * 24))
+                ))
+                ->order('id asc')
+                ->getField('price');
+            $sta_price = round($sta_price, $market_data['round']);
+
+            $Cmarket = M('Market')->where(array('name' => $market))->find();
 			if ($Cmarket['new_price'] != $new_price) {
 				$upCoinData['new_price'] = $new_price;
 			}

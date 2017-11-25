@@ -215,8 +215,8 @@ class ConfigController extends AdminController
 					$this->error('币种存在！');
 				}
 
-				$rea = M()->execute('ALTER TABLE  `ecshecom_user_coin` ADD  `' . $_POST['name'] . '` DECIMAL(20,16) UNSIGNED NOT NULL');
-				$reb = M()->execute('ALTER TABLE  `ecshecom_user_coin` ADD  `' . $_POST['name'] . 'd` DECIMAL(20,16) UNSIGNED NOT NULL ');
+				$rea = M()->execute('ALTER TABLE  `ecshecom_user_coin` ADD  `' . $_POST['name'] . '` DECIMAL(30,16) UNSIGNED NOT NULL');
+				$reb = M()->execute('ALTER TABLE  `ecshecom_user_coin` ADD  `' . $_POST['name'] . 'd` DECIMAL(30,16) UNSIGNED NOT NULL ');
 				$rec = M()->execute('ALTER TABLE  `ecshecom_user_coin` ADD  `' . $_POST['name'] . 'b` VARCHAR(200) NOT NULL ');
 				
 				//对应的商品付款类型增加币种

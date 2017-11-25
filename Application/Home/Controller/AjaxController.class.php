@@ -17,10 +17,7 @@ class AjaxController extends HomeController
 			if(count($img_arr)>=3){
 				M('User')->where(array('id' => userid()))->save(array('idcardimg1' => ''));
 			}
-		}	
-		
-		
-		
+		}
 		
 		$upload = new \Think\Upload();
 		$upload->maxSize = 2048000;
@@ -84,12 +81,10 @@ class AjaxController extends HomeController
 			return $data;
 		}
 	}
-	
-	
-	
+
+
 	public function top_coin_menu($ajax = 'json')
 	{
-		
 		$data = (APP_DEBUG ? null : S('ecshecom_getTopCoinMenu'));
 		
 		
@@ -97,10 +92,6 @@ class AjaxController extends HomeController
 		if(!$ecshecom_getCoreConfig){
 			$this->error('核心配置有误');
 		}
-		
-		
-		
-		
 		
 		if (!$data) {
 			$data = array();
@@ -132,17 +123,7 @@ class AjaxController extends HomeController
 			return $data;
 		} 
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 
 	public function allfinance($ajax = 'json')
 	{
@@ -286,10 +267,7 @@ class AjaxController extends HomeController
 	public function allcoin_a_暂时不用($id=1,$ajax = 'json')
 	{
 		//$data = (APP_DEBUG ? null : S('ecshecom_allcoin'));
-		
-		
 		$ecshecom_data=array();
-		
 		$ecshecom_data['info']="数据异常";
 		$ecshecom_data['status']=0;
 		$ecshecom_data['url']="";
@@ -336,11 +314,9 @@ class AjaxController extends HomeController
         }
 
 		if (!$data) {
-			
 			$ecshecom_data['info']="数据正常";
 			$ecshecom_data['status']=1;
 			$ecshecom_data['url']="";
-			
 			
 			foreach (C('market') as $k => $v) {
 				
@@ -375,8 +351,6 @@ class AjaxController extends HomeController
 					}
 				}
 				
-				
-				
 				if($id==3){
 					if(stristr($k,'_eth')){
 						$ecshecom_data['url'][$k][0] = $v['title'];
@@ -392,13 +366,6 @@ class AjaxController extends HomeController
 						$ecshecom_data['url'][$k][10] = '';
 					}
 				}
-				
-				
-				
-				
-				
-				
-				
 			}
 
 			//S('allcoin', $data);
@@ -413,8 +380,6 @@ class AjaxController extends HomeController
 			return $ecshecom_data;
 		}
 	}
-	
-	
 	
 	
 	//新增自定义分区查询 2017-06-05
@@ -503,22 +468,7 @@ class AjaxController extends HomeController
 			return $ecshecom_data;
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	public function index_b_trends($ajax = 'json')
 	{
@@ -541,11 +491,7 @@ class AjaxController extends HomeController
 			return $data;
 		}
 	}
-	
-	
-	
-	
-	
+
 	
 	public function trends($ajax = 'json')
 	{
@@ -591,20 +537,20 @@ class AjaxController extends HomeController
                 $market_data = $market_config[$market];
                 $data['info']['img'] = $market_data['xnbimg'];
                 $data['info']['title'] = $market_data['title'];
-                $data['info']['new_price'] = $market_data['new_price'];
+                $data['info']['new_price'] = number_format($market_data['new_price'], $market_data['round']);
 
                 if($market_data['max_price']){
-					$data['info']['max_price'] = $market_data['max_price'];
+					$data['info']['max_price'] = number_format($market_data['max_price'], $market_data['round']);
 				}else{
 					$ecshecom_tempprice = round(($market_data['ecshecom_faxingjia'] / 100) * (100 + $market_data['zhang']), $market_data['round']);
-					$data['info']['max_price'] = $ecshecom_tempprice;
+					$data['info']['max_price'] = number_format($ecshecom_tempprice, $market_data['round']);
 				}
 				
 				if($market_data['min_price']){
-					$data['info']['min_price'] = $market_data['min_price'];
+					$data['info']['min_price'] = number_format($market_data['min_price'], $market_data['round']);
 				}else{
 					$ecshecom_tempprice = round(($market_data['ecshecom_faxingjia'] / 100) * (100 - $market_data['die']), $market_data['round']);
-					$data['info']['min_price'] = $ecshecom_tempprice;
+					$data['info']['min_price'] = number_format($ecshecom_tempprice, $market_data['round']);;
 				}
 
                 $data['info']['buy_price'] = 0;
