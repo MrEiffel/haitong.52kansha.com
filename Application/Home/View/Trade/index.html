@@ -1,6 +1,6 @@
 <include file="Trade:header"/>
 
-<div class="autobox mt20 clear" id="Kline-change" style="padding-top: 20px;">
+<div class="autobox mt20 clear" id="Kline-change" style="width: 1220px;padding-top: 20px;">
     <div class="left w790" style="position: relative;">
         <!--行情图-->
         <div id="kline">
@@ -211,7 +211,7 @@
             </form>
         </div>
     </div>
-    <div class="right w390">
+    <div class="right w390" style="width: 420px;">
         <div class="zcxx hide" style="display: block; margin-bottom: 20px;">
             <div class="right_table">
                 <table style="width: 100%">
@@ -259,12 +259,12 @@
         </div>
 
         <div class="entrust" style="max-height: 685px;" id="trade_moshi_liaotian_2">
-            <div class="entrust_list">
+            <div class="entrust_list" style="width: 420px;">
                 <ul>
-                    <li class="first" style="width: 40px">买/卖</li>
-                    <li class="w85" style="width: 90px">价格</li>
-                    <li class="w64" style="width: 110px">数量</li>
-                    <li class="w62" style="width: 120px">总额</li>
+                    <li class="first" style="width: 40px;padding-left: 10px;">买/卖</li>
+                    <li class="w85" style="width: 90px;padding-left: 10px;">价格</li>
+                    <li class="w64" style="width: 130px;padding-left: 10px;">数量</li>
+                    <li class="w62" style="width: 120px;padding-left: 10px;">总额</li>
                 </ul>
                 <div class="el_dl" id="selllist"></div>
                 <div class="el_dl" id="buylist" style="border-bottom: 1px dotted #fff;"></div>
@@ -589,7 +589,7 @@
                         var sellk = data['depth']['sell'].length;
                         if (data['depth']['sell']) {
                             for (i = 0; i < data['depth']['sell'].length; i++) {
-                                list += '<dl title="以这个价格买入" style="cursor: pointer;" onclick="autotrust(this,\'sell\',1)"><dt class="sell"  style="width: 40px;padding-left: 5px;">卖' + (sellk - i) + '</dt><dd class="sell"  style="width: 90px">' + data['depth']['sell'][i][0] + '</dd><dd class="sell"  style="width: 110px">' + data['depth']['sell'][i][1] + '</dd><dd class="sell"  style="width: 120px">' + data['depth']['sell'][i][2] + '</dd></dl>';
+                                list += '<dl title="以这个价格买入" style="cursor: pointer;" onclick="autotrust(this,\'sell\',1)"><dt class="sell"  style="width: 40px;padding-left: 15px;">卖' + (sellk - i) + '</dt><dd class="sell"  style="width: 90px">' + data['depth']['sell'][i][0] + '</dd><dd class="sell"  style="width: 150px">' + data['depth']['sell'][i][1] + '</dd><dd class="sell"  style="width: 120px">' + data['depth']['sell'][i][2] + '</dd></dl>';
                             }
 
                         }
@@ -597,7 +597,7 @@
                         list = '';
                         if (data['depth']['buy']) {
                             for (i = 0; i < data['depth']['buy'].length; i++) {
-                                list += '<dl title="以这个价格卖出" style="cursor: pointer;" onclick="autotrust(this,\'buy\',1)"><dt class="buy"  style="width: 40px;padding-left: 5px;">买' + (i + 1) + '</dt><dd class="buy"  style="width: 90px">' + data['depth']['buy'][i][0] + '</dd><dd class="buy"  style="width: 110px">' + data['depth']['buy'][i][1] + '</dd><dd class="buy"  style="width: 120px">' + data['depth']['buy'][i][2] + '</dd></dl>';
+                                list += '<dl title="以这个价格卖出" style="cursor: pointer;" onclick="autotrust(this,\'buy\',1)"><dt class="buy"  style="width: 40px;padding-left: 15px;">买' + (i + 1) + '</dt><dd class="buy"  style="width: 90px">' + data['depth']['buy'][i][0] + '</dd><dd class="buy"  style="width: 150px">' + data['depth']['buy'][i][1] + '</dd><dd class="buy"  style="width: 120px">' + data['depth']['buy'][i][2] + '</dd></dl>';
                             }
 
                         }
