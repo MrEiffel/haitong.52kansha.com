@@ -313,7 +313,7 @@ class AjaxController extends HomeController
             }
         }
 
-		if (!$data) {
+		if (empty($data)) {
 			$ecshecom_data['info']="数据正常";
 			$ecshecom_data['status']=1;
 			$ecshecom_data['url']="";
@@ -757,8 +757,9 @@ class AjaxController extends HomeController
 				$data['entrust'][$k]['type'] = $v['type'];
 				$data['entrust'][$k]['price'] = number_format($v['price'] * 1, $market_data['round']);
 				$data['entrust'][$k]['num'] = number_format($v['num'], $market_data['round']);
+                $data['entrust'][$k]['total'] = number_format($v['price'] * $v['num'], $market_data['round']);
 				$data['entrust'][$k]['deal'] = number_format($v['deal'], $market_data['round']);
-				$data['entrust'][$k]['id'] = round($v['id']);
+				$data['entrust'][$k]['id'] = $v['id'];
 			}
 		}
 		else {
