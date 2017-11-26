@@ -531,7 +531,7 @@ class AjaxController extends HomeController
 					$data['list'][$k]['name'] = $v['name'];
 					$data['list'][$k]['img'] = $v['xnbimg'];
 					$data['list'][$k]['title'] = $v['title'];
-					$data['list'][$k]['new_price'] = $v['new_price'];
+					$data['list'][$k]['new_price'] = number_format($v['new_price'], $v['round']);
 				}
 
                 $market_data = $market_config[$market];
@@ -659,8 +659,9 @@ class AjaxController extends HomeController
 
 			if (($trade_moshi == 3) || ($trade_moshi == 4)) {
 				//20170608增加按用户级别调用信息条数
-				if(userid()){
-					$usertype = M('User')->where(array($id => $userid))->getField('usertype');
+                $userid = userid();
+				if($userid){
+					$usertype = M('User')->where(array('id' => $userid))->getField('usertype');
 					if($usertype ==1){
 						$limt = $ecshecom_teshu;
 					}else{
@@ -694,12 +695,10 @@ class AjaxController extends HomeController
 			$data = array();
 			if ($buy) {
 				foreach ($buy as $k => $v) {
-				    $buy_price = number_format(floatval($v['price'] * 1), $market_config[$market]['round']);
-				    $buy_nums = number_format(floatval($v['nums'] * 1), $market_config[$market]['round']);
 					$data['depth']['buy'][$k] = array(
-                        $buy_price,
-                        $buy_nums,
-                        number_format($buy_price * $buy_nums, $market_config[$market]['round'])
+                        number_format($v['price'], $market_config[$market]['round']),
+                        number_format($v['nums'], $market_config[$market]['round']),
+                        number_format($v['price'] * $v['nums'], $market_config[$market]['round'])
                     );
 				}
 			}
@@ -709,12 +708,10 @@ class AjaxController extends HomeController
 
 			if ($sell) {
 				foreach ($sell as $k => $v) {
-                    $sell_price = number_format(floatval($v['price'] * 1), $market_config[$market]['round']);
-                    $sell_nums = number_format(floatval($v['nums'] * 1), $market_config[$market]['round']);
 					$data['depth']['sell'][$k] = array(
-                        $sell_price,
-                        $sell_nums,
-                        number_format($sell_price * $sell_nums, $market_config[$market]['round'])
+                        number_format($v['price'], $market_config[$market]['round']),
+                        number_format($v['nums'], $market_config[$market]['round']),
+                        number_format($v['price'] * $v['nums'], $market_config[$market]['round'])
                     );
 				}
 			}

@@ -250,7 +250,15 @@
                 if (data['list']) {
                     var list = '';
                     for (var i in data['list']) {
-                        list += '<li><a href="/Trade/index/market/' + data['list'][i]['name'] + '"> <img src="__UPLOAD__/coin/' + data['list'][i]['img'] + '" style="width: 40px; float: left; margin-right: 5px;"> <span class="all_coin_name"><p>' + data['list'][i]['title'] + '</p> <span id="all_coin_' + data['list'][i]['name'] + '">' + data['list'][i]['new_price'] + '</span></span></a></li>';
+                        list += '<li>' +
+                                '<a href="/Trade/index/market/' + data['list'][i]['name'] + '"> ' +
+                                '<img src="__UPLOAD__/coin/' + data['list'][i]['img'] + '" style="width: 40px; float: left; margin-right: 5px;"> ' +
+                                '<span class="all_coin_name">' +
+                                '<p>' + data['list'][i]['title'] + '</p> ' +
+                                '<span id="all_coin_' + data['list'][i]['name'] + '">' + data['list'][i]['new_price'] + '</span>' +
+                                '</span>' +
+                                '</a>' +
+                                '</li>';
                     }
                     $("#all_coin").html(list);
                 }
