@@ -991,7 +991,7 @@ class FinanceController extends AdminController
             ->where(array(
                 'id' => array('in', array_unique($user_ids))
             ))
-            ->getField('username');
+            ->getField('id,username');
 
         // 标记出 转出记录中自定义币种的转出数据
         $custom_coin_type = C('CUSTOM_COIN_TYPE');
