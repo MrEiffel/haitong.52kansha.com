@@ -193,8 +193,11 @@ class ConfigController extends AdminController
 				}
 			}
 
-			$_POST['zc_min'] = intval($_POST['zc_min']);
-			$_POST['zc_max'] = intval($_POST['zc_max']);
+			//$_POST['zc_min'] = intval($_POST['zc_min']);
+			//$_POST['zc_max'] = intval($_POST['zc_max']);
+            if (!is_numeric($_POST['zc_min']) || !is_numeric($_POST['zc_max'])) {
+                $this->error('最小转出数量或最大转出数量输入不正确！');
+            }
 
 			if ($_POST['id']) {
 				
