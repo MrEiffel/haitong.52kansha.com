@@ -326,17 +326,15 @@
 </div>
 <br>
 <br>
-
-
 <script type="text/javascript">
     var market = "{$market}";
-    var market_round = "{$C['market'][$market]['round']}";
-    var market_round_num = 8 - "{$C['market'][$market]['round']}";
+    var market_round = Number("{$C['market'][$market]['round']}");
+    var market_round_num = Number("{$C['market'][$market]['round']}");
+
     var userid = "{$Think.session.userId}";
     var trade_moshi = 1;
     var getDepth_tlme = null;
     var trans_lock = 0;
-
 
 	var time = 5;
 	var isInterval = setInterval(function () {
@@ -347,9 +345,6 @@
 			time=5;
 		}
 	}, 1000);
-
-	
-	
 	
     function hangqing() {
         layer.alert("交易市场:{:C('market')[$market]['title']}<br><br>" +
@@ -360,7 +355,6 @@
                 "今日卖出最大交易价:{$C['market'][$market]['sell_max']|NumToStr}<br>",
                 {title: '今日行情',});
     }
-
 
     function moshi(id) {
         trade_moshi = id;
@@ -389,7 +383,6 @@
         }
     }
 
-
     function layertpwd() {
         var html = '<div id="all_mask" class="all_mask"></div><div id="tpwd" class="all_mask_loginbox">' +
                 '<div class="login_title pl20">交易密码输入设置</div><form id="tpwdsetting" class="set_verify">' +
@@ -406,7 +399,6 @@
             $('#all_mask').remove();
         })
 
-
         $.get('/user/tpwdsetting', function (d) {
             if (d == 1) {
                 $('#only').prop('checked', true);
@@ -417,8 +409,6 @@
             if (d == 3) {
                 $('#none').prop('checked', true);
             }
-
-
         })
     }
 
@@ -434,7 +424,6 @@
             layer.tips('请输入选择一个', '#tpwdsetting', {tips: 3});
             return false;
         }
-
 
         $.post('/user/uptpwdsetting', {paypassword: paypassword, tpwdsetting: tpwdsetting}, function (d) {
             if (d.status) {
@@ -709,10 +698,8 @@
             $('#user_finance').html(data);
         });
 
-
         setTimeout('getEntrustAndUsercoin()', 5000);
     }
-
 
     $(function () {
         getTradelog();
@@ -726,14 +713,10 @@
 
     });
 
-
     function toNum(num, round) {
         return Math.round(num * Math.pow(10, round) - 1) / Math.pow(10, round);
     }
 
-
-	
-	
     // 自动填价格
     function autotrust(_this, type, cq) {
 
@@ -756,7 +739,6 @@
                 $("#sell_mum").html(($('#sell_num').val() * $('#sell_price').val()).toFixed(8) * 1);
             }
         }
-
     }
 	
 	function  setMaiChu(){
@@ -810,11 +792,8 @@
         if (sellkenum != null && sellkenum > 0 && sellkenum != 'Infinity') {
             $('#sell_max').html(sellkenum);
         }
-	
 	}
-	
-	
-	
+
 	function setMaiRu(){
 		$('#buy_price').val($.trim($('#buy_best_price').html().replace('￥', '')));
         var buyprice = parseFloat($('#buy_price').val());
@@ -887,7 +866,7 @@
             sellkenum = myxnb;
         }
 		//alert("wobianliao");
-		
+
         if (buyprice != null && buyprice.toString().split(".") != null && buyprice.toString().split(".")[1] != null) {
             if (buyprice.toString().split('.')[1].length > market_round) {
                 $('#buy_price').val(buyprice.toFixed(market_round));
