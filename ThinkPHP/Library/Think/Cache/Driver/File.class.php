@@ -61,9 +61,9 @@ class File extends Cache {
             if(!is_dir($this->options['temp'].$dir)) {
                 mkdir($this->options['temp'].$dir,0755,true);
             }
-            $filename	=	$dir.$this->options['prefix'].$name.'.html';
+            $filename	=	$dir.$this->options['prefix'].$name.'.php';
         }else{
-            $filename	=	$this->options['prefix'].$name.'.html';
+            $filename	=	$this->options['prefix'].$name.'.php';
         }
         return $this->options['temp'].$filename;
     }
@@ -133,7 +133,7 @@ class File extends Cache {
         }else {
             $check  =  '';
         }
-        $data    = "".sprintf('%012d',$expire).$check.$data."";
+        $data    = "<?php\n//".sprintf('%012d',$expire).$check.$data."\n?>";
         $result  =   file_put_contents($filename,$data);
         if($result) {
             if($this->options['length']>0) {

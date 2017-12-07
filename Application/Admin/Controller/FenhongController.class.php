@@ -264,7 +264,7 @@ class FenhongController extends AdminController
 
 			foreach ($usercoin as $k => $v) {
 				$shiji[$a]['userid'] = $v['userid'];
-				$shiji[$a]['chiyou'] = $v[$fenhong['coinname']] + $v[$fenhong['coinname'] . 'd'];
+				$shiji[$a]['chiyou'] = number_format($v[$fenhong['coinname']] + $v[$fenhong['coinname'] . 'd'], 16);
 				$a++;
 			}
 
