@@ -262,6 +262,22 @@ class FinanceController extends AdminController
                         'status' => 1,
                         'is_custom_coin' => 1,
                     ));
+
+                $result[] = $model
+                    ->table('ecshecom_invit')
+                    ->add(array(
+                        'userid' => $user['invit_1'],
+                        'invit' => $myzr['userid'],
+                        'name' => '一级' . $myzr['coinname'] . '币充值奖励',
+                        'type' => $myzr['coinname'],
+                        'num' => $coin_number,//操作数量
+                        'mum' => $invit_1_coin_number,//总数量
+                        'fee' => $invit_1_coin_number,//奖励数量
+                        'sort' => 0,
+                        'addtime' => $time,
+                        'endtime' => $time,
+                        'status' => 1,
+                    ));
             }
 
             // 二级加0.05%
@@ -289,9 +305,24 @@ class FinanceController extends AdminController
                         'is_custom_coin' => 1,
                     ));
 
+                $result[] = $model
+                    ->table('ecshecom_invit')
+                    ->add(array(
+                        'userid' => $user['invit_2'],
+                        'invit' => $myzr['userid'],
+                        'name' => '二级' . $myzr['coinname'] . '币充值奖励',
+                        'type' => $myzr['coinname'],
+                        'num' => $coin_number,//操作数量
+                        'mum' => $invit_2_coin_number,//总数量
+                        'fee' => $invit_2_coin_number,//奖励数量
+                        'sort' => 0,
+                        'addtime' => $time,
+                        'endtime' => $time,
+                        'status' => 1,
+                    ));
             }
         }
-mlog('*******invit=' . var_export($result, true));
+
         if (check_arr($result)) {
             $model->execute('commit');
             $model->execute('unlock tables');
