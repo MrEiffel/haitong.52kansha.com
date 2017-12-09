@@ -133,10 +133,10 @@
                 content: html,
 				yes: function() {
 					var coin_number = $('#coin_number').val();
-                    if (!/(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/.test(coin_number)) {
+                    /*if (!/(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/.test(coin_number)) {
                         layer.msg('请输入正确金额', {icon: 2});
                         return false;
-					}
+					}*/
 
 					var user_name = T.parent('td').siblings('td').eq(2).text();
 					if (!confirm('确认为用户【' + user_name + '】充值 ' + coin_number + ' 个金币吗？')) {
