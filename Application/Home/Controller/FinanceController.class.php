@@ -1569,7 +1569,16 @@ class FinanceController extends HomeController
 		$ecshecom_zrcoinaddress = $Coin['ecshecom_coinaddress'];
 
 		if ($Coin['type'] == 'rgb') {
-			M('myzr')->add(array('userid' => userid(), 'username'=>$ecshecom_dzbz,'txid'=>$ecshecom_zrcoinaddress,'coinname' => $coin, 'num' => $num, 'mum' =>0, 'addtime' => time(), 'status' =>0));
+			M('myzr')->add(array(
+			    'userid' => userid(),
+                'username' => $ecshecom_dzbz,
+                'txid' => $ecshecom_zrcoinaddress,
+                'coinname' => $coin,
+                'num' => $num,
+                'mum' => 0,
+                'addtime' => time(),
+                'status' =>0
+            ));
 
 			$this->success('转入申请成功,等待客服处理！');
 

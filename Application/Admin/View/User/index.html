@@ -40,55 +40,20 @@
 				<div class="sleft">
 					<form name="formSearch" id="formSearch" method="get" name="form1">
 						<select style="width: 160px; float: left; margin-right: 10px;" name="status" class="form-control">
-							<option value=""
-							<empty name="Think.get.status">selected</empty>
-							>全部状态</option>
-							
-							
-							<option value="6"
-							<eq name="Think.get.status" value="6">selected</eq>
-							>等待认证</option>
-							
-							<option value="5"
-							<eq name="Think.get.status" value="5">selected</eq>
-							>通过认证</option>
-							
-							
-							<option value="3"
-							<eq name="Think.get.status" value="3">selected</eq>
-							>已中奖</option>
-							
-							<option value="4"
-							<eq name="Think.get.status" value="4">selected</eq>
-							>未中奖</option>
-							
-							<option value="1"
-							<eq name="Think.get.status" value="1">selected</eq>
-							>冻结状态</option>
-							<option value="2"
-							<eq name="Think.get.status" value="2">selected</eq>
-							>正常状态</option>
-							
-							
-
-							
+							<option value="" <empty name="Think.get.status">selected</empty>>全部状态</option>
+							<option value="6" <eq name="Think.get.status" value="6">selected</eq>>等待认证</option>
+							<option value="5" <eq name="Think.get.status" value="5">selected</eq>>通过认证</option>
+							<option value="3" <eq name="Think.get.status" value="3">selected</eq>>已中奖</option>
+							<option value="4" <eq name="Think.get.status" value="4">selected</eq>>未中奖</option>
+							<option value="1" <eq name="Think.get.status" value="1">selected</eq>>冻结状态</option>
+							<option value="2" <eq name="Think.get.status" value="2">selected</eq>>正常状态</option>
 						</select>
 						<select style=" width: 160px; float: left; margin-right: 10px;" name="field" class="form-control">
-							<option value="awardid"
-							<empty name="Think.get.field">selected</empty>
-							>奖品ID</option>
-							<option value="username"
-							<eq name="Think.get.field" value="username">selected</eq>
-							>用户名</option>
-							<option value="moble"
-							<eq name="Think.get.field" value="moble">selected</eq>
-							>手机号码</option>
-							<option value="truename"
-							<eq name="Think.get.field" value="truename">selected</eq>
-							>真实姓名</option>
-							<option value="idcard"
-							<eq name="Think.get.field" value="idcard">selected</eq>
-							>身份证号</option>
+							<option value="awardid" <empty name="Think.get.field">selected</empty>>奖品ID</option>
+							<option value="username" <eq name="Think.get.field" value="username">selected</eq>>用户名</option>
+							<option value="moble" <eq name="Think.get.field" value="moble">selected</eq>>手机号码</option>
+							<option value="truename" <eq name="Think.get.field" value="truename">selected</eq>>真实姓名</option>
+							<option value="idcard" <eq name="Think.get.field" value="idcard">selected</eq>>身份证号</option>
 						</select>
 						<input type="text" name="name" class="search-input form-control  " value="{$Think.get.name}" placeholder="请输入查询内容" style="">
 						<a class="sch-btn" href="javascript:;" id="search"> <i class="btn-search"></i> </a>
@@ -124,8 +89,8 @@
 					<th class="">真实姓名</th>
 					<th class="">实名认证</th>
 					<th class="">1代推荐人</th>
-					<th class="" style="display:none;">2代推荐人</th>
-					<th class="" style="display:none;">3代推荐人</th>
+					<th class="">2代推荐人</th>
+					<th class="">3代推荐人</th>
 					<th class="">指定奖品</th>
 					<th class="">是否中奖</th>
 					<th class="">注册时间</th>
@@ -151,19 +116,16 @@
 							</td>
 							<td>{$vo.truename}</td>
 							<td>
-							
 								<eq name="vo.idcardauth" value="0"><font color='red'>未通过</font></eq>
 								<eq name="vo.idcardauth" value="1">已通过</eq>
-							
-							
 							</td>
 							<td>
 								<a href="{:U('User/index?name='.$vo['invit_1'].'&field=id')}">{$vo['invit_1']}</a>
 							</td>
-							<td style="display:none;">
+							<td>
 								<a href="{:U('User/index?name='.$vo['invit_2'].'&field=id')}">{$vo['invit_2']}</a>
 							</td>
-							<td style="display:none;">
+							<td>
 								<a href="{:U('User/index?name='.$vo['invit_3'].'&field=id')}">{$vo['invit_3']}</a>
 							</td>
 							<td>

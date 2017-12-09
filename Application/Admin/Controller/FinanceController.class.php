@@ -210,6 +210,7 @@ class FinanceController extends AdminController
             ))
             ->setInc($myzr['coinname'], $coin_number);
 
+        $time = time();
         $result[] = $model
             ->table('ecshecom_myzr')
             ->where(array('id' => $myzr['id']))
@@ -217,9 +218,80 @@ class FinanceController extends AdminController
                 'status' => 1,
                 'num' => $coin_number,
                 'mum' => $coin_number,
-                'endtime' => time(),
+                'endtime' => $time,
             ));
 
+        // 充值金币时返还佣金给邀请者
+        // 按邀请者级别比例返还 一级加0.1%  二级加0.05%  三级0%
+        $User = D('User');
+        $user = $User
+            ->where(array(
+                'id' => $myzr['userid'],
+                'status' => 1,
+            ))
+            ->find();
+        if (!empty($user) && !empty($user['invit_1'])) {
+            $invitor_list = $User
+                ->where(array(
+                    'id' => array('in', array($user['invit_1'], $user['invit_2'])),// $user['invit_3']
+                    'status' => 1,
+                ))
+                ->getField('id,username,moble');
+
+            // 一级加0.1%
+            if (!empty($invitor_list[$user['invit_1']])) {
+                $invit_1_coin_number = $coin_number * 0.001;
+                $result[] = $aaa = $model
+                    ->table('ecshecom_user_coin')
+                    ->where(array(
+                        'userid' => $user['invit_1'],
+                        //$myzr['coinname'] . 'b'=> $myzr['txid'],
+                    ))
+                    ->setInc($myzr['coinname'], $invit_1_coin_number);
+
+                $result[] = $model
+                    ->table('ecshecom_myzr')
+                    ->add(array(
+                        'userid' => $user['invit_1'],
+                        'username' => 'custom_coin',
+                        'txid' => 'invit_1_id=' . $user['invit_1'],
+                        'coinname' => $myzr['coinname'],
+                        'num' => $invit_1_coin_number,//转入数量
+                        'mum' => $invit_1_coin_number,//到账数量
+                        'addtime' => $time,
+                        'status' => 1,
+                        'is_custom_coin' => 1,
+                    ));
+            }
+
+            // 二级加0.05%
+            if (!empty($invitor_list[$user['invit_2']])) {
+                $invit_2_coin_number = $coin_number * 0.0005;
+                $result[] = $bbb = $model
+                    ->table('ecshecom_user_coin')
+                    ->where(array(
+                        'userid' => $user['invit_2'],
+                        //$myzr['coinname'] . 'b'=> $myzr['txid'],
+                    ))
+                    ->setInc($myzr['coinname'], $invit_2_coin_number);
+
+                $result[] = $model
+                    ->table('ecshecom_myzr')
+                    ->add(array(
+                        'userid' => $user['invit_2'],
+                        'username' => 'custom_coin',
+                        'txid' => 'invit_2_id=' . $user['invit_2'],
+                        'coinname' => $myzr['coinname'],
+                        'num' => $invit_2_coin_number,//转入数量
+                        'mum' => $invit_2_coin_number,//到账数量
+                        'addtime' => $time,
+                        'status' => 1,
+                        'is_custom_coin' => 1,
+                    ));
+
+            }
+        }
+mlog('*******invit=' . var_export($result, true));
         if (check_arr($result)) {
             $model->execute('commit');
             $model->execute('unlock tables');
