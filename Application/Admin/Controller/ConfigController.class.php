@@ -210,9 +210,9 @@ class ConfigController extends AdminController
 
 				$_POST['name'] = strtolower($_POST['name']);
 
-				if (check($_POST['name'], 'username')) {
+				/*if (check($_POST['name'], 'username')) {
 					$this->error('币种名称格式不正确！');
-				}
+				}*/
 
 				if (M('Coin')->where(array('name' => $_POST['name']))->find()) {
 					$this->error('币种存在！');
